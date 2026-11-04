@@ -5,7 +5,7 @@ a BlockFP16 weight format, and a measured performance record.
 
 This repository is the **clean, runnable core**. It is not the research tree: every
 file here is reachable from `webui.py` or from a build script in
-[docs/BUILD.md](docs/BUILD.md).
+[docs/guides/BUILD.md](docs/guides/BUILD.md).
 
 > **Status:** runs on Ryzen AI 9 H 365 / Radeon 880M (XDNA2 "Strix", 32 AIE tiles).
 > Verified byte-reproducible: 512² x8 steps -> latents `2abf91331200d069…`,
@@ -24,7 +24,7 @@ file here is reachable from `webui.py` or from a build script in
 | Resolutions | 512², 1024², 1920x1080, 1080x1920 and other multiples of 64 (see §6) |
 | Batch | `--batch B`; with the two-chain engine two images are in flight at once |
 
-**BFP16 is an 8-bit format. It is not bf16.** See [docs/BFP16.md](docs/BFP16.md).
+**BFP16 is an 8-bit format. It is not bf16.** See [docs/guides/BFP16.md](docs/guides/BFP16.md).
 
 ## 2. Measured performance (512², 8 steps, AC power)
 
@@ -36,7 +36,7 @@ file here is reachable from `webui.py` or from a build script in
 | + `--batch 2` two chains | 70.5 s/image | −19.7 %, byte-identical to serial |
 
 Wall clock resolves to only ±2 s; the per-section columns in the logs are the real
-evidence ([docs/MEASUREMENTS.md](docs/MEASUREMENTS.md)). Device utilisation: 45 %
+evidence ([docs/guides/MEASUREMENTS.md](docs/guides/MEASUREMENTS.md)). Device utilisation: 45 %
 single-chain, 56–59 % two-chain.
 
 ## 3. Requirements
@@ -51,7 +51,7 @@ Nothing in this list is redistributed here — install it yourself.
 
 | dependency | why | where |
 |---|---|---|
-| **AMD NPU driver + XRT** | the device runtime | [docs/BUILD.md](docs/BUILD.md) §2 |
+| **AMD NPU driver + XRT** | the device runtime | [docs/guides/BUILD.md](docs/guides/BUILD.md) §2 |
 | **MLIR-AIE / Peano** | compiles the `xclbin` images | only to rebuild kernels; this repo ships the built ones |
 | **Python 3.10 and 3.12** | the product hard-codes two interpreters | `webui/config.py`, override with env vars, §5 |
 | `torch` (CPU build) | the host maths | `pip install torch --index-url https://download.pytorch.org/whl/cpu` |
@@ -60,7 +60,7 @@ Nothing in this list is redistributed here — install it yourself.
 
 `torch` here is a **CPU-only** build. There is no CUDA/HIP backend on this platform;
 the GPU is reachable only through `ggml`+Vulkan or `torch-directml`, neither of which
-the product uses yet. See [docs/GPU.md](docs/GPU.md).
+the product uses yet. See [docs/guides/GPU.md](docs/guides/GPU.md).
 
 ### Artifacts you must supply (not in git — too large)
 
@@ -74,7 +74,7 @@ the product uses yet. See [docs/GPU.md](docs/GPU.md).
 
 A fresh clone cannot generate an image until those are in place. Everything else —
 including the compiled NPU images (**66 files, ~8.8 MB**) — is in this repository.
-See [docs/WEIGHTS.md](docs/WEIGHTS.md), which also records the fact that the upstream
+See [docs/guides/WEIGHTS.md](docs/guides/WEIGHTS.md), which also records the fact that the upstream
 transformer shards are **gone** on the reference box, so `weights/block*.npz` and
 `weights.bfp16` currently cannot be rebuilt there.
 
@@ -115,7 +115,7 @@ Hard-coded paths are overridable by environment variable:
 | `IMAGGER_PEANO` | `_pylibs/llvm-aie/llvm-aie` | MLIR-AIE toolchain (build only) |
 
 Runtime switches are environment flags, documented one per entry in
-[docs/KNOBS.md](docs/KNOBS.md) — 177 variables, classified by whether they can move a
+[docs/reference/KNOBS.md](docs/reference/KNOBS.md) — 177 variables, classified by whether they can move a
 byte. The important ones:
 
 | flag | default | effect |
@@ -153,23 +153,33 @@ refuses to run rather than read stale memory.
 * **Two chains need one shared read-only context set.** Every `pyxrt.kernel()` is its
   own hardware context; a chain needs 18 and the ~27th is refused with `0xc01e0009`.
   Two processes, and two independently registered `Dev`s, are both impossible — see
-  [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §4.
+  [docs/guides/ARCHITECTURE.md](docs/guides/ARCHITECTURE.md) §4.
 * **A flag that never reached the process looks exactly like a flag that did
-  nothing.** See [docs/MEASUREMENTS.md](docs/MEASUREMENTS.md) §5.
+  nothing.** See [docs/guides/MEASUREMENTS.md](docs/guides/MEASUREMENTS.md) §5.
 
 ## 8. Documentation
 
 | file | contents |
 |---|---|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | the 20-segment chain, where time goes, the device model |
-| [docs/BUILD.md](docs/BUILD.md) | toolchain, the two interpreters, how the `xclbin` images were built |
-| [docs/WEIGHTS.md](docs/WEIGHTS.md) | upstream model -> `block*.npz` -> `wpack` -> `brepack`, and the blocker |
-| [docs/BFP16.md](docs/BFP16.md) | the 9-byte/8-value format and why it is not bf16 |
-| [docs/KNOBS.md](docs/KNOBS.md) | every runtime flag, its default and its effect class |
-| [docs/MEASUREMENTS.md](docs/MEASUREMENTS.md) | how to measure without fooling yourself |
-| [docs/GPU.md](docs/GPU.md) | the iGPU situation, honestly |
-| [docs/API.md](docs/API.md) | the WebUI's HTTP surface |
-| [docs/reports/INDEX.md](docs/reports/INDEX.md) | 23 curated engineering reports + what was deliberately dropped |
+**[docs/README.md](docs/README.md) is the index of the whole documentation tree.**
+
+| folder | files | what it is |
+|---|---:|---|
+| [docs/guides/](docs/guides/) | 6 | written for this repository, current by construction |
+| [docs/reference/](docs/reference/) | 2 | [KNOBS.md](docs/reference/KNOBS.md) (177 flags) and [API.md](docs/reference/API.md) |
+| [docs/reports/](docs/reports/) | 24 | curated engineering records + [INDEX.md](docs/reports/INDEX.md) |
+| [docs/archive/](docs/archive/) | 450 | everything else, paths mirroring the original tree |
+
+The guides:
+
+| file | answers |
+|---|---|
+| [ARCHITECTURE.md](docs/guides/ARCHITECTURE.md) | the 20-segment chain, where time goes, the device model |
+| [BUILD.md](docs/guides/BUILD.md) | the two interpreters, the NPU toolchain, how the `xclbin` images were built |
+| [WEIGHTS.md](docs/guides/WEIGHTS.md) | upstream model -> `block*.npz` -> `wpack` -> `brepack`, **and the blocker** |
+| [BFP16.md](docs/guides/BFP16.md) | the 9-byte/8-value format and why it is not bf16 |
+| [MEASUREMENTS.md](docs/guides/MEASUREMENTS.md) | how to measure without fooling yourself |
+| [GPU.md](docs/guides/GPU.md) | the iGPU situation, honestly |
 
 ## 9. Verification status
 
