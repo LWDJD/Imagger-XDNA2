@@ -1,0 +1,50 @@
+{
+ "version": 1,
+ "entries": {
+  "92a71951b33f55dd5f41d1573bf5b8b364016750069a4ccd995e1f3a02f4e801": {
+   "last_used": 1793781159.9731753,
+   "bytes": 134468,
+   "created": "2026-10-21T12:49:11",
+   "prompt_sha256": "ddb59d516ecffe0ed8d3d281f1601f4d170cc0c447936ddb913522c207a2d394",
+   "backend": "gpu",
+   "tokens": 13,
+   "hits": 424
+  },
+  "a3f9e56ac34b0efee09d356a26f5ab13d14315f7beafa0c2c5b1edcbe73465e9": {
+   "last_used": 1793690499.1505506,
+   "bytes": 93392,
+   "created": "2026-10-21T15:15:59",
+   "prompt_sha256": "f910f6f99e25e9a9deb29e4a10d34c075a29cec6ad0e6b9a1751a1168acc92cc",
+   "backend": "gpu",
+   "tokens": 9,
+   "hits": 6
+  },
+  "772db6a21298f6dde12de1ed50058ae652d1fe701735fcdcb827913cd142f781": {
+   "last_used": 1793691544.0107625,
+   "bytes": 165144,
+   "created": "2026-11-02T22:09:10",
+   "prompt_sha256": "d5068fe71d24c855d3707f487733eeb5ef77025eafe01d82db1af80db02be484",
+   "backend": "gpu",
+   "tokens": 16,
+   "hits": 26
+  },
+  "0363ac333d3b38aec1927f0f5e7be39c1e3067780e04ed7265a98a6f97615807": {
+   "last_used": 1793722738.7364259,
+   "bytes": 206372,
+   "created": "2026-11-04T00:18:58",
+   "prompt_sha256": "d33754216402dc2d9821b00ff980d9ddc00a879daed57d1105a3a4e94cde639b",
+   "backend": "cpu",
+   "tokens": 20,
+   "hits": 0
+  },
+  "d630137539e519ead390eeab0dcbfdbfaa26054758da178cb563a79e66dcfdbc": {
+   "last_used": 1793722758.9415667,
+   "bytes": 134468,
+   "created": "2026-11-04T00:19:18",
+   "prompt_sha256": "ddb59d516ecffe0ed8d3d281f1601f4d170cc0c447936ddb913522c207a2d394",
+   "backend": "cpu",
+   "tokens": 13,
+   "hits": 0
+  }
+ }
+}

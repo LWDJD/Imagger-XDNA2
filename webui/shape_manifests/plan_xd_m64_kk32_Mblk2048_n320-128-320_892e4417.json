@@ -1,0 +1,92 @@
+{
+ "plan_key": "xd_m64_kk32_Mblk2048_n320-128-320_892e4417",
+ "Mblk": 2048,
+ "used_by": [
+  8192
+ ],
+ "ndisp_by_M": {
+  "8192": 4
+ },
+ "strategy": "xd",
+ "m": 64,
+ "kk": 32,
+ "T": 1,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "fuse_gu": 1,
+ "gu_fused": 1,
+ "gu_l1": 64512,
+ "pad_rows": 0,
+ "per_col": [
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4
+ ],
+ "l1_max": 64512,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 128,
+   "ntiles": 80,
+   "nkk": 120,
+   "l1": 64512,
+   "a_bytes": 15728640,
+   "b_bytes": 88473600,
+   "c_bytes": 41943040
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 320,
+   "l1": 58624,
+   "a_bytes": 41943040,
+   "b_bytes": 44236800,
+   "c_bytes": 15728640
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 120,
+   "l1": 58624,
+   "a_bytes": 15728640,
+   "b_bytes": 16588800,
+   "c_bytes": 15728640
+  }
+ },
+ "images": {
+  "ad_xd_m64k32_M2048_n128f_a1b1_gu": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M2048_n128f_a1b1_gu.xclbin",
+   "sha256": "1823f61dc742d4f62b8f300f421ab1301379bc7bd2b8ed26e64dbb49ac228631",
+   "l1_design": 64512
+  },
+  "ad_xd_m64k32_M2048_n320_a1b1_dn": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M2048_n320_a1b1_dn.xclbin",
+   "sha256": "7802b5bb80e07c5dcfbfefb1878a58d36fb1f2449701aa4d9821c501d8a03e38",
+   "l1_design": 58624
+  },
+  "ad_xd_m64k32_M2048_n320_a1b1_proj": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M2048_n320_a1b1_proj.xclbin",
+   "sha256": "4cca2b40b4a73760dfb12aca3832ce988ad9d29808b452634e1d3ea816fc24ea",
+   "l1_design": 58624
+  }
+ },
+ "built_ok": true,
+ "note": "adaptive 32-core placement image set; the plan is the cache key, so an identical plan is built once",
+ "created": "2026-11-03T09:31:59"
+}

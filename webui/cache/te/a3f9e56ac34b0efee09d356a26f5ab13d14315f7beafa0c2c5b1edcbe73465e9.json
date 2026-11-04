@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "key": "a3f9e56ac34b0efee09d356a26f5ab13d14315f7beafa0c2c5b1edcbe73465e9",
+ "created": "2026-10-21T15:15:59",
+ "created_ts": 1792566959.9099605,
+ "last_used": 1792566959.9099605,
+ "bytes": 93392,
+ "sha256": "b40e97e118802c1c7b888128ea1e0177b26d6877cb388367a7cb8557bbffcc14",
+ "pe_sha256": "941a5be3ba53b68046b2cbf8a5240ec2a30568efa9d90fb2b6ad5ccc54235857",
+ "tokens": 9,
+ "prompt": "<|im_start|>user\nx<|im_end|>\n<|im_start|>assistant\n",
+ "prompt_sha256": "f910f6f99e25e9a9deb29e4a10d34c075a29cec6ad0e6b9a1751a1168acc92cc",
+ "backend": "gpu",
+ "lid": 35,
+ "gguf": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\models\\zimage-te-qwen3-4b-bf16.gguf",
+  "size": 8051284800,
+  "mtime_ns": 1792291012794228700
+ },
+ "worker": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\te_worker.py",
+  "size": 13962,
+  "mtime_ns": 1792371893960726500
+ },
+ "driver": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\textenc\\encode_api.py",
+  "size": 16880,
+  "mtime_ns": 1792045640663705400
+ },
+ "hits": 0
+}

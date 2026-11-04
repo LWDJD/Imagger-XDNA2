@@ -1,0 +1,89 @@
+{
+ "plan_key": "xd_m16_kk32_Mblk96_n768-640-768_459eef03",
+ "Mblk": 96,
+ "used_by": [
+  96
+ ],
+ "ndisp_by_M": {
+  "96": 1
+ },
+ "strategy": "xd",
+ "m": 16,
+ "kk": 32,
+ "T": 1,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  0,
+  0
+ ],
+ "l1_max": 55296,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 640,
+   "ntiles": 16,
+   "nkk": 120,
+   "l1": 46592,
+   "a_bytes": 3932160,
+   "b_bytes": 44236800,
+   "c_bytes": 10485760
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 768,
+   "ntiles": 5,
+   "nkk": 320,
+   "l1": 55296,
+   "a_bytes": 10485760,
+   "b_bytes": 44236800,
+   "c_bytes": 3932160
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 768,
+   "ntiles": 5,
+   "nkk": 120,
+   "l1": 55296,
+   "a_bytes": 3932160,
+   "b_bytes": 16588800,
+   "c_bytes": 3932160
+  }
+ },
+ "images": {
+  "ad_xd_m16k32_M96_n640_a1b1_gu": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m16k32_M96_n640_a1b1_gu.xclbin",
+   "sha256": "9e23adb80e7117236207066fb774d4d3d9aeaec4b2593329258166fb804c4b2b",
+   "l1_design": 46592
+  },
+  "ad_xd_m16k32_M96_n768_a1b1_dn": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m16k32_M96_n768_a1b1_dn.xclbin",
+   "sha256": "f19fd8ad56bfd88d4816e27ae8db04f610dd9ab156439c8a9d6e0093da2e28e1",
+   "l1_design": 55296
+  },
+  "ad_xd_m16k32_M96_n768_a1b1_proj": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m16k32_M96_n768_a1b1_proj.xclbin",
+   "sha256": "04387d00707efe4a675a3a2caf02f20d18019b092f6f055119aa342b3eafed5b",
+   "l1_design": 55296
+  }
+ },
+ "built_ok": true,
+ "note": "adaptive 32-core placement image set; the plan is the cache key, so an identical plan is built once",
+ "created": "2026-11-03T07:28:29"
+}

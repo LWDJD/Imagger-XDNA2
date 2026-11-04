@@ -1,0 +1,9 @@
+# Everything that is text is stored as LF, whatever the checkout platform.
+* text=auto eol=lf
+
+# The compiled NPU images are binary: never diff, never convert.
+*.xclbin -text
+*.pdi    -text
+*.bin    -text
+*.npz    -text
+*.gguf   -text

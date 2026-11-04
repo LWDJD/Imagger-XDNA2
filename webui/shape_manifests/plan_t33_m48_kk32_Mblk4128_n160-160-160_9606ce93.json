@@ -1,0 +1,89 @@
+{
+ "plan_key": "t33_m48_kk32_Mblk4128_n160-160-160_9606ce93",
+ "Mblk": 4128,
+ "used_by": [
+  4128
+ ],
+ "ndisp_by_M": {
+  "4128": 1
+ },
+ "strategy": "t33",
+ "m": 48,
+ "kk": 32,
+ "T": 3,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  11,
+  11,
+  11,
+  11,
+  11,
+  10,
+  10,
+  11
+ ],
+ "l1_max": 63104,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 160,
+   "ntiles": 64,
+   "nkk": 120,
+   "l1": 63104,
+   "a_bytes": 31703040,
+   "b_bytes": 44236800,
+   "c_bytes": 84541440
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 160,
+   "ntiles": 24,
+   "nkk": 320,
+   "l1": 63104,
+   "a_bytes": 84541440,
+   "b_bytes": 44236800,
+   "c_bytes": 31703040
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 160,
+   "ntiles": 24,
+   "nkk": 120,
+   "l1": 63104,
+   "a_bytes": 31703040,
+   "b_bytes": 16588800,
+   "c_bytes": 31703040
+  }
+ },
+ "images": {
+  "ad_t33_m48k32_M4128_n160_a1b1cw_gu": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m48k32_M4128_n160_a1b1cw_gu.xclbin",
+   "sha256": "6dbf30aec9f217d705ec5864df6016cb1853a55bdc44f0024a5886c3fda212db",
+   "l1_design": 56960
+  },
+  "ad_t33_m48k32_M4128_n160_a1b1cw_dn": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m48k32_M4128_n160_a1b1cw_dn.xclbin",
+   "sha256": "343519f0c4cd80d630068aef5b8801fad0bde8d3bb99f3189c1622ab1d068104",
+   "l1_design": 56960
+  },
+  "ad_t33_m48k32_M4128_n160_a1b1cw_proj": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m48k32_M4128_n160_a1b1cw_proj.xclbin",
+   "sha256": "012b7d3e8dddf92d604816519e228805bda3a98693c86e385cc87fedf70f0294",
+   "l1_design": 56960
+  }
+ },
+ "built_ok": true,
+ "note": "adaptive 32-core placement image set; the plan is the cache key, so an identical plan is built once",
+ "created": "2026-11-03T07:28:29"
+}

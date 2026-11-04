@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "shape": "512x608",
+ "requested": {
+  "height": 512,
+  "width": 608
+ },
+ "run": {
+  "height": 512,
+  "width": 608
+ },
+ "m": 1248,
+ "image_tokens": 1216,
+ "padded_tokens": 1216,
+ "pad_rows": 0,
+ "patch_grid": [
+  32,
+  38
+ ],
+ "latent": [
+  64,
+  76
+ ],
+ "exec_mode": "chunked",
+ "host_constants": {
+  "rope_ids": {
+   "file": "rope_ids.npz",
+   "cap_shape": [
+    32,
+    3
+   ],
+   "img_shape": [
+    1216,
+    3
+   ],
+   "img_padded_shape": [
+    1216,
+    3
+   ],
+   "cos_sin": "t3_real.rope_cos_sin(ids) at startup"
+  },
+  "sbg": "row=[mod[2]-1, 0, ffn_norm1] tiled to FFN_M (make_sbg)",
+  "walk": "x_image64 / pack_blocked / unpack_bytes (t8_codec)",
+  "x_pad_token": {
+   "missing": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\image\\t3real_host_tensors.npz"
+  },
+  "pe_alignment": "cap 32 rows; image rows padded to padded_tokens with x_pad_token at pos (0,0,0); caption follows"
+ },
+ "images": [
+  "t7_p5",
+  "t7_ip",
+  "fs_ffn_j5"
+ ],
+ "estimate": {
+  "mode": "chunked",
+  "seq": 1248,
+  "blocks": 13,
+  "proj_ms_per_layer": 292.2,
+  "ffn_ms_per_layer": 523.9,
+  "barrier_ms_per_layer": 20.4,
+  "host_ms_per_layer": 910.0,
+  "attn_ms_per_layer": 39.9,
+  "layer_ms": 1786.4,
+  "step_s": 53.59,
+  "s_8step": 428.7,
+  "h_8step": 0.12,
+  "dispatches_per_step": 1950,
+  "dispatches_8step": 15600,
+  "attention": "host f32 torch (QK^T+softmax+PV)",
+  "device": "delivered M=96 projection + FFN + o projection, 96-row blocks",
+  "anchor": "480x848/M=1632 prototype 65.4 s/step (device 27.8, staging 4.7, host 32.9); model +10-15 %",
+  "not_a_speed_claim": true
+ },
+ "note": "T22 chunk_path shape package; generated deterministically from (H,W).  No device image is compiled for this shape."
+}

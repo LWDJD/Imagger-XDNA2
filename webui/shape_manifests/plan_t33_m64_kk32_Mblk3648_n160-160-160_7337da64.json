@@ -1,0 +1,89 @@
+{
+ "plan_key": "t33_m64_kk32_Mblk3648_n160-160-160_7337da64",
+ "Mblk": 3648,
+ "used_by": [
+  3648
+ ],
+ "ndisp_by_M": {
+  "3648": 1
+ },
+ "strategy": "t33",
+ "m": 64,
+ "kk": 32,
+ "T": 2,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  7,
+  7,
+  7,
+  7,
+  7,
+  7,
+  7,
+  8
+ ],
+ "l1_max": 56960,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 160,
+   "ntiles": 64,
+   "nkk": 120,
+   "l1": 56960,
+   "a_bytes": 28016640,
+   "b_bytes": 44236800,
+   "c_bytes": 74711040
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 160,
+   "ntiles": 24,
+   "nkk": 320,
+   "l1": 56960,
+   "a_bytes": 74711040,
+   "b_bytes": 44236800,
+   "c_bytes": 28016640
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 160,
+   "ntiles": 24,
+   "nkk": 120,
+   "l1": 56960,
+   "a_bytes": 28016640,
+   "b_bytes": 16588800,
+   "c_bytes": 28016640
+  }
+ },
+ "images": {
+  "ad_t33_m64k32_M3648_n160_a1b1cw_gu": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m64k32_M3648_n160_a1b1cw_gu.xclbin",
+   "sha256": "83730957e1380ce3c6d006189187e20869ce2ab324ea7499581fa078e26a63ab",
+   "l1_design": 52864
+  },
+  "ad_t33_m64k32_M3648_n160_a1b1cw_dn": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m64k32_M3648_n160_a1b1cw_dn.xclbin",
+   "sha256": "4b7b2c32f50551276369a7660d3e7da7d777a880b2f55c4552080f6648332b54",
+   "l1_design": 52864
+  },
+  "ad_t33_m64k32_M3648_n160_a1b1cw_proj": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m64k32_M3648_n160_a1b1cw_proj.xclbin",
+   "sha256": "50376925681f43c1857866fd6bb99dd20f03ee227859bc81b2b846f97d841eec",
+   "l1_design": 52864
+  }
+ },
+ "built_ok": true,
+ "note": "wide grid (npu_wide.py): 1280x720, M=3648",
+ "created": "2026-11-03T08:18:31"
+}

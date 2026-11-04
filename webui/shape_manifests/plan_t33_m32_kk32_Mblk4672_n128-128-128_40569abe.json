@@ -1,0 +1,89 @@
+{
+ "plan_key": "t33_m32_kk32_Mblk4672_n128-128-128_40569abe",
+ "Mblk": 4672,
+ "used_by": [
+  4672
+ ],
+ "ndisp_by_M": {
+  "4672": 1
+ },
+ "strategy": "t33",
+ "m": 32,
+ "kk": 32,
+ "T": 5,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  19,
+  18,
+  18,
+  18,
+  18,
+  18,
+  18,
+  19
+ ],
+ "l1_max": 57856,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 128,
+   "ntiles": 80,
+   "nkk": 120,
+   "l1": 57856,
+   "a_bytes": 35880960,
+   "b_bytes": 44236800,
+   "c_bytes": 95682560
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 128,
+   "ntiles": 30,
+   "nkk": 320,
+   "l1": 57856,
+   "a_bytes": 95682560,
+   "b_bytes": 44236800,
+   "c_bytes": 35880960
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 128,
+   "ntiles": 30,
+   "nkk": 120,
+   "l1": 57856,
+   "a_bytes": 35880960,
+   "b_bytes": 16588800,
+   "c_bytes": 35880960
+  }
+ },
+ "images": {
+  "ad_t33_m32k32_M4672_n128_a1b1cw_gu": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m32k32_M4672_n128_a1b1cw_gu.xclbin",
+   "sha256": "a8c1562f1a25f036613e6944013b34610dfdf70d1447bf424ab88688af55248b",
+   "l1_design": 49664
+  },
+  "ad_t33_m32k32_M4672_n128_a1b1cw_dn": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m32k32_M4672_n128_a1b1cw_dn.xclbin",
+   "sha256": "3d214eedcd3b3ae1f71bae5ebac20948b3d5f0c2be38501bd444fa664f1ee9b1",
+   "l1_design": 49664
+  },
+  "ad_t33_m32k32_M4672_n128_a1b1cw_proj": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m32k32_M4672_n128_a1b1cw_proj.xclbin",
+   "sha256": "de799cb1f347fa71db67b59a105238be506084f63a70f95ffdaee47cfdde1c97",
+   "l1_design": 49664
+  }
+ },
+ "built_ok": true,
+ "note": "wide grid (npu_wide.py): 1080x1080, M=4672",
+ "created": "2026-11-03T08:19:35"
+}

@@ -1,0 +1,89 @@
+{
+ "plan_key": "xd_m64_kk32_Mblk2048_n320-320-320_653b0019",
+ "Mblk": 2048,
+ "used_by": [
+  8192
+ ],
+ "ndisp_by_M": {
+  "8192": 4
+ },
+ "strategy": "xd",
+ "m": 64,
+ "kk": 32,
+ "T": 1,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4
+ ],
+ "l1_max": 58624,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 320,
+   "ntiles": 32,
+   "nkk": 120,
+   "l1": 58624,
+   "a_bytes": 15728640,
+   "b_bytes": 44236800,
+   "c_bytes": 41943040
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 320,
+   "l1": 58624,
+   "a_bytes": 41943040,
+   "b_bytes": 44236800,
+   "c_bytes": 15728640
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 120,
+   "l1": 58624,
+   "a_bytes": 15728640,
+   "b_bytes": 16588800,
+   "c_bytes": 15728640
+  }
+ },
+ "images": {
+  "ad_xd_m64k32_M2048_n320_a1b1_gu": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M2048_n320_a1b1_gu.xclbin",
+   "sha256": "c89971785831256e527df00debc4c352aed8bf71ad57ad795b9de95a14340de3",
+   "l1_design": 58624
+  },
+  "ad_xd_m64k32_M2048_n320_a1b1_dn": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M2048_n320_a1b1_dn.xclbin",
+   "sha256": "7802b5bb80e07c5dcfbfefb1878a58d36fb1f2449701aa4d9821c501d8a03e38",
+   "l1_design": 58624
+  },
+  "ad_xd_m64k32_M2048_n320_a1b1_proj": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M2048_n320_a1b1_proj.xclbin",
+   "sha256": "4cca2b40b4a73760dfb12aca3832ce988ad9d29808b452634e1d3ea816fc24ea",
+   "l1_design": 58624
+  }
+ },
+ "built_ok": true,
+ "note": "wide grid (npu_wide.py): 1920x1080, M=8192",
+ "created": "2026-11-03T08:18:08"
+}

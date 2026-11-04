@@ -1,0 +1,93 @@
+{
+ "refs": {
+  "512x512:8": {
+   "env_id": "0880daf30c579271",
+   "png_sha256": "c4fee5c1b871ae86481bbc52befcd22ec232e8bc7dfbda27ab371bccfc595bae"
+  },
+  "128x128:1": {
+   "latents_sha256": "ba89b71cfd1dfaa089c371e1aab563257885cdcaf3e149b8e71f0826ef1f7673",
+   "path": "native",
+   "m": 96,
+   "loop_s": 9.11,
+   "vae": true,
+   "env_id": "0880daf30c579271",
+   "ref_jobs": [
+    "20261103-165433-6ab50a"
+   ],
+   "note": "recorded by t22_repro on first use",
+   "png_sha256": "f01fbbd0c57dc2d2cb1370806fbfd2da65d691504d80d24bcfe91b69a2869b9f"
+  },
+  "512x512:1": {
+   "latents_sha256": "395177106cea950bb640ea94af218871dd680d0d63aa215b111784c31de62e54",
+   "path": "chunked",
+   "m": 1056,
+   "loop_s": 12.61,
+   "total_s": 75.1,
+   "vae": true,
+   "env_id": "0880daf30c579271",
+   "ref_jobs": [
+    "20261103-181259-014e72"
+   ],
+   "note": "recorded by t22_repro on first use",
+   "png_sha256": "fb3aebde3875cc2db708c25641009473dcf32295cb9b198cc4d0780ae5d3bc9a"
+  },
+  "384x384:1": {
+   "latents_sha256": "559804dc4a2906a574d196cfb8beddd4df200644a325922de4417e0d1c728343",
+   "path": "chunked",
+   "m": 608,
+   "loop_s": 9.41,
+   "total_s": 29.3,
+   "vae": true,
+   "env_id": "2b4fbff71396f728",
+   "ref_jobs": [
+    "20261103-202344-c36f87"
+   ],
+   "note": "recorded by t22_repro on first use",
+   "png_sha256": "f4d308e7ba51695adfdc51b9e0db05810318abd0ebe222c0c7744cfc249b9226"
+  },
+  "384x384:8": {
+   "latents_sha256": "e4975c41e5d68b795c168ed405f132a0dd9b594903c06a77f36c561010bee414",
+   "path": "chunked",
+   "m": 608,
+   "loop_s": 75.47,
+   "total_s": 98.3,
+   "vae": true,
+   "env_id": "2b4fbff71396f728",
+   "ref_jobs": [
+    "20261103-202743-5f8787"
+   ],
+   "note": "recorded by t22_repro on first use",
+   "png_sha256": "fb8c18f3be840ed7e1db552df9315cce2122e23ca89c1556f0121d4b2e9b1e1d"
+  },
+  "1024x1024:1": {
+   "latents_sha256": "af993cadfecbc419decb5fb3132d217de64a8990191aa1b5a2b73ca05ca2b3c7",
+   "path": "chunked",
+   "m": 4128,
+   "loop_s": 66.48,
+   "total_s": 112.0,
+   "vae": true,
+   "env_id": "cfc618522d695a67",
+   "ref_jobs": [
+    "20261104-113556-58215f"
+   ],
+   "note": "recorded by t22_repro on first use",
+   "png_sha256": "acbd75ea6b1cd42cd7a398345528c2b0aa543158cd64ea268b44238b7274d00f"
+  },
+  "1920x1080:1": {
+   "latents_sha256": "7ba858a69f68e0bd0453d219a58b4e8fec18c4d589c97cc2b7b1317363a96696",
+   "path": "chunked",
+   "m": 8192,
+   "loop_s": 173.72,
+   "total_s": 247.49,
+   "vae": true,
+   "env_id": "cfc618522d695a67",
+   "ref_jobs": [
+    "20261104-121901-563011"
+   ],
+   "note": "re-recorded 2026-11-04 by imaggers/par/projblk: the previous entry (latents 3188fd97..., job 20261104-114434-e6012e) was the WHOLE-SHAPE projection arm, which dispatches 86 tiles through an 11-tile image and computes only rows 0..1055 (PNG a4ec65e6 = black band + stripes + noise). Two independent correct arms agree byte for byte -- 96-row blocks (job 20261104-114900-b044e3) and 1056-row blocks (this job) -- and the PNG is a real 1080x1920 image.",
+   "png_sha256": "aeba26dd3e4ccd5fde96e541a3fa5513bc5a6890b74f9c0bd2778c8a295afbce"
+  }
+ },
+ "updated": "2026-11-04T12:26:00",
+ "note": "written by imaggers/repro/t22_repro.py; the built-in REFERENCES in that file win for the keys they define"
+}

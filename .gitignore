@@ -1,0 +1,52 @@
+# ---- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyd
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- Large artifacts: NEVER in git ------------------------------------------
+# Sizes are from _scratch/par/provenance/artifacts.json (full-file sha256, 30.6 GB
+# hashed in 155 s).  Excluded because GitHub rejects >100 MB and warns above
+# 50 MB -- NOT because they are unimportant.  See docs/WEIGHTS.md.
+weights/                          # 34 files, 6,586,939,269 B  (BFP16 source blocks)
+webui/models/                     #  8,051,284,800 B text-encoder GGUF
+webui/cache/wpack/                #  1,990,656,000 B packed device weights
+webui/cache/numba/                #  compiled numba cache -- rebuilt on first use
+brepack_cache/                    #  2 x 5,308,481,536 B, content-addressed
+_scratch/image/t3real_prep/       #  3,981,319,680 B driver payloads
+_scratch/image/t6_refcache/       #  2,862,993,020 B refiner cache
+_out/
+
+# ---- Device images ARE committed --------------------------------------------
+# webui/cache/<shape>/ is NOT a cache: it holds the per-shape compiled
+# xclbin + instruction stream the product registers (66 files, ~8.8 MB).
+# Do not ignore *.xclbin, *.bin, *.pdi or a bare "cache/" -- an earlier draft of
+# this file did, and would have shipped a repository that cannot run without the
+# full MLIR-AIE toolchain.
+
+# ---- Product runtime state ---------------------------------------------------
+jobs/
+outputs/
+device.lock
+*.lock
+
+# ---- Local experiment areas (the original tree's 29 GB) ----------------------
+_scratch/
+_gpuwork/
+_npu_cache*/
+memtile2/
+kernels/                          # demo bench for two .cc kernels; nothing reads it
+
+# ---- Editor / OS -------------------------------------------------------------
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# ---- Logs --------------------------------------------------------------------
+*.log

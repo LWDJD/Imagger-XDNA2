@@ -1,0 +1,79 @@
+{
+ "version": 1,
+ "shape": "1024x1024",
+ "requested": {
+  "height": 1024,
+  "width": 1024
+ },
+ "run": {
+  "height": 1024,
+  "width": 1024
+ },
+ "m": 4128,
+ "image_tokens": 4096,
+ "padded_tokens": 4096,
+ "pad_rows": 0,
+ "patch_grid": [
+  64,
+  64
+ ],
+ "latent": [
+  128,
+  128
+ ],
+ "exec_mode": "chunked",
+ "host_constants": {
+  "rope_ids": {
+   "file": "rope_ids.npz",
+   "cap_shape": [
+    32,
+    3
+   ],
+   "img_shape": [
+    4096,
+    3
+   ],
+   "img_padded_shape": [
+    4096,
+    3
+   ],
+   "cos_sin": "t3_real.rope_cos_sin(ids) at startup"
+  },
+  "sbg": "row=[mod[2]-1, 0, ffn_norm1] tiled to FFN_M (make_sbg)",
+  "walk": "x_image64 / pack_blocked / unpack_bytes (t8_codec)",
+  "x_pad_token": {
+   "file": "x_pad_token.npy",
+   "shape": [
+    3840
+   ],
+   "sha256": "4f1e9606c63f43b16b7435417ccc3619c55aa7453ade2f701ba68931af00827d"
+  },
+  "pe_alignment": "cap 32 rows; image rows padded to padded_tokens with x_pad_token at pos (0,0,0); caption follows"
+ },
+ "images": [
+  "t7_p5",
+  "t7_ip",
+  "fs_ffn_j5"
+ ],
+ "estimate": {
+  "mode": "chunked",
+  "seq": 4128,
+  "blocks": 43,
+  "proj_ms_per_layer": 966.6,
+  "ffn_ms_per_layer": 1732.9,
+  "barrier_ms_per_layer": 71.4,
+  "host_ms_per_layer": 3010.0,
+  "attn_ms_per_layer": 436.2,
+  "layer_ms": 6217.2,
+  "step_s": 186.52,
+  "s_8step": 1492.1,
+  "h_8step": 0.41,
+  "dispatches_per_step": 6450,
+  "dispatches_8step": 51600,
+  "attention": "host f32 torch (QK^T+softmax+PV)",
+  "device": "delivered M=96 projection + FFN + o projection, 96-row blocks",
+  "anchor": "480x848/M=1632 prototype 65.4 s/step (device 27.8, staging 4.7, host 32.9); model +10-15 %",
+  "not_a_speed_claim": true
+ },
+ "note": "T22 chunk_path shape package; generated deterministically from (H,W).  No device image is compiled for this shape."
+}
