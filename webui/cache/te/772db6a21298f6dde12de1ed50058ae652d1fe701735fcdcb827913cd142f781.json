@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "key": "772db6a21298f6dde12de1ed50058ae652d1fe701735fcdcb827913cd142f781",
+ "created": "2026-11-02T22:09:10",
+ "created_ts": 1793628550.3535123,
+ "last_used": 1793628550.3535123,
+ "bytes": 165144,
+ "sha256": "700ac8fd02c0f753f1d16a0abf9c6a2735bfbfc3a807a25b75f89e6d0d2e2ac1",
+ "pe_sha256": "e831787c99530455e6ab157076d5278029c92f927e1f84f1cc68313ce40d35d6",
+ "tokens": 16,
+ "prompt": "<|im_start|>user\n场景：苹果树、山顶、夕阳<|im_end|>\n<|im_start|>assistant\n",
+ "prompt_sha256": "d5068fe71d24c855d3707f487733eeb5ef77025eafe01d82db1af80db02be484",
+ "backend": "gpu",
+ "lid": 35,
+ "gguf": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\models\\zimage-te-qwen3-4b-bf16.gguf",
+  "size": 8051284800,
+  "mtime_ns": 1792291012794228700
+ },
+ "worker": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\te_worker.py",
+  "size": 13962,
+  "mtime_ns": 1792371893960726500
+ },
+ "driver": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\textenc\\encode_api.py",
+  "size": 16880,
+  "mtime_ns": 1792045640663705400
+ },
+ "hits": 0
+}

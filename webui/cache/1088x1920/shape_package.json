@@ -1,0 +1,131 @@
+{
+ "version": 1,
+ "shape": "1088x1920",
+ "requested": {
+  "height": 1088,
+  "width": 1920
+ },
+ "run": {
+  "height": 1088,
+  "width": 1920
+ },
+ "m": 8192,
+ "image_tokens": 8160,
+ "padded_tokens": 8160,
+ "pad_rows": 0,
+ "patch_grid": [
+  68,
+  120
+ ],
+ "latent": [
+  136,
+  240
+ ],
+ "exec_mode": "chunked",
+ "host_constants": {
+  "rope_ids": {
+   "file": "rope_ids.npz",
+   "cap_shape": [
+    32,
+    3
+   ],
+   "img_shape": [
+    8160,
+    3
+   ],
+   "img_padded_shape": [
+    8160,
+    3
+   ],
+   "cos_sin": "t3_real.rope_cos_sin(ids) at startup"
+  },
+  "sbg": "row=[mod[2]-1, 0, ffn_norm1] tiled to FFN_M (make_sbg)",
+  "walk": "x_image64 / pack_blocked / unpack_bytes (t8_codec)",
+  "x_pad_token": {
+   "missing": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\image\\t3real_host_tensors.npz"
+  },
+  "pe_alignment": "cap 32 rows; image rows padded to padded_tokens with x_pad_token at pos (0,0,0); caption follows"
+ },
+ "images": [
+  "t7_p5",
+  "t7_ip",
+  "fs_ffn_j5"
+ ],
+ "estimate": {
+  "mode": "chunked",
+  "seq": 8192,
+  "blocks": 86,
+  "proj_ms_per_layer": 1933.3,
+  "ffn_ms_per_layer": 3465.8,
+  "barrier_ms_per_layer": 144.5,
+  "host_ms_per_layer": 6020.0,
+  "attn_ms_per_layer": 1718.0,
+  "layer_ms": 13281.6,
+  "step_s": 398.45,
+  "s_8step": 3187.6,
+  "h_8step": 0.89,
+  "dispatches_per_step": 12900,
+  "dispatches_8step": 103200,
+  "attention": "host f32 torch (QK^T+softmax+PV)",
+  "device": "delivered M=96 projection + FFN + o projection, 96-row blocks",
+  "anchor": "480x848/M=1632 prototype 65.4 s/step (device 27.8, staging 4.7, host 32.9); model +10-15 %",
+  "not_a_speed_claim": true,
+  "plan_key": "xd_m64_kk32_Mblk2048_n320-320-320_653b0019",
+  "plan": {
+   "plan_key": "xd_m64_kk32_Mblk2048_n320-320-320_653b0019",
+   "M": 8192,
+   "strategy": "xd",
+   "m": 64,
+   "kk": 32,
+   "Mblk": 2048,
+   "ndisp": 4,
+   "T": 1,
+   "nm": 32,
+   "per_col": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "l1_max": 58624,
+   "pad_rows": 0,
+   "n": {
+    "gu": 320,
+    "dn": 320,
+    "proj": 320
+   },
+   "ntiles": {
+    "gu": 32,
+    "dn": 12,
+    "proj": 12
+   },
+   "layer_ms": 594.22,
+   "step_s": 17.83,
+   "s_8step": 142.6,
+   "h_8step": 0.04
+  },
+  "plan_l1_max": 58624,
+  "plan_rows": 2048,
+  "plan_dispatches": 4,
+  "plan_tiles": 32,
+  "plan_per_col": [
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "bo_x_bytes": 62914560,
+  "bo_ff_bytes": 167772160,
+  "bo_rows": 8256,
+  "plan_built": true
+ },
+ "note": "T22 chunk_path shape package; generated deterministically from (H,W).  No device image is compiled for this shape."
+}

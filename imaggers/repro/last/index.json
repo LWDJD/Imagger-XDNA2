@@ -1,0 +1,51 @@
+{
+ "runs": [
+  {
+   "tag": "t184950",
+   "when": "2026-11-04T18:50:06",
+   "job_id": null,
+   "h": 512,
+   "w": 512,
+   "steps": 8,
+   "env_id": "a4f6ba17e035d4bc",
+   "path": "chunked",
+   "power": "ac",
+   "extras": [],
+   "skipped": [],
+   "postflight_fail": 1,
+   "failed_ids": [
+    "P01"
+   ]
+  },
+  {
+   "tag": "t185214",
+   "when": "2026-11-04T18:52:30",
+   "job_id": null,
+   "h": 512,
+   "w": 512,
+   "steps": 8,
+   "env_id": "a4f6ba17e035d4bc",
+   "path": "chunked",
+   "power": "ac",
+   "extras": [],
+   "skipped": [],
+   "postflight_fail": 0,
+   "failed_ids": []
+  },
+  {
+   "tag": "migrated",
+   "when": "2026-11-04T18:53:32",
+   "job_id": null,
+   "h": 512,
+   "w": 512,
+   "steps": 8,
+   "env_id": "a4f6ba17e035d4bc",
+   "path": "chunked",
+   "power": "ac",
+   "extras": [],
+   "skipped": [],
+   "postflight_fail": 0,
+   "failed_ids": []
+  }
+ ]
+}

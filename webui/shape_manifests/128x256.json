@@ -1,0 +1,63 @@
+{
+ "shape": "128x256",
+ "height": 128,
+ "width": 256,
+ "m": 160,
+ "images": {
+  "proj": "t7_p5",
+  "ip": "t18_ip_m32nd160",
+  "ffn": "t11_nh5",
+  "perm_q": "t18_perm_32x128.json",
+  "ip_mq": 32,
+  "seq": 160
+ },
+ "note": "T18 build record: the exact FFN/ip/projection images and perms this shape's cache copies.  Compiled from the delivered t11_ffn_nh5 source at M and t7_ip at ND=SEQ; the projection is the delivered t7_p5 (m=96 blocks).",
+ "files": [
+  {
+   "name": "t7_p5.xclbin",
+   "size": 19016,
+   "sha256": "a7c0ebbc2612063dfd5d19e15d68f8d15269024bc9f82369d4fece4ae07c500d"
+  },
+  {
+   "name": "t7_p5.bin",
+   "size": 595336,
+   "sha256": "65be38f0e4655ca5b2b9e4e3d8e708748397c5985a1356194bd32eaa43240603"
+  },
+  {
+   "name": "t18_ip_m32nd160.xclbin",
+   "size": 13896,
+   "sha256": "e39127c8baac508433a72a1c987f39e302f1a7e264ff3dec752e4a05eaf81bd7"
+  },
+  {
+   "name": "t18_ip_m32nd160.bin",
+   "size": 19696,
+   "sha256": "d1c5cf6f1e75d9a6849d91e9ef1acf124c9021172344146a31115c00d652f832"
+  },
+  {
+   "name": "t11_nh5.xclbin",
+   "size": 177179,
+   "sha256": "967918e37c56d7138980cac32f5fa1a71a941ab2de75a3dc9c0353db5fe6a4b4"
+  },
+  {
+   "name": "t11_nh5.bin",
+   "size": 11088,
+   "sha256": "9125042a23edec3188c26c64b1b997e8feefb20d6958f60e379dde5427c1f53f"
+  },
+  {
+   "name": "t3d_perm_96x128.json",
+   "size": 75147,
+   "sha256": "ea10d265972ddf3a0900eb446534bacba96f6ae79f48d64add63bbcbfdf913ae"
+  },
+  {
+   "name": "t3d_perm_96x64.json",
+   "size": 35942,
+   "sha256": "22e8c8b108bd1374af3ab24d183292b61076a5e4dc6c6c91ac061f92ceb301c1"
+  },
+  {
+   "name": "t18_perm_32x128.json",
+   "size": 27729,
+   "sha256": "3e32b219436fcac24ecb1666c203041932d47408eb4cfcdd1f33e0ee7e6da23f"
+  }
+ ],
+ "created": "2026-10-19T02:17:54"
+}

@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Z-Image-Turbo · NPU WebUI</title>
+<style>
+:root{
+  --bg:#0b0f14; --panel:#121923; --panel2:#182231; --line:#243244;
+  --text:#e8eef6; --muted:#8fa3b8; --accent:#5eead4; --accent2:#38bdf8;
+  --warn:#fbbf24; --bad:#fb7185; --ok:#4ade80; --mono:ui-monospace,Consolas,"Cascadia Mono",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#14304a 0%,var(--bg) 55%);color:var(--text);
+  font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;border-bottom:1px solid var(--line);
+  background:rgba(11,15,20,.75);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+h1{font-size:18px;margin:0;letter-spacing:.3px;font-weight:650}
+h1 span{color:var(--accent)}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.pill{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--muted)}
+.pill.ok{color:var(--ok);border-color:#1d4d38}.pill.bad{color:var(--bad);border-color:#4d1d29}
+main{max-width:1440px;margin:0 auto;padding:18px 20px;display:grid;grid-template-columns:430px 1fr;gap:18px;align-items:start}
+@media (max-width:1050px){main{grid-template-columns:1fr}}
+.panel{background:linear-gradient(180deg,var(--panel) 0%,#0f1620 100%);border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);padding:18px}
+.panel h2{font-size:14px;margin:0 0 14px;color:#cfe3f5;letter-spacing:.2px}
+.form-panel{position:sticky;top:66px}
+@media (max-width:1050px){.form-panel{position:static}}
+label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}
+textarea,input,select{width:100%;background:#0d141d;border:1px solid var(--line);color:var(--text);border-radius:10px;
+  padding:10px 11px;font:13px/1.5 var(--mono);outline:none}
+textarea:focus,input:focus,select:focus{border-color:#2f6d85;box-shadow:0 0 0 3px rgba(56,189,248,.12)}
+textarea{resize:vertical;min-height:64px}
+#prompt{min-height:92px}
+input:disabled,select:disabled{opacity:.45;cursor:not-allowed}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.row{display:flex;gap:10px;align-items:center}
+.row-between{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.check{display:flex;align-items:center;gap:8px;color:var(--text);font-size:13px;margin:6px 0 0}
+.check input{width:auto}
+.hint{font-size:12px;color:var(--muted);margin-top:6px}
+details.sec{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#0c131c;padding:0 12px}
+details.sec>summary{cursor:pointer;font-size:12px;color:var(--muted);padding:9px 0;list-style:none;display:flex;
+  align-items:center;gap:8px;user-select:none}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"▸";color:var(--accent2);font-size:10px;line-height:1}
+details.sec[open]>summary::before{content:"▾"}
+details.sec>summary:hover{color:var(--text)}
+details.sec>.body{padding:2px 0 12px;border-top:1px dashed #1b2735}
+details.sec .body>*:first-child{margin-top:8px}
+.note{font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.55}
+table.timing{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+table.timing th,table.timing td{padding:4px 8px;border-bottom:1px solid var(--line);text-align:left}
+table.timing th{color:var(--muted);font-weight:500}
+table.timing td.num{text-align:right;font:12px var(--mono)}
+table.timing tr.sum td{border-top:1px solid #2f6d85;font-weight:650}
+table.timing tr.unc td{color:var(--warn)}
+.foot{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
+.nosh{color:var(--warn);font-weight:650}
+.warn{border:1px solid #5b4214;background:#2a210f;color:#fde68a;border-radius:10px;padding:9px 11px;font-size:12px;margin-top:10px;display:none}
+.warn.show{display:block}
+.err{border:1px solid #5b1e2b;background:#2a1218;color:#fecdd3;border-radius:10px;padding:10px 12px;font-size:12px;margin-top:12px;display:none}
+.err.show{display:block}
+.err pre,.log{white-space:pre-wrap;word-break:break-word;font:11.5px/1.45 var(--mono);color:#cbd5e1;max-height:260px;overflow:auto;
+  background:#080d13;border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0 0}
+.log{max-height:300px}
+button{border:1px solid #22465a;background:linear-gradient(180deg,#17384a,#102838);color:#d9f6ff;border-radius:10px;
+  padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer}
+button:hover{border-color:#2c6f8c}
+button.primary{background:linear-gradient(180deg,#1f9d8a,#136b60);border-color:#2bb8a4;color:#ecfffb;width:100%;padding:12px;font-size:14px}
+button.primary:disabled{opacity:.5;cursor:not-allowed}
+button.ghost{background:#101a25;color:#b8cbe0;font-weight:500;padding:7px 10px;font-size:12px}
+button.danger{border-color:#5b1e2b;background:#2a1218;color:#fecdd3}
+.stagebar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}
+.stagebar span{border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:3px 9px;font-size:11px;transition:.2s}
+.stagebar span.active{background:#0d3a34;color:var(--accent);border-color:#1d7a67}
+.stagebar span.done{color:#cbe7d7;border-color:#275c45}
+.progress{height:10px;background:#0a1119;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:10px}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,#0ea5a4,#38bdf8);transition:width .4s}
+.big{font-size:20px;font-weight:700;letter-spacing:.3px}
+.muted{color:var(--muted)}
+.kv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.kv .box{background:#0c131c;border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+.kv .box .k{font-size:11px;color:var(--muted)}.kv .box .v{font-size:16px;font-weight:650;margin-top:2px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.meta .pill{font-size:11px}
+.closure{margin-top:10px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);font-size:12px}
+.closure.ok{border-color:#1d4d38;background:#0c1f18;color:var(--ok)}
+.closure.bad{border-color:#4d1d29;background:#221016;color:var(--bad)}
+.job-head{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-top:12px}
+.job-sum{margin-top:4px;font:12px/1.5 var(--mono);color:var(--muted)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.card{background:#0d141d;border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-2px);border-color:#2b5268;box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#070b10;image-rendering:auto}
+.card .body{padding:9px 10px 10px}
+.card .title{font-size:12px;color:#d6e6f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.card .small{font-size:11px;color:var(--muted);margin-top:2px}
+.badge{display:inline-block;border-radius:999px;padding:2px 8px;font-size:10.5px;font-weight:650;letter-spacing:.2px}
+.badge.gate{background:#0d3a34;color:var(--accent);border:1px solid #1d7a67}
+.badge.trial{background:#2a210f;color:var(--warn);border:1px solid #5b4214}
+.badge.fail{background:#2a1218;color:var(--bad);border:1px solid #5b1e2b}
+.history{display:flex;flex-direction:column;gap:6px;max-height:240px;overflow:auto;margin-bottom:14px}
+.hitem{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#0c131c;cursor:pointer}
+.hitem:hover{border-color:#2b5268}
+.hitem .id{font:11px var(--mono);color:var(--muted)}
+.hitem .st{font-size:11px}
+.empty{color:var(--muted);font-size:13px;padding:22px;text-align:center;border:1px dashed var(--line);border-radius:12px}
+details.foldpanel{padding:0 18px}
+details.foldpanel>summary{cursor:pointer;font-size:14px;color:#cfe3f5;padding:15px 0;list-style:none}
+details.foldpanel>summary::-webkit-details-marker{display:none}
+details.foldpanel>summary::before{content:"▸ ";color:var(--accent2)}
+details.foldpanel[open]>summary::before{content:"▾ "}
+.lightbox{position:fixed;inset:0;background:rgba(3,6,10,.82);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:50;padding:22px}
+.lightbox.show{display:flex}
+.lb-inner{max-width:1000px;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+@media (max-width:800px){.lb-inner{grid-template-columns:1fr}}
+.lb-inner img{width:100%;border-radius:10px;background:#000}
+.lb-meta{font:12px/1.6 var(--mono);color:#c8d8e8;overflow:auto;max-height:70vh;white-space:pre-wrap;word-break:break-word}
+.close{position:absolute;top:16px;right:20px;font-size:24px;color:#cfe3f5;cursor:pointer;background:none;border:none}
+.footer{max-width:1440px;margin:0 auto;padding:0 20px 30px;color:#64748b;font-size:11px}
+a{color:var(--accent2)}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Z-Image-Turbo <span>· NPU WebUI</span></h1></div>
+  <div class="header-right" id="status-pills">
+    <span class="pill">连接中…</span>
+  </div>
+</header>
+
+<main>
+  <section class="panel form-panel">
+    <h2>生成参数</h2>
+
+    <label for="prompt">提示词</label>
+    <textarea id="prompt" placeholder="a mountain lake at sunrise"></textarea>
+
+    <div class="grid2">
+      <div>
+        <label for="preset-ratio">比例</label>
+        <select id="preset-ratio"></select>
+      </div>
+      <div>
+        <label for="preset-tier">档位</label>
+        <select id="preset-tier"></select>
+      </div>
+    </div>
+    <div class="hint" id="preset-note">—</div>
+    <div class="meta" id="preset-matrix"></div>
+    <div class="grid2">
+      <div>
+        <label for="height">高 H</label>
+        <input id="height" type="number" min="64" max="2048" step="1" value="128">
+      </div>
+      <div>
+        <label for="width">宽 W</label>
+        <input id="width" type="number" min="64" max="2048" step="1" value="128">
+      </div>
+    </div>
+    <div class="hint" id="shape-info">—</div>
+
+    <details class="sec" id="shape-budget">
+      <summary>尺寸预算与构建（模型估计 · 未过门 · <span id="budget-src">T22-BUDGET.md</span>）</summary>
+      <div class="body">
+        <div class="kv">
+          <div class="box"><div class="k">M (=SEQ)</div><div class="v" id="b-m">—</div></div>
+          <div class="box"><div class="k">dispatch / 步</div><div class="v" id="b-disp">—</div></div>
+          <div class="box"><div class="k">机时 / 8 步</div><div class="v" id="b-time">—</div></div>
+          <div class="box"><div class="k">ip 镜像</div><div class="v" id="b-cur">—</div></div>
+        </div>
+        <table class="timing"><tbody id="b-body"></tbody></table>
+        <div class="foot" id="b-foot">—</div>
+        <div class="meta" id="presets"></div>
+        <div class="row" style="margin-top:8px">
+          <button id="prebuild" class="ghost" type="button">预构建常用尺寸</button>
+          <span class="hint" id="prebuild-info" style="margin:0">已构建尺寸校验缓存; 未构建返回构建计划。</span>
+        </div>
+      </div>
+    </details>
+
+    <details class="sec" id="shape-capability" open>
+      <summary>这个尺寸今天到底能不能跑（后端算的，不是手写表）</summary>
+      <div class="body">
+        <div class="hint" id="cap-answer">—</div>
+        <table class="timing"><tbody id="cap-body"></tbody></table>
+        <div class="meta" id="cap-flags"></div>
+        <div class="row-between" style="margin-top:10px">
+          <strong style="font-size:13px">所有可选尺寸（预设 / 已构建 / 实测过）</strong>
+          <button id="cap-refresh" class="ghost" type="button">刷新</button>
+        </div>
+        <div class="meta" id="cap-table" style="max-height:340px;overflow:auto">—</div>
+        <div class="foot" id="cap-foot">—</div>
+      </div>
+    </details>
+
+    <div class="grid3">
+      <div>
+        <label for="steps">步数</label>
+        <input id="steps" type="number" min="1" max="16" step="1" value="8">
+      </div>
+      <div>
+        <label for="batch">批量</label>
+        <input id="batch" type="number" min="1" max="16" step="1" value="1">
+      </div>
+      <div>
+        <label for="vae-on">VAE</label>
+        <label class="check" for="vae-on" style="margin:0"><input id="vae-on" type="checkbox" checked>解码 PNG</label>
+      </div>
+    </div>
+    <div class="grid2">
+      <div>
+        <label for="seed-mode">seed 模式</label>
+        <select id="seed-mode">
+          <option value="fixed">fixed（固定 seed）</option>
+          <option value="increment" selected>increment（逐图 +1）</option>
+          <option value="random">random（服务端随机）</option>
+        </select>
+      </div>
+      <div>
+        <label for="seed">seed</label>
+        <input id="seed" type="number" min="0" max="2147483647" step="1" value="0">
+      </div>
+    </div>
+
+    <details class="sec">
+      <summary>负向提示词（Turbo 无 CFG · 不参与计算 · 仅记录）</summary>
+      <div class="body">
+        <textarea id="negative" placeholder="可留空; 该版本不使用负向词"></textarea>
+        <div id="warn-neg" class="warn"></div>
+      </div>
+    </details>
+
+    <details class="sec">
+      <summary>高级 / 输出</summary>
+      <div class="body">
+        <div class="grid2">
+          <div><label for="output_dir">输出目录</label><input id="output_dir" value="webui/outputs"></div>
+          <div><label for="prefix">文件名前缀</label><input id="prefix" value="zimage"></div>
+        </div>
+        <div class="grid2">
+          <div><label for="memory_mode">内存模式</label>
+            <select id="memory_mode">
+              <option value="auto">auto (按可用 commit 选择)</option>
+              <option value="fast">fast (cache-all, 需 ~8 GB commit)</option>
+              <option value="low">low (--no-cache-all, 最稳)</option>
+            </select>
+          </div>
+          <div><label for="bo_resident">BO 常驻(实验)</label>
+            <select id="bo_resident"><option value="false">关闭(推荐)</option><option value="true">开启(更多显存)</option></select>
+          </div>
+        </div>
+        <div class="grid2">
+          <div><label for="qkv">q/k/v 合一镜像</label>
+            <select id="qkv"><option value="false">关闭(交付路径)</option><option value="true">开启(一次 dispatch 出 Q/K/V)</option></select>
+          </div>
+          <div><label for="p10">o 投影独立镜像</label>
+            <select id="p10"><option value="false">关闭(交付路径)</option><option value="true">开启(多流 o 投影)</option></select>
+          </div>
+        </div>
+        <div class="grid2">
+          <div><label for="vae">VAE 输出格式（同 VAE 开关）</label>
+            <select id="vae"><option value="true">开启 (PNG)</option><option value="false">关闭 (latents .npy)</option></select>
+          </div>
+          <div><label for="scheduler">调度器（只读）</label>
+            <input id="scheduler" value="Euler · FlowMatch" readonly title="只读:FlowMatchEulerDiscreteScheduler">
+          </div>
+        </div>
+        <label class="check" for="gate"><input id="gate" type="checkbox">运行 seed 复现门（双跑, latents 逐字节对比, 时间约 ×2）</label>
+        <p class="note"><span id="qkv-note">q/k/v 合一默认开</span>；<span id="p10-note">o 投影默认开</span>。两者只改器件路径, latents/PNG 与交付路径逐字节相同。</p>
+      </div>
+    </details>
+
+    <details class="sec">
+      <summary>运行环境与队列</summary>
+      <div class="body"><p class="note" id="submit-hint">队列串行: 器件一次只跑一个任务。首次运行需加载权重/文本编码器/VAE, 约 1–2 分钟。</p></div>
+    </details>
+
+    <details class="sec">
+      <summary>关于 / 口径</summary>
+      <div class="body"><p class="note">128×128 原生交付 · 全谱 64–2048 (16 的倍数) · M=32+ceil(tokens/32)×32 · 8 步默认 · 器件串行队列。提示词经真实 llama.cpp 文本编码 (cap 32 tokens); 负向提示词不参与计算, 仅记录。门内可复现 = 同参数两次 latents 逐字节相同; 试跑 = 单次, 未过门。文档: README-WEBUI.md · webui/evidence/README.md。图廊缩略图为原图 (约 38 KB/张)。</p></div>
+    </details>
+
+    <div id="warn-steps" class="warn"></div>
+    <div id="warn-res" class="warn"></div>
+    <div id="warn-te" class="warn"></div>
+    <button id="submit" class="primary" style="margin-top:14px">开始生成</button>
+  </section>
+
+  <section class="panel">
+    <div class="row-between">
+      <h2 style="margin:0">当前任务</h2>
+      <div class="row">
+        <button id="cancel" class="ghost danger" disabled>取消</button>
+        <button id="retry" class="ghost" disabled>重试</button>
+        <button id="gate-this" class="ghost" disabled>对同参数跑复现门</button>
+      </div>
+    </div>
+    <div id="current-empty" class="empty" style="margin-top:14px">尚未提交任务。</div>
+    <div id="current" style="display:none">
+      <div class="job-head">
+        <div><div class="big" id="stage-title">—</div><div class="muted" id="stage-detail">—</div></div>
+        <div style="text-align:right"><div class="big" id="elapsed">0.0 s</div><div class="muted" id="job-id">—</div></div>
+      </div>
+      <div class="job-sum" id="job-summary">—</div>
+      <div class="progress"><div id="bar"></div></div>
+
+      <details class="sec">
+        <summary>计时明细（19 桶 + 闭合）</summary>
+        <div class="body">
+          <div class="kv">
+            <div class="box"><div class="k">启动 / 载荷</div><div class="v" id="t-startup">—</div></div>
+            <div class="box"><div class="k">扩散循环</div><div class="v" id="t-loop">—</div></div>
+            <div class="box"><div class="k">VAE</div><div class="v" id="t-vae">—</div></div>
+            <div class="box"><div class="k">总计</div><div class="v" id="t-total">—</div></div>
+          </div>
+          <div class="stagebar" id="stagebar">
+            <span data-stage="prepare">载荷驻留</span>
+            <span data-stage="textenc">文本编码</span>
+            <span data-stage="startup">启动/注册</span>
+            <span data-stage="diffusion">扩散</span>
+            <span data-stage="vae">VAE</span>
+            <span data-stage="done">完成</span>
+          </div>
+          <div id="t-closure" class="closure" style="display:none"></div>
+          <table class="timing" id="t-table" style="display:none">
+            <thead><tr><th>阶段</th><th style="text-align:right">秒</th></tr></thead>
+            <tbody id="t-body"></tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="sec">
+        <summary>复现门 / 指纹</summary>
+        <div class="body"><div id="gate-box" class="meta"></div></div>
+      </details>
+
+      <details class="sec">
+        <summary>运行参数明细</summary>
+        <div class="body"><div id="job-meta" class="meta"></div></div>
+      </details>
+
+      <div id="error-box" class="err">
+        <div id="error-msg"></div>
+        <div id="error-hint" class="hint" style="color:#fda4af"></div>
+        <pre id="error-raw"></pre>
+      </div>
+
+      <details class="sec">
+        <summary>实时日志</summary>
+        <div class="body">
+          <div class="row-between"><span class="muted" style="font-size:12px" id="log-tail-note"></span>
+            <a id="log-link" href="#" target="_blank" class="muted" style="font-size:12px">完整日志</a></div>
+          <pre id="log" class="log">等待任务…</pre>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<section class="panel" style="max-width:1440px;margin:0 auto 18px">
+  <div class="row-between"><h2 style="margin:0">图廊</h2><span class="muted" style="font-size:12px" id="gallery-count"></span></div>
+  <div id="gallery" class="gallery" style="margin-top:14px"><div class="empty" style="grid-column:1/-1">还没有图片。完成一次生成后会出现在这里。</div></div>
+</section>
+
+<details class="panel foldpanel" style="max-width:1440px;margin:0 auto 18px">
+  <summary>任务历史 <span class="muted" id="history-count"></span></summary>
+  <div id="history" class="history"><div class="empty">—</div></div>
+</details>
+
+<div class="footer">Z-Image-Turbo NPU WebUI · 本地推理 · 无外部依赖</div>
+
+<div id="lightbox" class="lightbox">
+  <button class="close" id="lb-close">×</button>
+  <div class="lb-inner">
+    <img id="lb-img" alt="">
+    <div class="lb-meta" id="lb-meta"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+var $ = function(id){ return document.getElementById(id); };
+var state = {status:null, currentId:null, pollTimer:null, jobs:[], defaultsApplied:false,
+             presets:null,
+             // T22 prodlarge: the authoritative plan of a typed (non-preset)
+             // size comes from the server (POST /api/shapes/prebuild, which is
+             // side-effect free for an unbuilt size); the client never invents
+             // M, dispatch counts or machine time.
+             shapeProbe:{key:"", timer:null, data:null}};
+
+// GET /api/presets 契约 (T22 pad_crop): 16:9 / 9:16 / 1:1 ×
+// 480p/720p/1080p/2K.  The tier names its STANDARD requested resolution
+// (1920x1080, 854x480, ...).  The internal run size pads EACH side UP to 16
+// (1080->1088, 854->864); every row carries requested + padded + pad_applied.
+// A padded run is decoded at the padded size and the PNG is trimmed to
+// [0:H,0:W], so the page shows both the run size and the exact output size.
+var PRESET_FALLBACK = [
+  {group:"16:9", label:"480p",  height:480,  width:854,  run_height:480,  run_width:864,  pad_applied:true,  native_requested:true},
+  {group:"16:9", label:"720p",  height:720,  width:1280, run_height:720,  run_width:1280, pad_applied:false, native_requested:true},
+  {group:"16:9", label:"1080p", height:1080, width:1920, run_height:1088, run_width:1920, pad_applied:true,  native_requested:true},
+  {group:"16:9", label:"2K",    height:1152, width:2048, run_height:1152, run_width:2048, pad_applied:false, native_requested:true},
+  {group:"9:16", label:"480p",  height:854,  width:480,  run_height:864,  run_width:480,  pad_applied:true,  native_requested:true},
+  {group:"9:16", label:"720p",  height:1280, width:720,  run_height:1280, run_width:720,  pad_applied:false, native_requested:true},
+  {group:"9:16", label:"1080p", height:1920, width:1080, run_height:1920, run_width:1088, pad_applied:true,  native_requested:true},
+  {group:"9:16", label:"2K",    height:2048, width:1152, run_height:2048, run_width:1152, pad_applied:false, native_requested:true},
+  {group:"1:1",  label:"480p",  height:480,  width:480,  run_height:480,  run_width:480,  pad_applied:false, native_requested:true},
+  {group:"1:1",  label:"720p",  height:720,  width:720,  run_height:720,  run_width:720,  pad_applied:false, native_requested:true},
+  {group:"1:1",  label:"1080p", height:1080, width:1080, run_height:1088, run_width:1088, pad_applied:true,  native_requested:true},
+  {group:"1:1",  label:"2K",    height:2048, width:2048, run_height:2048, run_width:2048, pad_applied:false, native_requested:true}
+];
+function presetRows(){ return (state.presets && state.presets.length) ? state.presets : PRESET_FALLBACK; }
+function presetRun(p){
+  var rh = (p.run_height != null) ? p.run_height : p.height;
+  var rw = (p.run_width != null) ? p.run_width : p.width;
+  return {height:Number(rh), width:Number(rw),
+          pad: (p.pad_applied != null) ? !!p.pad_applied : (Number(rh)!==Number(p.height) || Number(rw)!==Number(p.width))};
+}
+function presetLabel(p){
+  return p.label + " · " + Number(p.width) + "×" + Number(p.height);
+}
+function presetNote(p){
+  if(!p) return "自由尺寸: 请求任意整数 H/W (64..2048), 内部按 16 向上补零。";
+  var r = presetRun(p);
+  var tail = "";
+  if(p.feasibility_label) tail += " · " + p.feasibility_label;
+  var est = p.chunk || p.chunk_estimate;
+  if(est && est.h_8step != null) tail += " · 预估 8 步 " + est.h_8step.toFixed(2) + " h (" + est.step_s + " s/步)";
+  return "请求 " + Number(p.width) + "×" + Number(p.height) +
+    (r.pad ? (" · 实跑 " + r.width + "×" + r.height + " (内部补零) · 输出 " +
+              Number(p.width) + "×" + Number(p.height) + " (右下裁切)") : " · 实跑同请求") + tail;
+}
+function fmtEst(p){
+  var e = p && (p.chunk || p.chunk_estimate);
+  if(!e || e.h_8step == null) return "—";
+  return (e.h_8step < 0.01 ? "<0.01" : e.h_8step.toFixed(2)) + " h";
+}
+function renderPresetMatrix(rows){
+  var el = $("preset-matrix");
+  if(!el) return;
+  var body = rows.map(function(p){
+    var st = p.feasibility_label || (p.ready ? "可跑" : "需构建");
+    return '<tr><td class="k2">' + esc((p.group||"") + " " + (p.label||"")) +
+      '</td><td class="num">' + esc(st) + '</td><td class="num">' +
+      esc(fmtEst(p)) + '</td></tr>';
+  }).join("");
+  el.innerHTML = '<table class="timing"><thead><tr><th>预设</th><th>执行态</th>' +
+    '<th>机时 / 8 步</th></tr></thead><tbody>' + body + '</tbody></table>';
+}
+
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function sec(x){ if(x == null || isNaN(x)) return "—"; if(x < 1) return Math.round(x*1000)+" ms"; return x.toFixed(1)+" s"; }
+function bytes(n){ if(!n) return "—"; if(n<1024) return n+" B"; if(n<1048576) return (n/1024).toFixed(1)+" KB"; return (n/1048576).toFixed(1)+" MB"; }
+function api(url, opts){
+  return fetch(url, opts).then(function(r){
+    return r.json().catch(function(){ return {ok:false,error:"HTTP "+r.status}; }).then(function(j){
+      if(!r.ok || j.ok === false) throw new Error(j.error || ("HTTP "+r.status));
+      return j;
+    });
+  });
+}
+function post(url, body){
+  return api(url, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body||{})});
+}
+// 预构建结果是一份报告: ok:false 是数据(未构建的尺寸), 不是请求失败。
+function postRaw(url, body){
+  return fetch(url, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body||{})})
+    .then(function(r){
+      return r.json().catch(function(){ return {ok:false, error:"HTTP "+r.status, results:[]}; });
+    });
+}
+
+function loadPresets(){
+  api("/api/presets").then(function(j){
+    var list = Array.isArray(j) ? j : (j && (j.presets || j.items));
+    if(Array.isArray(list) && list.length) state.presets = list;
+  }).catch(function(){}).then(renderPresetControls);
+}
+function findPreset(h, w){
+  var rows = presetRows();
+  for(var i = 0; i < rows.length; i++){
+    if(Number(rows[i].height) === h && Number(rows[i].width) === w) return rows[i];
+  }
+  return null;
+}
+function renderPresetControls(){
+  var rows = presetRows(), groups = [], tiers = [];
+  rows.forEach(function(p){
+    if(groups.indexOf(p.group) < 0) groups.push(p.group);
+    if(tiers.indexOf(p.label) < 0) tiers.push(p.label);
+  });
+  var ratio = $("preset-ratio"), tier = $("preset-tier");
+  var keepR = ratio.value, keepT = tier.value;
+  ratio.innerHTML = '<option value="">自由</option>' + groups.map(function(g){
+    return '<option value="'+esc(g)+'">'+esc(g)+'</option>'; }).join("");
+  tier.innerHTML = tiers.map(function(t){
+    var row = rows.filter(function(p){ return p.label === t; })[0];
+    return '<option value="'+esc(t)+'">'+esc(row ? presetLabel(row) : t)+'</option>'; }).join("");
+  if(groups.indexOf(keepR) >= 0) ratio.value = keepR;
+  if(tiers.indexOf(keepT) >= 0) tier.value = keepT;
+  syncRatioFromSize();
+  renderPresetMatrix(rows);
+}
+// H/W 是真相: 与预设匹配就回填比例/档位, 否则落到"自由"。
+function syncRatioFromSize(){
+  var h = parseInt($("height").value || "128", 10);
+  var w = parseInt($("width").value || "128", 10);
+  var p = findPreset(h, w), ratio = $("preset-ratio"), tier = $("preset-tier");
+  if(p){ ratio.value = p.group; tier.value = p.label; tier.disabled = false; }
+  else { ratio.value = ""; tier.disabled = true; }
+  $("preset-note").textContent = presetNote(p);
+}
+function applyPresetSelection(){
+  var g = $("preset-ratio").value, t = $("preset-tier").value;
+  if(!g){ $("preset-tier").disabled = true; return; }
+  $("preset-tier").disabled = false;
+  var rows = presetRows(), hit = null;
+  for(var i = 0; i < rows.length; i++){ if(rows[i].group === g && rows[i].label === t) hit = rows[i]; }
+  if(!hit) return;
+  $("height").value = hit.height;
+  $("width").value = hit.width;
+  $("preset-note").textContent = presetNote(hit);
+  updateWarnings();
+}
+// random: seed 由服务端生成, 数值框只保留上一次的整数 (禁用, 不参与提交语义)。
+function syncSeedMode(){
+  var m = $("seed-mode").value, inp = $("seed");
+  inp.disabled = (m === "random");
+  inp.title = (m === "random") ? "random: 服务端生成具体 seed 并写回 params" : "";
+}
+
+function shapeKey(h, w){ return String(h) + "x" + String(w); }
+function shapeLimits(){
+  var l = (state.status && state.status.limits) || {};
+  return {min: l.height_min || 64, max: l.height_max || 2048,
+          wmax: l.width_max || l.height_max || 2048,
+          pad: l.pad_to || 16, mmax: l.m_max || 16416};
+}
+function shapeError(h, w){
+  var lim = shapeLimits();
+  if(!Number.isInteger(h) || !Number.isInteger(w)) return "H/W 必须是整数";
+  if(h < lim.min || w < lim.min) return "H/W 不能小于 " + lim.min;
+  if(h > lim.max || w > lim.wmax) return "H/W 不能大于 " + lim.max;
+  // Arbitrary integers are legal now; the 16-px grid is an INTERNAL pad, shown
+  // by the plan, not a client-side rejection rule.
+  return "";
+}
+function cacheUsage(){
+  var rows = (state.status && state.status.shapes) || [];
+  for(var i = 0; i < rows.length; i++){ if(rows[i].cache_usage) return rows[i].cache_usage; }
+  return null;
+}
+function shapePlan(){
+  var h = parseInt($("height").value || "128", 10);
+  var w = parseInt($("width").value || "128", 10);
+  var key = shapeKey(h, w);
+  var rows = (state.status && state.status.shapes) || [];
+  var srv = rows.filter(function(s){ return s.key === key; })[0];
+  if(srv) return srv;
+  var err = shapeError(h, w);
+  var probe = state.shapeProbe;
+  if(!err && probe.key === key && probe.data) return probe.data;
+  // M 不在这里算: 它由服务端给出(见 probeShape 与 budget_t22), 前端只显示。
+  return {key:key, height:h, width:w, m:null, ready:false, cached:false,
+          error: err, pending: !err,
+          reason: err ? "" : "正在向服务端查询该尺寸…",
+          missing: [], budget_t22: null};
+}
+// Typed (non-preset) sizes: ask the server, debounced.  prebuild is
+// side-effect free on an unbuilt size (it returns the plan, compiles nothing),
+// and on an already-built size it is a manifest HIT.
+function probeShape(h, w, okhw){
+  var probe = state.shapeProbe;
+  var key = shapeKey(h, w);
+  if(!okhw){ probe.key = ""; probe.data = null; if(probe.timer){ clearTimeout(probe.timer); probe.timer = null; } return; }
+  if(probe.key === key) return;
+  probe.key = key; probe.data = null;
+  if(probe.timer){ clearTimeout(probe.timer); probe.timer = null; }
+  probe.timer = setTimeout(function(){
+    probe.timer = null;
+    postRaw("/api/shapes/prebuild", {height:h, width:w}).then(function(j){
+      if(state.shapeProbe.key !== key) return;
+      var res = (j.results || [])[0];
+      if(res){
+        var reqH = (res.requested && res.requested.height != null) ? res.requested.height : h;
+        var reqW = (res.requested && res.requested.width != null) ? res.requested.width : w;
+        state.shapeProbe.data = {
+          key: key, requested_key: res.requested_key || shapeKey(reqH, reqW),
+          run_key: res.run_key || res.key,
+          requested_height: reqH, requested_width: reqW,
+          height: res.height, width: res.width,
+          pad_applied: !!res.pad_applied,
+          m: res.m,
+          ready: !!res.ready, cached: false,
+          chunked_runnable: !!res.chunked_runnable,
+          exec_mode: res.exec_mode || (res.chunked_runnable ? "chunked" : "none"),
+          chunk_estimate: res.chunk_estimate || null,
+          label: (res.requested_key || key) + " -> " + res.key + " (M=" + res.m + ")",
+          reason: res.reason || "", missing: res.missing || [],
+          image_tokens: res.image_tokens, padded_tokens: res.padded_tokens,
+          patch_grid: res.patch_grid, latent: res.latent,
+          loop_estimate_s_per_image: res.loop_estimate_s_per_image,
+          budget_t22: res.budget_t22 || null, probed: true
+        };
+      } else {
+        state.shapeProbe.data = {
+          key: key, height: h, width: w, m: 0, ready: false, cached: false,
+          label: key, error: j.error || "服务端不接受该尺寸", reason: "",
+          missing: [], budget_t22: null, probed: true
+        };
+      }
+      updateWarnings();
+    }).catch(function(e){
+      if(state.shapeProbe.key !== key) return;
+      state.shapeProbe.data = {key:key, height:h, width:w, m:0, ready:false,
+        cached:false, label:key, error:"查询失败: " + (e && e.message ? e.message : e),
+        reason:"", missing:[], budget_t22:null, probed:true};
+      updateWarnings();
+    });
+  }, 350);
+}
+// 未构建尺寸的原因只有一份: 后端 config.RESOLUTIONS(经 /api/status 的
+// resolutions 下发)。前端不再自造"每个缺 6 镜像"这种泛化文案。
+// 下面的兜底句只在前端拿不到 /api/status 时使用。
+var SHAPE_512_REASON = "512² 需新内核设计，暂不可用：M=1056 的 L1 预算 196,096 B > 64 KB";
+function unreadyReason(p){
+  if(p.error) return {text:p.error, short:p.error, tail:""};
+  var hit = ((state.status && state.status.resolutions) || []).filter(function(r){
+    return r.value === p.height && p.height === p.width;
+  })[0];
+  if(hit && hit.ready === false && hit.reason){
+    return {text:hit.reason, short:(p.key === "512x512" ? "不可用" : "需要构建(首次使用)"), tail:""};
+  }
+  if(p.key === "512x512") return {text:SHAPE_512_REASON, short:"不可用", tail:""};
+  return {text:p.reason || "该尺寸需要构建", short:"需要构建(首次使用)",
+          tail:"。新尺寸的构建单元(6 镜像 + perm + host 常量)见 webui/evidence/T16-P0-5-BUDGET.md。"};
+}
+function updateShapeInfo(){
+  var p = shapePlan();
+  probeShape(parseInt($("height").value || "128", 10),
+             parseInt($("width").value || "128", 10), !p.error);
+  var el = $("shape-info");
+  if(p.error){
+    el.textContent = "⚠ " + p.error;
+    renderShapeBudget(p);
+    return;
+  }
+  var st = p.ready ? (p.cached ? "缓存就绪" : "首次准备缓存")
+    : (p.exec_mode === "chunked"
+       ? ("可跑(分块·慢)" + (p.chunk_estimate && p.chunk_estimate.h_8step != null
+            ? " · 预估 8 步 " + p.chunk_estimate.h_8step.toFixed(2) + " h" : ""))
+       : unreadyReason(p).short);
+  var mTxt = (p.m == null) ? "…" : p.m;
+  var dimTxt = p.key;
+  if(p.requested_height != null){
+    var req = "H=" + p.requested_height + " W=" + p.requested_width;
+    var run = "H=" + p.height + " W=" + p.width;
+    dimTxt = p.pad_applied ? ("请求 " + req + " → 实跑 " + run +
+      " (16 补零) → 输出 H=" + p.requested_height + " W=" + p.requested_width) : p.key;
+  }
+  el.textContent = dimTxt + " · M=" + mTxt + " · " + st +
+    (p.ready && p.loop_estimate_s_per_image ? (" · loop ~" + p.loop_estimate_s_per_image + " s/图") : "");
+  renderShapeBudget(p);
+  capProbe(parseInt($("height").value || "128", 10),
+           parseInt($("width").value || "128", 10), !p.error);
+  loadCapabilityTable(false);
+}
+
+// ---- T22 honest (2026-11-03): the capability panel -------------------------
+// Every field is the BACKEND's (webui/capability.py): shapes.resolve /
+// chunk_gate / plan_manifest plus the recorded jobs.  The page renders; it
+// never decides.  "Can I run 1024x1024 / 1920x1080?" must not be answered by
+// front-end arithmetic or a hand-written table.
+var CAP = {key:"", timer:null, tableAt:0};
+function capProbe(h, w, okhw){
+  if(!$("cap-answer")) return;
+  var key = shapeKey(h, w);
+  if(!okhw) return;
+  if(CAP.key === key) return;
+  CAP.key = key;
+  if(CAP.timer) clearTimeout(CAP.timer);
+  CAP.timer = setTimeout(function(){
+    CAP.timer = null;
+    api("/api/capability?height=" + h + "&width=" + w).then(function(j){
+      if(CAP.key !== key) return;
+      renderCapability(j.shape);
+    }).catch(function(e){
+      if(CAP.key !== key) return;
+      $("cap-answer").textContent = "能力查询失败: " + (e && e.message ? e.message : e);
+    });
+  }, 350);
+}
+function capRow(k, v){ return "<tr><td>" + esc(k) + "</td><td>" + v + "</td></tr>"; }
+function renderCapability(d){
+  if(!d) return;
+  var ans = $("cap-answer");
+  ans.textContent = (d.renderable ? "\u2714 " : "\u2716 ") + d.answer;
+  ans.style.color = d.renderable ? "" : "#fda4af";
+  var t = d.estimate || {}, best = (d.measured || {}).best_8step || (d.measured || {}).best;
+  var rows = [];
+  rows.push(capRow("路径", esc(d.path_label) + " <span class=\"muted\">(" + esc(d.path) + ")</span>"));
+  rows.push(capRow("M / image tokens", esc(d.m) + " / " + esc(d.image_tokens)));
+  if(d.run && (d.run.height !== d.requested.height || d.run.width !== d.requested.width))
+    rows.push(capRow("实跑 → 裁回", "H=" + esc(d.run.height) + " W=" + esc(d.run.width) + " → H=" + esc(d.output.height) + " W=" + esc(d.output.width)));
+  if(t.step_s != null)
+    rows.push(capRow("模型估计（不是承诺）", esc(t.step_s) + " s/步 · 8 步 " + esc(t.h_8step) + " h · " + fmtInt(t.disp_8step) + " dispatch"));
+  if(t.refiner_gib != null) rows.push(capRow("refiner f32 矩阵", esc(t.refiner_gib) + " GiB"));
+  if(best) rows.push(capRow("实测最好", "共 " + esc(best.total_s) + " s · " + esc(best.steps) + " 步 · job " + esc(best.job) + " · " + esc(best.created) + (best.memory_mode ? " · memory " + esc(best.memory_mode) : "")));
+  else rows.push(capRow("实测", "本树没有该尺寸完成的 job"));
+  if((d.measured || {}).n_error) rows.push(capRow("失败记录", esc(d.measured.n_error) + " 次，最近: " + esc((d.measured.recent.slice(-1)[0] || {}).error || "")));
+  if(d.plan && d.plan.ok) {
+    rows.push(capRow("NPU 放置", esc(d.plan.summary.plan_key) + " <span class=\"muted\">(" + esc(d.plan.strategy) + " m=" + esc(d.plan.summary.m) + " kk=" + esc(d.plan.summary.kk) + " Mblk=" + esc(d.plan.Mblk) + " ×" + esc(d.plan.ndisp) + ")</span>"));
+    rows.push(capRow("自适应镜像", d.plan.built ? ("已构建 " + esc(d.plan.built_at || "")) : "未构建（ZIMAGE_ADAPT=1 会拒绝）"));
+  }
+  $("cap-body").innerHTML = rows.join("");
+  $("cap-flags").innerHTML = "<div style=\"margin-top:6px\"><strong style=\"font-size:12px\">能改变这个尺寸的开关</strong></div>" +
+    (d.flags || []).map(function(f){ return "<div class=\"hint\" style=\"margin:2px 0\"><code>" + esc(f.env) + "</code> " + esc(f.effect) + "</div>"; }).join("");
+}
+function loadCapabilityTable(force){
+  if(!$("cap-table")) return;
+  var now = Date.now();
+  if(!force && (now - CAP.tableAt) < 60000 && $("cap-table").getAttribute("data-loaded") === "1") return;
+  CAP.tableAt = now;
+  api("/api/capability?table=1").then(function(t){
+    var env = t.envelope || {};
+    var lines = [];
+    lines.push("<div class=\"hint\">包络（代码算的）: 构建到 " + esc(env.max_square_side) + "² 方块 / image tokens ≤ " + fmtInt(env.max_image_tokens) + "（refiner 上限 " + esc(env.refiner_max_gib) + " GiB）；本树已构建自适应计划 " + esc(t.plans_built) + " 个。</div>");
+    (t.rows || []).forEach(function(r){
+      if(r.error){ lines.push("<div class=\"hint\" style=\"color:#fda4af\">" + esc(r.requested.height) + "×" + esc(r.requested.width) + " — " + esc(r.error) + "</div>"); return; }
+      var b = (r.measured || {}).best_8step || (r.measured || {}).best;
+      var est = r.estimate && r.estimate.step_s != null ? (r.estimate.step_s + " s/步 → 8 步 " + r.estimate.h_8step + " h") : "";
+      var meas = b ? ("实测 " + Math.round(b.total_s) + " s / " + b.steps + " 步 · " + b.job) : "";
+      var colour = r.renderable ? "" : "color:#fda4af";
+      lines.push("<div class=\"hint\" style=\"font-family:var(--mono);font-size:11.5px;" + colour + "\">" +
+        esc(r.requested.height) + "×" + esc(r.requested.width) + " · M=" + esc(r.m) + " · " + esc(r.path_label) + " · " + esc(est) + (meas ? " · " + esc(meas) : "") + "</div>");
+    });
+    $("cap-table").innerHTML = lines.join("");
+    $("cap-table").setAttribute("data-loaded", "1");
+    $("cap-foot").textContent = "路径/估计/实测三者都来自后端：shapes.resolve + chunk_gate + plan_manifest + webui/jobs/*/job.json。估计是模型，实测带 job id。";
+  }).catch(function(e){
+    $("cap-table").textContent = "能力表查询失败: " + (e && e.message ? e.message : e);
+  });
+}
+
+function fmtInt(n){ return (n == null || isNaN(n)) ? "—" : Number(n).toLocaleString("en-US"); }
+function fmtMsSec(ms){
+  if(ms == null || isNaN(ms)) return "—";
+  if(ms < 1000) return ms.toFixed(ms < 10 ? 1 : 0) + " ms";
+  return (ms / 1000).toFixed(ms < 60000 ? 1 : 0) + " s";
+}
+function fmtMiB(b){
+  if(b == null) return "—";
+  if(b < 1048576) return (b / 1024).toFixed(1) + " KiB";
+  return (b / 1048576).toFixed(2) + " MiB";
+}
+// 尺寸预算面板: 每个数字都来自服务端 plan.budget_t22(T22-BUDGET.md 口径),
+// 前端不做任何 M / dispatch / 机时算术。
+function renderShapeBudget(p){
+  var t = p && p.budget_t22;
+  var body = $("b-body"), foot = $("b-foot");
+  if(!t){
+    $("b-m").textContent = (p && p.m) ? String(p.m) : "—";
+    $("b-disp").textContent = "—";
+    $("b-time").textContent = "—";
+    $("b-cur").textContent = "—";
+    body.innerHTML = "";
+    foot.textContent = (p && p.error) ? ("该尺寸不合法: " + p.error)
+      : (p && p.pending ? "正在向服务端查询该尺寸的预算…"
+                        : "服务端没有该尺寸的预算数据。");
+    return;
+  }
+  $("b-m").textContent = String(t.t22_seq);
+  $("b-disp").textContent = fmtInt(t.t22_dispatches_step);
+  var ce = p && (p.chunk_estimate || p.chunk);
+  if(ce && ce.h_8step != null){
+    $("b-time").textContent = (ce.h_8step < 0.01) ? "<0.01 h" : ce.h_8step.toFixed(2) + " h";
+  } else {
+    $("b-time").textContent = (t.t22_dev_h_8step < 0.01) ? "<0.01 h" : t.t22_dev_h_8step.toFixed(2) + " h";
+  }
+  $("b-cur").textContent = (p.exec_mode === "chunked")
+    ? "分块(host attention)"
+    : (t.t22_cur_ip === "delivered" ? ("已交付 Mq=" + t.t22_cur_mq)
+       : (t.t22_cur_ip === "compilable" ? ("可重编译 Mq=" + t.t22_cur_mq) : "不可用"));
+  var rows = [];
+  function row(k, v){
+    rows.push('<tr><td class="k2">' + esc(k) + '</td><td class="num">' + esc(v) + '</td></tr>');
+  }
+  if(p.requested_height != null){
+    row("请求 → 实跑 (16 补零)",
+        "H " + fmtInt(p.requested_height) + " W " + fmtInt(p.requested_width) +
+        " → H " + fmtInt(p.height) + " W " + fmtInt(p.width) +
+        (p.pad_applied ? "  (已补零, 输出按右下裁切 [0:H,0:W])" : "  (无需补零)"));
+  }
+  if(p.image_tokens != null){
+    row("图 token / 补齐", fmtInt(p.image_tokens) + " + " +
+        fmtInt(p.padded_tokens - p.image_tokens) + "  →  SEQ " + fmtInt(t.t22_seq));
+  }
+  if(p.patch_grid && p.latent){
+    row("patch grid / latent", p.patch_grid.join("×") + " / " + p.latent.join("×"));
+  }
+  row("attn 每层 (分块设计)", "max(计算 " + fmtMsSec(t.t22_attn_compute_ms) +
+      ", KV " + fmtMsSec(t.t22_attn_kv_ms) + ") + S/P " + fmtMsSec(t.t22_attn_sp_ms) +
+      " + dispatch " + fmtMsSec(t.t22_attn_dispatch_ms) + " = " + fmtMsSec(t.t22_attn_ms_per_layer));
+  row("投影 / FFN 每层", fmtMsSec(t.t22_proj_ms_per_layer) + " / " + fmtMsSec(t.t22_ffn_ms_per_layer));
+  row("dispatch 每层", fmtInt(t.t22_dispatches_per_layer) + "  (proj " +
+      fmtInt(t.t22_dispatches_proj_per_layer) + " + ip " +
+      fmtInt(t.t22_dispatches_attn_per_layer) + " + FFN " +
+      fmtInt(t.t22_dispatches_ffn_per_layer) + ")");
+  row("dispatch 每步 / 8 步", fmtInt(t.t22_dispatches_step) + " / " +
+      fmtInt(t.t22_dispatches_8step) + "  (state-8 屏障 " + fmtInt(t.t22_barriers_8step) + ")");
+  row("设备机时 每步", t.t22_dev_s_per_step.toFixed(1) + " s  (仅器件; 不含 host 胶水 / VAE)");
+  if(ce && ce.step_s != null){
+    row("分块执行 (chunked)", ce.step_s.toFixed(0) + " s/步; 8 步 " +
+        ce.h_8step.toFixed(2) + " h; " + fmtInt(ce.dispatches_8step) +
+        " dispatch (M=96 行块 + host f32 attention)");
+    row("分块锚点", ce.anchor || "480p prototype");
+  }
+  row("ip 的 L1", fmtInt(t.t22_cur_ip_l1_bytes) + " / " + fmtInt(t.t22_l1_limit_bytes) + " B" +
+      (t.t22_l1_over ? "  > 上限" : "  ≤ 上限"));
+  row("最长单次 dispatch", t.t22_longest_dispatch_ms.toFixed(2) + " ms  (ERT 看门狗 " +
+      t.t22_watchdog_s.toFixed(1) + " s)");
+  var cu = cacheUsage();
+  if(cu){
+    row("缓存", cu.profiles + "/" + cu.max_profiles + " profiles · " + fmtMiB(cu.bytes) +
+        " / " + fmtMiB(cu.disk_budget_bytes) + " (" + cu.budget_used_pct + "%)");
+  }
+  if(p.loop_estimate_s_per_image != null){
+    row("交付口径 loop (线性外推)", p.loop_estimate_s_per_image +
+        " s/图 (8 步, 27.7 s × M/96; 只按 M 线性放大, 不含 attention 的 SEQ², " +
+        "256² 以上严重低估)");
+  }
+  body.innerHTML = rows.join("");
+  foot.textContent = "口径: " + (t.t22_source || "T22-BUDGET.md") +
+    " §0 锚点 + §2/§6 公式。时间列是估计(交付尺寸实测比模型低 10–20%), L1/dispatch 列是精确算术; " +
+    (p.ready ? "本尺寸已交付。" :
+     (p.exec_mode === "chunked" ? "本尺寸走分块路径: 可出图, 但非专用内核; 机时是估计, 不是速度声明。" :
+      "本尺寸未构建、未过任何门 → 不可引用为速度。"));
+}
+function updateWarnings(){
+  var steps = parseInt($("steps").value || "8", 10);
+  var neg = $("negative").value.trim();
+  var w1 = $("warn-steps"), w2 = $("warn-neg"), w3 = $("warn-res");
+  w1.className = "warn" + (steps !== 8 ? " show" : "");
+  w1.innerHTML = "⚠ 步数不是 8(turbo 训练目标): 分布外, 质量不可保证。";
+  w2.className = "warn" + (neg ? " show" : "");
+  w2.innerHTML = "⚠ 负向提示词不参与扩散计算, 只记录在元数据里。";
+  updateShapeInfo();
+  var p = shapePlan();
+  var ready = !p.error && (p.ready || p.chunked_runnable || p.exec_mode === "chunked");
+  var why = unreadyReason(p);
+  w3.className = "warn" + (ready ? "" : " show");
+  w3.innerHTML = ready ? "" :
+    ("⚠ " + esc(p.key) + " (M=" + esc(p.m || "?") + "):" +
+     esc(why.text) + why.tail);
+  var teok = !state.status || (state.status.te && state.status.te.ready);
+  $("warn-te").className = "warn" + (teok ? "" : " show");
+  $("warn-te").innerHTML = teok ? "" : "⚠ 未找到文本编码器 GGUF(8.05 GB), 本 UI 会拒绝提交; 设置 ZIMAGE_TE_GGUF 或按 README-WEBUI.md 重建。";
+  $("submit").disabled = !teok || !ready;
+}
+
+function fillDefaults(){
+  if(state.defaultsApplied || !state.status) return;
+  state.defaultsApplied = true;
+  var d = state.status.defaults || {};
+  $("prompt").value = d.prompt || "a mountain lake at sunrise";
+  $("batch").value = d.batch || 1;
+  $("steps").value = d.steps || 8;
+  $("seed").value = d.seed || 0;
+  $("height").value = d.height || 128;
+  $("width").value = d.width || 128;
+  $("seed-mode").value = d.seed_mode || "increment";
+  syncSeedMode();
+  $("output_dir").value = d.output_dir || "webui/outputs";
+  $("prefix").value = d.prefix || "zimage";
+  var lim = state.status.limits || {};
+  if(lim.batch){ $("batch").max = String(lim.batch); }
+  if(lim.height_max){ $("height").max = String(lim.height_max); $("width").max = String(lim.width_max); }
+  if(lim.height_min){ $("height").min = String(lim.height_min); $("width").min = String(lim.width_min); }
+  renderPresets();
+  renderPresetControls();
+}
+function renderPresets(){
+  var list = (state.status && state.status.presets) || [];
+  var el = $("presets");
+  el.innerHTML = list.map(function(p){
+    return '<button class="ghost" type="button" data-h="'+p.height+'" data-w="'+p.width+'">'+esc(p.label)+'</button>';
+  }).join("");
+  Array.prototype.forEach.call(el.querySelectorAll("button"), function(b){
+    b.addEventListener("click", function(){
+      $("height").value = b.dataset.h;
+      $("width").value = b.dataset.w;
+      syncRatioFromSize();
+      updateWarnings();
+    });
+  });
+}
+
+function renderStatus(st){
+  state.status = st;
+  var pills = [];
+  pills.push('<span class="pill '+(st.te && st.te.ready ? "ok":"bad")+'">TE '+(st.te && st.te.ready ? "ready":"missing")+'</span>');
+  var c128 = (st.resolutions||[]).filter(function(r){return r.value===128;})[0];
+  pills.push('<span class="pill '+(c128 && c128.cached ? "ok":"")+'">cache '+(c128 && c128.cached ? "HIT":"prepare")+'</span>');
+  pills.push('<span class="pill">mem '+(st.memory ? st.memory.commit_gb : "?")+' GB commit</span>');
+  pills.push('<span class="pill">mode '+(st.memory_mode||"?")+'</span>');
+  pills.push('<span class="pill">queue '+(st.runner ? st.runner.queue : "?")+'</span>');
+  $("status-pills").innerHTML = pills.join("");
+  // T22 qkv: the control is only meaningful when the fused image is built.
+  if(st.qkv){
+    var qk = $("qkv"), note = $("qkv-note");
+    if(qk){
+      if(!st.qkv.available){
+        qk.value = "false"; qk.disabled = true;
+        if(note) note.textContent = "q/k/v 未构建(" + (st.qkv.image||"") + "), 只能走交付路径";
+      } else {
+        // the control starts on the SERVICE default (ON since 2026-10-20),
+        // once -- after that the user owns it.
+        if(!state.qkvInit){ qk.value = st.qkv.default ? "true" : "false"; state.qkvInit = true; }
+        if(note) note.textContent = "q/k/v 合一 服务默认" + (st.qkv.default ? "开" : "关") +
+          " (器件 −11%)";
+      }
+    }
+  }
+  // T22 p15prod: the o image, same contract as the qkv control above.
+  if(st.p10){
+    var po = $("p10"), pnote = $("p10-note");
+    if(po){
+      if(!st.p10.available){
+        po.value = "false"; po.disabled = true;
+        if(pnote) pnote.textContent = "o 投影未构建(" + (st.p10.image||"") + "), 只能走交付路径";
+      } else {
+        if(!state.p10Init){ po.value = st.p10.default ? "true" : "false"; state.p10Init = true; }
+        if(pnote) pnote.textContent = "o 投影独立镜像 服务默认" + (st.p10.default ? "开" : "关") +
+          " (att/o −0.41…−0.45 s/图)";
+      }
+    }
+  }
+  fillDefaults();
+  updateWarnings();
+  if(st.runner && st.runner.current && !state.currentId){
+    state.currentId = st.runner.current;
+    startPolling();
+  }
+  $("submit-hint").textContent = "队列串行: 器件一次只跑一个任务。当前内存模式 " + (st.memory_mode||"?") +
+    " (" + (st.memory_reason||"") + ")。首次运行需加载权重/文本编码器/VAE, 约 1–2 分钟。";
+}
+
+function stageIndex(stage){
+  return {prepare:0, textenc:1, startup:2, diffusion:3, gate:4, vae:4, done:5, error:5, cancelled:5}[stage] || 0;
+}
+// 摘要一行: 尺寸/seed/batch/步数/总耗时 + 门的结果。所有 19 桶、sha、闭合
+// 都在下面的折叠区, 首屏只留这一行。
+function jobSummary(job){
+  var p = job.params || {}, t = job.timing || {}, out = [];
+  if(p.height != null){
+    var dims = p.height + "×" + p.width;
+    if(p.requested_height != null && (p.requested_height !== p.height || p.requested_width !== p.width)){
+      dims = p.requested_height + "×" + p.requested_width + "→实跑 " + dims;
+    }
+    out.push(dims);
+  }
+  if(p.m != null) out.push("M=" + p.m);
+  if(p.seed != null) out.push("seed " + p.seed + (p.seed_mode && p.seed_mode !== "increment" ? " (" + p.seed_mode + ")" : ""));
+  if(p.batch != null) out.push("batch " + p.batch);
+  if(p.steps != null) out.push(p.steps + " 步");
+  var tot = (t.total_s != null) ? t.total_s : job.elapsed_s;
+  if(tot) out.push(sec(tot));
+  var g = job.gate || {};
+  if(g.status === "PASS") out.push("门 PASS");
+  else if(g.status === "FAIL") out.push("门 FAIL");
+  else if(job.status === "done") out.push("试跑");
+  return out.join(" · ");
+}
+function renderJob(job){
+  if(!job) return;
+  state.currentId = job.id;
+  $("current-empty").style.display = "none";
+  $("current").style.display = "block";
+  $("job-id").textContent = job.id;
+  var elapsed = job.elapsed_s || 0;
+  if(job.status === "running" && job.started_ts) elapsed = (Date.now()/1000) - job.created_ts;
+  $("elapsed").textContent = sec(elapsed);
+  $("stage-title").textContent = ({queued:"排队中",running:"运行中",done:"完成",error:"失败",cancelled:"已取消"}[job.status] || job.status);
+  $("stage-detail").textContent = job.stage_detail || "";
+  $("job-summary").textContent = jobSummary(job);
+  var si = stageIndex(job.stage);
+  var spans = document.querySelectorAll("#stagebar span");
+  spans.forEach(function(sp, i){
+    sp.className = (i < si ? "done" : (i === si ? "active" : ""));
+  });
+  var frac = 0;
+  if(job.stage === "prepare") frac = 0.04;
+  else if(job.stage === "textenc") frac = 0.08;
+  else if(job.stage === "startup") frac = 0.15;
+  else if(job.stage === "diffusion") frac = 0.2 + 0.65 * ((job.step||0) / Math.max(job.steps||1,1));
+  else if(job.stage === "gate") frac = 0.5;
+  else if(job.stage === "vae") frac = 0.9;
+  else if(job.stage === "done") frac = 1;
+  $("bar").style.width = Math.max(2, Math.round(frac*100)) + "%";
+  var t = job.timing || {};
+  $("t-startup").textContent = sec(t.startup_s);
+  $("t-loop").textContent = sec(t.loop_s);
+  $("t-vae").textContent = sec(t.vae_s);
+  $("t-total").textContent = sec(t.total_s || (job.status==="running" ? elapsed : 0));
+  var clo = t.closure, tbl = $("t-table"), cbx = $("t-closure");
+  if(clo && clo.buckets && clo.buckets.length){
+    tbl.style.display = "table";
+    var rows = clo.buckets.map(function(b){
+      return '<tr><td>'+esc(b.label)+'</td><td class="num">'+sec(b.seconds)+'</td></tr>';
+    });
+    rows.push('<tr class="sum"><td>分项之和</td><td class="num">'+sec(clo.sum_s)+'</td></tr>');
+    rows.push('<tr class="sum"><td>总计 (排队起算)</td><td class="num">'+sec(clo.total_s)+'</td></tr>');
+    rows.push('<tr class="unc"><td>未归账 (总计 − 分项之和)</td><td class="num">'+sec(clo.unaccounted_s)+'</td></tr>');
+    $("t-body").innerHTML = rows.join("");
+    cbx.style.display = "block";
+    cbx.className = "closure " + (clo.pass ? "ok" : "bad");
+    cbx.textContent = "计时闭合: " + (clo.pass ? "PASS" : "FAIL") +
+      " — 分项之和 " + sec(clo.sum_s) + " vs 总计 " + sec(clo.total_s) +
+      ", 未归账 " + sec(clo.unaccounted_s) + " (门限 ±" + (clo.tolerance_s||1) + " s)";
+  } else { tbl.style.display = "none"; cbx.style.display = "none"; }
+  var meta = [];
+  meta.push('<span class="pill">seed '+esc(job.params.seed)+'</span>');
+  if(job.params.seed_mode) meta.push('<span class="pill">seed_mode '+esc(job.params.seed_mode)+'</span>');
+  meta.push('<span class="pill">batch '+esc(job.params.batch)+'</span>');
+  meta.push('<span class="pill">steps '+esc(job.params.steps)+'</span>');
+  if(job.params.height != null){
+    var rq = (job.params.requested_height != null) ? job.params.requested_height : job.params.height;
+    var rw = (job.params.requested_width != null) ? job.params.requested_width : job.params.width;
+    var dimPill = esc(rq)+'×'+esc(rw);
+    if(rq !== job.params.height || rw !== job.params.width){ dimPill += ' → 实跑 '+esc(job.params.height)+'×'+esc(job.params.width); }
+    meta.push('<span class="pill">'+dimPill+' · M='+esc(job.params.m)+'</span>');
+  }
+  meta.push('<span class="pill">'+esc(job.memory_mode||"auto")+'</span>');
+  if(job.params && job.params.qkv) meta.push('<span class="pill" style="color:#34d399">qkv 合一</span>');
+  if(job.params && job.params.p10) meta.push('<span class="pill" style="color:#34d399">o 独立镜像</span>');
+  if(job.dispatches != null) meta.push('<span class="pill">'+esc(job.dispatches)+' dispatches</span>');
+  if(job.retries != null) meta.push('<span class="pill">'+esc(job.retries)+' retries</span>');
+  if(t.vae_load_s) meta.push('<span class="pill">VAE load '+sec(t.vae_load_s)+'</span>');
+  if(t.retry_s) meta.push('<span class="pill" style="color:#fbbf24">冷启动重试 '+esc(t.retry_attempts||0)+' 次 / '+sec(t.retry_s)+'</span>');
+  if(t.retry_s === 0) meta.push('<span class="pill">retry 0</span>');
+  $("job-meta").innerHTML = meta.join("");
+  // gate: badge + detail + latents sha (folded under "复现门 / 指纹")
+  var g = job.gate || {};
+  var gb = $("gate-box");
+  if(g.status && g.status !== "not_run"){
+    gb.style.display = "flex";
+    var cls = g.status === "PASS" ? "gate" : (g.status === "FAIL" ? "fail" : "trial");
+    var txt = g.status === "PASS" ? "门内可复现 (PASS)" : (g.status === "FAIL" ? "复现门 FAIL" : "复现门中");
+    gb.innerHTML = '<span class="badge '+cls+'">'+txt+'</span><span class="muted" style="font-size:12px">'+esc(g.detail||"")+'</span>' +
+      (g.latents_sha_first ? '<span class="muted" style="font-size:11px">lat1 '+esc(g.latents_sha_first.slice(0,16))+' / lat2 '+esc((g.latents_sha_second||"").slice(0,16))+'</span>' : "");
+  } else if(job.status === "done"){
+    gb.style.display = "flex";
+    gb.innerHTML = '<span class="badge trial">试跑 — 未过复现门</span><span class="muted" style="font-size:12px">单次运行; 点“对同参数跑复现门”才会双跑对比 latents。</span>';
+  } else { gb.style.display = "none"; }
+  // error
+  var eb = $("error-box");
+  if(job.error){
+    eb.className = "err show";
+    $("error-msg").textContent = job.error.message || "error";
+    $("error-hint").textContent = job.error.hint || "";
+    $("error-raw").textContent = job.error.raw || "";
+  } else { eb.className = "err"; }
+  // log
+  var lines = job.log_tail || [];
+  var logEl = $("log");
+  var atBottom = logEl.scrollTop + logEl.clientHeight >= logEl.scrollHeight - 30;
+  logEl.textContent = lines.join("\n") || "等待日志…";
+  if(atBottom) logEl.scrollTop = logEl.scrollHeight;
+  $("log-tail-note").textContent = lines.length ? (lines.length + " 行") : "";
+  $("log-link").href = job.log_url || "#";
+  $("cancel").disabled = !(job.status === "running" || job.status === "queued");
+  $("retry").disabled = !(job.status === "error" || job.status === "cancelled");
+  $("gate-this").disabled = !(job.status === "done" && (job.gate||{}).mode === "trial");
+  if(job.status === "done" || job.status === "error" || job.status === "cancelled"){
+    loadJobs();
+  }
+}
+
+function startPolling(){
+  if(state.pollTimer) clearInterval(state.pollTimer);
+  var tick = function(){
+    if(!state.currentId) return;
+    api("/api/jobs/"+encodeURIComponent(state.currentId)).then(function(j){
+      renderJob(j.job);
+      if(j.job.status === "done" || j.job.status === "error" || j.job.status === "cancelled"){
+        clearInterval(state.pollTimer); state.pollTimer = null;
+        loadStatus();
+      }
+    }).catch(function(){});
+  };
+  tick();
+  state.pollTimer = setInterval(tick, 1200);
+}
+
+function submitJob(){
+  var body = {
+    prompt: $("prompt").value,
+    negative_prompt: $("negative").value,
+    height: parseInt($("height").value, 10),
+    width: parseInt($("width").value, 10),
+    batch: parseInt($("batch").value, 10),
+    steps: parseInt($("steps").value, 10),
+    seed: parseInt($("seed").value, 10),
+    seed_mode: $("seed-mode").value,
+    vae: $("vae-on").checked,
+    output_dir: $("output_dir").value,
+    prefix: $("prefix").value,
+    mode: $("gate").checked ? "gate" : "trial",
+    memory_mode: $("memory_mode").value,
+    bo_resident: $("bo_resident").value === "true",
+    qkv: $("qkv").value === "true",
+    p10: $("p10").value === "true"
+  };
+  $("submit").disabled = true;
+  post("/api/jobs", body).then(function(r){
+    state.currentId = r.job.id;
+    renderJob(r.job);
+    startPolling();
+    loadJobs();
+    loadStatus();
+  }).catch(function(e){
+    alert("提交失败: " + e.message);
+    $("submit").disabled = false;
+  });
+}
+
+function galleryCard(job, img){
+  var gate = img.gate || "trial";
+  var cls = gate === "PASS" ? "gate" : (gate === "FAIL" ? "fail" : "trial");
+  var label = gate === "PASS" ? "门内可复现" : (gate === "FAIL" ? "复现门 FAIL" : "试跑");
+  var t = img.timing || {};
+  var prompt = (img.prompt || "").slice(0, 60);
+  var p = (job && job.params) || {};
+  var outDim = esc(img.width)+'×'+esc(img.height);
+  if(p.requested_height != null && (p.requested_height !== p.height || p.requested_width !== p.width)){
+    outDim = esc(p.requested_height)+'×'+esc(p.requested_width)+' → 实跑 '+outDim;
+  }
+  var imgTag = img.url ? '<img loading="lazy" src="'+esc(img.url)+'" alt="seed '+esc(img.seed)+'">'
+    : '<div class="empty" style="border:0;height:100%;display:flex;align-items:center;justify-content:center">latents only</div>';
+  return '<figure class="card" data-job="'+esc(job.id)+'" data-idx="'+esc(img.index)+'">' +
+    imgTag + '<div class="body"><div class="row-between"><span class="badge '+cls+'">'+label+'</span>' +
+    '<span class="small">seed '+esc(img.seed)+'</span></div>' +
+    '<div class="title" title="'+esc(img.prompt)+'">'+esc(prompt)+'</div>' +
+    '<div class="small">'+outDim+' · '+esc(img.steps)+' 步 · '+sec(t.total_share_s)+'</div></div></figure>';
+}
+
+function renderGallery(){
+  var cards = [];
+  var n = 0;
+  state.jobs.forEach(function(job){
+    if(job.status !== "done") return;
+    (job.images||[]).forEach(function(img){ cards.push(galleryCard(job, img)); n++; });
+  });
+  $("gallery-count").textContent = n ? (n+" 张") : "";
+  $("gallery").innerHTML = cards.length ? cards.join("") :
+    '<div class="empty" style="grid-column:1/-1">还没有图片。完成一次生成后会出现在这里。</div>';
+  Array.prototype.forEach.call($("gallery").querySelectorAll(".card"), function(el){
+    el.addEventListener("click", function(){
+      var job = state.jobs.filter(function(j){return j.id===el.dataset.job;})[0];
+      if(!job) return;
+      var img = (job.images||[]).filter(function(i){return String(i.index)===el.dataset.idx;})[0];
+      if(img) openLightbox(job, img);
+    });
+  });
+}
+
+function openLightbox(job, img){
+  $("lb-img").src = img.url || "";
+  var t = img.timing || {};
+  var txt =
+    "prompt: " + (img.prompt||"") + "\n" +
+    "negative (ignored): " + (img.negative_prompt||"") + "\n\n" +
+    "seed: " + img.seed + "\n" +
+    "batch: " + job.params.batch + "\n" +
+    "steps: " + img.steps + "\n" +
+    "resolution: " + img.width + "x" + img.height + "  (run H=" + job.params.height + ", W=" + job.params.width + ", M=" + job.params.m + ")\n" +
+    "requested: " + ((job.params.requested_height != null) ? (job.params.requested_height + "x" + job.params.requested_width) : (job.params.height + "x" + job.params.width)) + "\n" +
+    "gate: " + (img.gate||"trial") + "\n" +
+    "memory mode: " + (img.memory_mode||job.memory_mode||"") + "\n\n" +
+    "startup share: " + sec(t.startup_share_s) + "\n" +
+    "loop share: " + sec(t.loop_share_s) + "\n" +
+    "VAE: " + sec(t.vae_s) + "\n" +
+    "total share: " + sec(t.total_share_s) + "\n\n" +
+    "job: " + job.id + "\n" +
+    "tag: " + (img.tag||"") + "\n" +
+    "png sha256: " + (img.sha256||"") + "\n" +
+    "file: " + (img.file||"(latents only)");
+  $("lb-meta").textContent = txt;
+  $("lightbox").classList.add("show");
+}
+
+function renderHistory(){
+  $("history-count").textContent = state.jobs.length ? "(" + state.jobs.length + ")" : "";
+  var rows = state.jobs.slice(0, 30).map(function(job){
+    var cls = job.status === "done" ? "ok" : (job.status === "error" ? "bad" : "");
+    var g = job.gate && job.gate.status && job.gate.status !== "not_run" ? (" · gate " + job.gate.status) : "";
+    return '<div class="hitem" data-id="'+esc(job.id)+'"><div><div class="id">'+esc(job.id)+'</div>' +
+      '<div class="small">'+esc((job.params.prompt||"").slice(0,50))+' · seed '+esc(job.params.seed)+' · '+esc(job.params.steps)+' steps'+g+'</div></div>' +
+      '<div class="st '+cls+'">'+esc(job.status)+'<br><span class="small">'+sec(job.timing && job.timing.total_s)+'</span></div></div>';
+  });
+  $("history").innerHTML = rows.length ? rows.join("") : '<div class="empty">—</div>';
+  Array.prototype.forEach.call($("history").querySelectorAll(".hitem"), function(el){
+    el.addEventListener("click", function(){
+      state.currentId = el.dataset.id;
+      api("/api/jobs/"+encodeURIComponent(state.currentId)).then(function(j){ renderJob(j.job); startPolling(); });
+    });
+  });
+}
+
+function loadJobs(){
+  api("/api/jobs").then(function(r){
+    state.jobs = r.jobs || [];
+    renderGallery();
+    renderHistory();
+  }).catch(function(){});
+}
+function loadStatus(){
+  api("/api/status").then(renderStatus).catch(function(e){
+    $("status-pills").innerHTML = '<span class="pill bad">连接失败</span>';
+  });
+}
+
+$("submit").addEventListener("click", submitJob);
+$("cancel").addEventListener("click", function(){
+  if(!state.currentId) return;
+  post("/api/jobs/"+encodeURIComponent(state.currentId)+"/cancel", {}).then(function(){ loadJobs(); }).catch(function(e){ alert(e.message); });
+});
+$("retry").addEventListener("click", function(){
+  if(!state.currentId) return;
+  post("/api/jobs/"+encodeURIComponent(state.currentId)+"/retry", {}).then(function(r){
+    state.currentId = r.job.id; renderJob(r.job); startPolling(); loadJobs();
+  }).catch(function(e){ alert(e.message); });
+});
+$("gate-this").addEventListener("click", function(){
+  if(!state.currentId) return;
+  api("/api/jobs/"+encodeURIComponent(state.currentId)).then(function(r){
+    var j = r.job, p = j.params;
+    var reqH = (p.requested_height != null) ? p.requested_height : p.height;
+    var reqW = (p.requested_width != null) ? p.requested_width : p.width;
+    return post("/api/jobs", {
+      prompt:p.prompt, negative_prompt:p.negative_prompt,
+      height:reqH, width:reqW,
+      batch:p.batch, steps:p.steps, seed:p.seed,
+      seed_mode:p.seed_mode || "increment",
+      vae:p.vae,
+      output_dir:p.output_dir, prefix:p.prefix, mode:"gate",
+      memory_mode:p.memory_mode, bo_resident:p.bo_resident,
+      qkv:p.qkv === true,
+      p10:p.p10 === true
+    });
+  }).then(function(r){
+    state.currentId = r.job.id; renderJob(r.job); startPolling(); loadJobs();
+  }).catch(function(e){ alert(e.message); });
+});
+$("prebuild").addEventListener("click", function(){
+  var el = $("prebuild-info");
+  el.textContent = "预构建中…";
+  postRaw("/api/shapes/prebuild", {presets: true}).then(function(r){
+    var rows = (r.results || []).map(function(x){
+      if(x.ok){ return "✓ " + x.key + " (M=" + x.m + ") 已就绪"; }
+      var miss = x.missing || [];
+      return "✗ " + x.key + " (M=" + x.m + "): " + (x.error || x.reason || "未构建") +
+        (miss.length ? (";缺 " + miss.length + " 项: " + miss.join(";")) : "");
+    });
+    el.innerHTML = "预构建结果:<br>" + (rows.length ? rows.map(esc).join("<br>") : "—");
+  }).catch(function(e){ el.textContent = "预构建失败: " + e.message; });
+});
+if($("cap-refresh")) $("cap-refresh").addEventListener("click", function(){ CAP.key = ""; loadCapabilityTable(true); updateShapeInfo(); });
+  $("lb-close").addEventListener("click", function(){ $("lightbox").classList.remove("show"); });
+$("lightbox").addEventListener("click", function(e){ if(e.target === $("lightbox")) $("lightbox").classList.remove("show"); });
+["steps","negative"].forEach(function(id){ $(id).addEventListener("input", updateWarnings); $(id).addEventListener("change", updateWarnings); });
+["height","width"].forEach(function(id){
+  $(id).addEventListener("input", function(){ syncRatioFromSize(); updateWarnings(); });
+  $(id).addEventListener("change", function(){ syncRatioFromSize(); updateWarnings(); });
+});
+$("preset-ratio").addEventListener("change", function(){
+  $("preset-tier").disabled = !this.value;
+  applyPresetSelection();
+});
+$("preset-tier").addEventListener("change", applyPresetSelection);
+$("seed-mode").addEventListener("change", syncSeedMode);
+$("vae").addEventListener("change", function(){ $("vae-on").checked = ($("vae").value === "true"); });
+$("vae-on").addEventListener("change", function(){ $("vae").value = $("vae-on").checked ? "true" : "false"; });
+
+loadPresets();
+loadStatus();
+loadJobs();
+setInterval(function(){ loadStatus(); }, 5000);
+setInterval(function(){ if(!state.pollTimer) loadJobs(); }, 5000);
+</script>
+</body>
+</html>

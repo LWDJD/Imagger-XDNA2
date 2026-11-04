@@ -1,0 +1,1082 @@
+{
+  "format": "bfp16ebs8",
+  "model": "Z-Image-Turbo/transformer",
+  "block": "layers.0",
+  "source_shard": "diffusion_pytorch_model-00001-of-00003.safetensors",
+  "source_index": "zimage-port/_models/Z-Image-Turbo/transformer/diffusion_pytorch_model.safetensors.index.json",
+  "encoder": {
+    "module": "zimage-bfp16-npu/pack_bfp16.py",
+    "functions": [
+      "pack",
+      "unpack",
+      "_quantise",
+      "_slots",
+      "KNOWN_TILE_ROWS"
+    ],
+    "verified": "byte-exact vs vendor .rai on 12 synthetic shapes and on the real layers_10_12 coalesed_weights payload (416,071,680 B); independently corroborated by Quark's bfp_kernel.cc (scale 2**(e_unb-6), STD_ROUND = half away from zero)"
+  },
+  "spec": {
+    "group": 8,
+    "group_bytes": 9,
+    "group_layout": "[exponent byte][8 x int8 mantissa]",
+    "exponent_rule": "e = floor(log2(amax)) - 6 UNCONDITIONALLY",
+    "exponent_byte": "(e + 133) & 0xFF",
+    "rounding": "sign(q)*floor(|q|+0.5) -- round half AWAY from zero",
+    "overflow_rule": "if m.max() > 127: e += 1 and recompute (-128 legal, +128 not)",
+    "tile_layout_2d": "slot = tile*per_tile + (r//8)*32 + (c//8)*8 + (r%8); tile = (row//tile_rows)*(K//32) + (kelem//32); per_tile = (tile_rows//8)*32; r = row % tile_rows, c = kelem % 32",
+    "tile_rows_table": {
+      "3840x3840": 48,
+      "10240x3840": 32,
+      "3840x10240": 32,
+      "15360x256": 64
+    },
+    "tile_rows_note": "measured per (N,K,M): identical at seq=64 (pack_bfp16.KNOWN_TILE_ROWS) and seq=96 (COALESCED-LAYOUT.md --sweep, unique fit).  f(N,K,M) with M-dependence PROVEN only for (3840,256): M=64->48, M=256->32.  Re-measure with pack_bfp16.detect_tile_rows at any other M before feeding a kernel built for it.",
+    "length_formula": "ceil(numel_packed_dim / 8) * 9 * other_dims"
+  },
+  "m_tokens": {
+    "token_gemms": 96,
+    "note": "the vendor geometry the tile_rows were measured in is hidden [1, 96, 3840] (layers_* shards at S=96).  The adaLN GEMM's own M is 1 (adaln [1, 256]).  packed weights are M-invariant EXCEPT through tile_rows."
+  },
+  "tensors": [
+    {
+      "name": "layers.0.adaLN_modulation.0.weight",
+      "checkpoint_key": "layers.0.adaLN_modulation.0.weight",
+      "role": "norm_adaln_projection",
+      "brief_expected_name": "norm1.linear+norm2.linear (fused adaLN proj)",
+      "kind": "adaln_w",
+      "fp32_shape": [
+        15360,
+        256
+      ],
+      "source_dtype": "F32",
+      "params": 3932160,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 1,
+      "k": 256,
+      "n": 15360,
+      "tile_rows": 64,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots) for the vendor region; flat-groups8 for this logical blob",
+      "packed_length": 4423680,
+      "expected_length": 4423680,
+      "length_matches_formula": true,
+      "sha256": "6559252bf54d71fb83fa7aa380b44ded5aaff9e70b8c39f33bb1845fea269354",
+      "decode_max_abs_err": 0.0078125,
+      "decode_max_abs_err_rel_to_absmax": 0.006578947368421052,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention.to_q.weight",
+      "checkpoint_key": "layers.0.attention.to_q.weight",
+      "role": "attn.to_q",
+      "brief_expected_name": "attn.to_q",
+      "kind": "gemm",
+      "fp32_shape": [
+        3840,
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 14745600,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 96,
+      "k": 3840,
+      "n": 3840,
+      "tile_rows": 48,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots)",
+      "packed_length": 16588800,
+      "expected_length": 16588800,
+      "length_matches_formula": true,
+      "sha256": "7a03e58c6259fb9b271f5983ca130a9b414f1d201e4f57efc0da480d854e56bf",
+      "decode_max_abs_err": 0.0078125,
+      "decode_max_abs_err_rel_to_absmax": 0.005319148936170213,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention.to_k.weight",
+      "checkpoint_key": "layers.0.attention.to_k.weight",
+      "role": "attn.to_k",
+      "brief_expected_name": "attn.to_k",
+      "kind": "gemm",
+      "fp32_shape": [
+        3840,
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 14745600,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 96,
+      "k": 3840,
+      "n": 3840,
+      "tile_rows": 48,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots)",
+      "packed_length": 16588800,
+      "expected_length": 16588800,
+      "length_matches_formula": true,
+      "sha256": "eb9b197264165f626332ce80308d70b2964f4fa6faf8e09479a5f7d606463503",
+      "decode_max_abs_err": 0.015625,
+      "decode_max_abs_err_rel_to_absmax": 0.007751937984496124,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention.to_v.weight",
+      "checkpoint_key": "layers.0.attention.to_v.weight",
+      "role": "attn.to_v",
+      "brief_expected_name": "attn.to_v",
+      "kind": "gemm",
+      "fp32_shape": [
+        3840,
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 14745600,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 96,
+      "k": 3840,
+      "n": 3840,
+      "tile_rows": 48,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots)",
+      "packed_length": 16588800,
+      "expected_length": 16588800,
+      "length_matches_formula": true,
+      "sha256": "ccba3a7171bfcc3cb53545b61cfbd233b3368352e6c2146d319bfaab0eee6dcc",
+      "decode_max_abs_err": 0.0078125,
+      "decode_max_abs_err_rel_to_absmax": 0.004132231404958678,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention.to_out.0.weight",
+      "checkpoint_key": "layers.0.attention.to_out.0.weight",
+      "role": "attn.to_out",
+      "brief_expected_name": "attn.to_out",
+      "kind": "gemm",
+      "fp32_shape": [
+        3840,
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 14745600,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 96,
+      "k": 3840,
+      "n": 3840,
+      "tile_rows": 48,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots)",
+      "packed_length": 16588800,
+      "expected_length": 16588800,
+      "length_matches_formula": true,
+      "sha256": "8856d482dc2a484c356c5b563454c7f689bbdfbbfc1541e537718bcd2c432018",
+      "decode_max_abs_err": 0.0078125,
+      "decode_max_abs_err_rel_to_absmax": 0.0044444444444444444,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.feed_forward.w1.weight",
+      "checkpoint_key": "layers.0.feed_forward.w1.weight",
+      "role": "ff.w1 (gate)",
+      "brief_expected_name": "ff.net.0.proj (w1 half)",
+      "kind": "gemm",
+      "fp32_shape": [
+        10240,
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 39321600,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 96,
+      "k": 3840,
+      "n": 10240,
+      "tile_rows": 32,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots)",
+      "packed_length": 44236800,
+      "expected_length": 44236800,
+      "length_matches_formula": true,
+      "sha256": "c016aae1672608033313ce13cfd122ab95766c9ff737f34794c09f6599ef4f59",
+      "decode_max_abs_err": 0.015380859375,
+      "decode_max_abs_err_rel_to_absmax": 0.0076904296875,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.feed_forward.w3.weight",
+      "checkpoint_key": "layers.0.feed_forward.w3.weight",
+      "role": "ff.w3 (up)",
+      "brief_expected_name": "ff.net.0.proj (w3 half)",
+      "kind": "gemm",
+      "fp32_shape": [
+        10240,
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 39321600,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 96,
+      "k": 3840,
+      "n": 10240,
+      "tile_rows": 32,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots)",
+      "packed_length": 44236800,
+      "expected_length": 44236800,
+      "length_matches_formula": true,
+      "sha256": "478f522f0e1b1e9a120d9e29e665c905746b31b9d953d6f140053b53096e83a8",
+      "decode_max_abs_err": 0.015625,
+      "decode_max_abs_err_rel_to_absmax": 0.00684931506849315,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.feed_forward.w2.weight",
+      "checkpoint_key": "layers.0.feed_forward.w2.weight",
+      "role": "ff.w2 (down)",
+      "brief_expected_name": "ff.net.2",
+      "kind": "gemm",
+      "fp32_shape": [
+        3840,
+        10240
+      ],
+      "source_dtype": "F32",
+      "params": 39321600,
+      "dim": -1,
+      "packed_dim": "K",
+      "m": 96,
+      "k": 10240,
+      "n": 3840,
+      "tile_rows": 32,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "tile-shuffle (pack_bfp16._slots)",
+      "packed_length": 44236800,
+      "expected_length": 44236800,
+      "length_matches_formula": true,
+      "sha256": "e0267d97cb54acdbaa6e4d16246ee437e2eb68f32ae848db5d38f3e0613d6ccb",
+      "decode_max_abs_err": 0.03125,
+      "decode_max_abs_err_rel_to_absmax": 0.005555555555555556,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention_norm1.weight",
+      "checkpoint_key": "layers.0.attention_norm1.weight",
+      "role": "norm1.gamma",
+      "brief_expected_name": "norm1.linear? (gamma)",
+      "kind": "const",
+      "fp32_shape": [
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 3840,
+      "dim": 0,
+      "packed_dim": "the only dim",
+      "m": null,
+      "k": 3840,
+      "n": null,
+      "tile_rows": null,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "flat-groups8 (identity slots)",
+      "packed_length": 4320,
+      "expected_length": 4320,
+      "length_matches_formula": true,
+      "sha256": "23428751ee87bb269bff4b15a50701927c84e682a6e595a0ed0e4ef53bcde8b0",
+      "decode_max_abs_err": 0.015625,
+      "decode_max_abs_err_rel_to_absmax": 0.00546448087431694,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention.norm_q.weight",
+      "checkpoint_key": "layers.0.attention.norm_q.weight",
+      "role": "attn.qknorm_q.gamma",
+      "brief_expected_name": "(not in brief)",
+      "kind": "const",
+      "fp32_shape": [
+        128
+      ],
+      "source_dtype": "F32",
+      "params": 128,
+      "dim": 0,
+      "packed_dim": "the only dim",
+      "m": null,
+      "k": 128,
+      "n": null,
+      "tile_rows": null,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "flat-groups8 (identity slots)",
+      "packed_length": 144,
+      "expected_length": 144,
+      "length_matches_formula": true,
+      "sha256": "37b08ab64585fb0bed4f02ac4c3b1f3cc43c4a52de076e604280f1d1b4388e35",
+      "decode_max_abs_err": 0.0078125,
+      "decode_max_abs_err_rel_to_absmax": 0.004273504273504274,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention.norm_k.weight",
+      "checkpoint_key": "layers.0.attention.norm_k.weight",
+      "role": "attn.qknorm_k.gamma",
+      "brief_expected_name": "(not in brief)",
+      "kind": "const",
+      "fp32_shape": [
+        128
+      ],
+      "source_dtype": "F32",
+      "params": 128,
+      "dim": 0,
+      "packed_dim": "the only dim",
+      "m": null,
+      "k": 128,
+      "n": null,
+      "tile_rows": null,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "flat-groups8 (identity slots)",
+      "packed_length": 144,
+      "expected_length": 144,
+      "length_matches_formula": true,
+      "sha256": "302e306f1289daa78db4ed384874f1c85c866fb3fa69631b11ae5b2680ac5cf4",
+      "decode_max_abs_err": 0.0078125,
+      "decode_max_abs_err_rel_to_absmax": 0.0041841004184100415,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.attention_norm2.weight",
+      "checkpoint_key": "layers.0.attention_norm2.weight",
+      "role": "norm2.gamma",
+      "brief_expected_name": "norm2.linear? (gamma)",
+      "kind": "const",
+      "fp32_shape": [
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 3840,
+      "dim": 0,
+      "packed_dim": "the only dim",
+      "m": null,
+      "k": 3840,
+      "n": null,
+      "tile_rows": null,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "flat-groups8 (identity slots)",
+      "packed_length": 4320,
+      "expected_length": 4320,
+      "length_matches_formula": true,
+      "sha256": "03c8c1bab1c9e1b2c5ba316b4cf6ac3f79e0205bd8194ea36be424a03dbad1c8",
+      "decode_max_abs_err": 0.0078125,
+      "decode_max_abs_err_rel_to_absmax": 0.005376344086021506,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.ffn_norm1.weight",
+      "checkpoint_key": "layers.0.ffn_norm1.weight",
+      "role": "ffn_norm1.gamma",
+      "brief_expected_name": "(not in brief)",
+      "kind": "const",
+      "fp32_shape": [
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 3840,
+      "dim": 0,
+      "packed_dim": "the only dim",
+      "m": null,
+      "k": 3840,
+      "n": null,
+      "tile_rows": null,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "flat-groups8 (identity slots)",
+      "packed_length": 4320,
+      "expected_length": 4320,
+      "length_matches_formula": true,
+      "sha256": "8a014eec414a43a458fe1486aac7ee103e90bc8811baa483fe5e8c2b35b90273",
+      "decode_max_abs_err": 0.015625,
+      "decode_max_abs_err_rel_to_absmax": 0.006172839506172839,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.ffn_norm2.weight",
+      "checkpoint_key": "layers.0.ffn_norm2.weight",
+      "role": "ffn_norm2.gamma",
+      "brief_expected_name": "(not in brief)",
+      "kind": "const",
+      "fp32_shape": [
+        3840
+      ],
+      "source_dtype": "F32",
+      "params": 3840,
+      "dim": 0,
+      "packed_dim": "the only dim",
+      "m": null,
+      "k": 3840,
+      "n": null,
+      "tile_rows": null,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "flat-groups8 (identity slots)",
+      "packed_length": 4320,
+      "expected_length": 4320,
+      "length_matches_formula": true,
+      "sha256": "399637786d33498e35509ea73b3134b497b139e2017882caa3030728b3a4b18e",
+      "decode_max_abs_err": 0.015625,
+      "decode_max_abs_err_rel_to_absmax": 0.00558659217877095,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    },
+    {
+      "name": "layers.0.adaLN_modulation.0.bias",
+      "checkpoint_key": "layers.0.adaLN_modulation.0.bias",
+      "role": "adaln_bias",
+      "brief_expected_name": "(bias)",
+      "kind": "adaln_b",
+      "fp32_shape": [
+        15360
+      ],
+      "source_dtype": "F32",
+      "params": 15360,
+      "dim": 0,
+      "packed_dim": "the only dim",
+      "m": 1,
+      "k": 256,
+      "n": 15360,
+      "tile_rows": null,
+      "tile_kelems": 32,
+      "group": 8,
+      "layout": "flat-groups8 (identity slots); in the vendor payload the bias is NOT a standalone region -- it rides in bf16 inside the adaLN weight region's 128 B record prefixes",
+      "packed_length": 17280,
+      "expected_length": 17280,
+      "length_matches_formula": true,
+      "sha256": "9e732363606b7f32f9b26dc646b5493ab3f2d9984d86654908427592d1cd8324",
+      "decode_max_abs_err": 0.015380859375,
+      "decode_max_abs_err_rel_to_absmax": 0.007720588235294118,
+      "decode_max_err_over_group_step": 0.5,
+      "decode_within_half_step": true
+    }
+  ],
+  "coalesced_layout": {
+    "description": "vendor coalesed_weights order for one block, read from the .rai external_buffers.buffer1 table (COALESCED-LAYOUT.md).  adaLN FIRST, w3 BEFORE w2.  One block = 208,035,840 B.",
+    "order": [
+      "adaLN_modulation.0.weight",
+      "attention.to_q.weight",
+      "attention.to_k.weight",
+      "attention.to_v.weight",
+      "attention.to_out.0.weight",
+      "feed_forward.w1.weight",
+      "feed_forward.w3.weight",
+      "feed_forward.w2.weight",
+      "attention_norm1.weight",
+      "attention.norm_q.weight",
+      "attention.norm_k.weight",
+      "attention_norm2.weight",
+      "ffn_norm1.weight",
+      "ffn_norm2.weight"
+    ],
+    "total_bytes": 208035840,
+    "file": "block0.coalesced.bin",
+    "regions": [
+      {
+        "role": "norm_adaln_projection",
+        "tensor": "layers.0.adaLN_modulation.0.weight",
+        "offset": 0,
+        "size": 4546560,
+        "format": "bfp16ebs8 padded records [128 B bf16 bias prefix][512 groups x 9 B], 960 records"
+      },
+      {
+        "role": "attn.to_q",
+        "tensor": "layers.0.attention.to_q.weight",
+        "offset": 4546560,
+        "size": 16588800,
+        "format": "bfp16ebs8 tile-shuffled groups of 8"
+      },
+      {
+        "role": "attn.to_k",
+        "tensor": "layers.0.attention.to_k.weight",
+        "offset": 21135360,
+        "size": 16588800,
+        "format": "bfp16ebs8 tile-shuffled groups of 8"
+      },
+      {
+        "role": "attn.to_v",
+        "tensor": "layers.0.attention.to_v.weight",
+        "offset": 37724160,
+        "size": 16588800,
+        "format": "bfp16ebs8 tile-shuffled groups of 8"
+      },
+      {
+        "role": "attn.to_out",
+        "tensor": "layers.0.attention.to_out.0.weight",
+        "offset": 54312960,
+        "size": 16588800,
+        "format": "bfp16ebs8 tile-shuffled groups of 8"
+      },
+      {
+        "role": "ff.w1 (gate)",
+        "tensor": "layers.0.feed_forward.w1.weight",
+        "offset": 70901760,
+        "size": 44236800,
+        "format": "bfp16ebs8 tile-shuffled groups of 8"
+      },
+      {
+        "role": "ff.w3 (up)",
+        "tensor": "layers.0.feed_forward.w3.weight",
+        "offset": 115138560,
+        "size": 44236800,
+        "format": "bfp16ebs8 tile-shuffled groups of 8"
+      },
+      {
+        "role": "ff.w2 (down)",
+        "tensor": "layers.0.feed_forward.w2.weight",
+        "offset": 159375360,
+        "size": 44236800,
+        "format": "bfp16ebs8 tile-shuffled groups of 8"
+      },
+      {
+        "role": "norm1.gamma",
+        "tensor": "layers.0.attention_norm1.weight",
+        "offset": 203612160,
+        "size": 737280,
+        "format": "bf16 tiled to 737,280 B"
+      },
+      {
+        "role": "attn.qknorm_q.gamma",
+        "tensor": "layers.0.attention.norm_q.weight",
+        "offset": 204349440,
+        "size": 737280,
+        "format": "bf16 tiled to 737,280 B"
+      },
+      {
+        "role": "attn.qknorm_k.gamma",
+        "tensor": "layers.0.attention.norm_k.weight",
+        "offset": 205086720,
+        "size": 737280,
+        "format": "bf16 tiled to 737,280 B"
+      },
+      {
+        "role": "norm2.gamma",
+        "tensor": "layers.0.attention_norm2.weight",
+        "offset": 205824000,
+        "size": 737280,
+        "format": "bf16 tiled to 737,280 B"
+      },
+      {
+        "role": "ffn_norm1.gamma",
+        "tensor": "layers.0.ffn_norm1.weight",
+        "offset": 206561280,
+        "size": 737280,
+        "format": "bf16 tiled to 737,280 B"
+      },
+      {
+        "role": "ffn_norm2.gamma",
+        "tensor": "layers.0.ffn_norm2.weight",
+        "offset": 207298560,
+        "size": 737280,
+        "format": "bf16 tiled to 737,280 B"
+      }
+    ]
+  },
+  "npz": {
+    "file": "block0.npz",
+    "keys": {
+      "layers.0.adaLN_modulation.0.bias": "logical bfp16ebs8 bytes",
+      "layers.0.adaLN_modulation.0.bias.f32": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.adaLN_modulation.0.weight": "logical bfp16ebs8 bytes",
+      "layers.0.adaLN_modulation.0.weight.vendor": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention.norm_k.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention.norm_k.weight.f32": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention.norm_k.weight.vendor": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention.norm_q.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention.norm_q.weight.f32": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention.norm_q.weight.vendor": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention.to_k.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention.to_out.0.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention.to_q.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention.to_v.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention_norm1.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention_norm1.weight.f32": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention_norm1.weight.vendor": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention_norm2.weight": "logical bfp16ebs8 bytes",
+      "layers.0.attention_norm2.weight.f32": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.attention_norm2.weight.vendor": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.feed_forward.w1.weight": "logical bfp16ebs8 bytes",
+      "layers.0.feed_forward.w2.weight": "logical bfp16ebs8 bytes",
+      "layers.0.feed_forward.w3.weight": "logical bfp16ebs8 bytes",
+      "layers.0.ffn_norm1.weight": "logical bfp16ebs8 bytes",
+      "layers.0.ffn_norm1.weight.f32": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.ffn_norm1.weight.vendor": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.ffn_norm2.weight": "logical bfp16ebs8 bytes",
+      "layers.0.ffn_norm2.weight.f32": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes",
+      "layers.0.ffn_norm2.weight.vendor": ".f32 suffix = exact fp32; .vendor suffix = coalesed-region bytes"
+    }
+  },
+  "verification": {
+    "decode_roundtrip": [
+      {
+        "tensor": "layers.0.adaLN_modulation.0.weight",
+        "max_abs_err": 0.0078125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention.to_q.weight",
+        "max_abs_err": 0.0078125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention.to_k.weight",
+        "max_abs_err": 0.015625,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention.to_v.weight",
+        "max_abs_err": 0.0078125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention.to_out.0.weight",
+        "max_abs_err": 0.0078125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.feed_forward.w1.weight",
+        "max_abs_err": 0.015380859375,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.feed_forward.w3.weight",
+        "max_abs_err": 0.015625,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.feed_forward.w2.weight",
+        "max_abs_err": 0.03125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention_norm1.weight",
+        "max_abs_err": 0.015625,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention.norm_q.weight",
+        "max_abs_err": 0.0078125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention.norm_k.weight",
+        "max_abs_err": 0.0078125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.attention_norm2.weight",
+        "max_abs_err": 0.0078125,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.ffn_norm1.weight",
+        "max_abs_err": 0.015625,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      },
+      {
+        "tensor": "layers.0.ffn_norm2.weight",
+        "max_abs_err": 0.015625,
+        "max_err_over_group_step": 0.5,
+        "contract": "<= 0.5 group steps"
+      }
+    ],
+    "fused_w1_w3_equals_concatenation": true,
+    "rai_check": {
+      "artifact": "..\\..\\..\\zimage-port\\_probe_out\\fresh_cache\\39e41383350b8c53e90996269478cfb7\\39e41383350b8c53e90996269478cfb7.rai",
+      "size": 418881856,
+      "external_buffers_found": true,
+      "buffer1_name": "coalesed_weights",
+      "buffer1_size_in_bytes": 416071680,
+      "buffer1_sub_buffers": [
+        {
+          "logical_id": 64,
+          "name": "compute_graph.Layer_109_wts_ddr",
+          "offset_in_bytes": 37724160
+        },
+        {
+          "logical_id": 67,
+          "name": "compute_graph.Layer_113_wts_ddr",
+          "offset_in_bytes": 54312960
+        },
+        {
+          "logical_id": 100,
+          "name": "compute_graph.Layer_159_wts_ddr",
+          "offset_in_bytes": 70901760
+        },
+        {
+          "logical_id": 11,
+          "name": "compute_graph.Layer_15_wts_ddr",
+          "offset_in_bytes": 0
+        },
+        {
+          "logical_id": 102,
+          "name": "compute_graph.Layer_160_wts_ddr",
+          "offset_in_bytes": 115138560
+        },
+        {
+          "logical_id": 105,
+          "name": "compute_graph.Layer_165_wts_ddr",
+          "offset_in_bytes": 159375360
+        },
+        {
+          "logical_id": 132,
+          "name": "compute_graph.Layer_201_wts_ddr",
+          "offset_in_bytes": 203612160
+        },
+        {
+          "logical_id": 139,
+          "name": "compute_graph.Layer_211_wts_ddr",
+          "offset_in_bytes": 208158720
+        },
+        {
+          "logical_id": 159,
+          "name": "compute_graph.Layer_248_wts_ddr",
+          "offset_in_bytes": 224747520
+        },
+        {
+          "logical_id": 18,
+          "name": "compute_graph.Layer_25_wts_ddr",
+          "offset_in_bytes": 4546560
+        },
+        {
+          "logical_id": 181,
+          "name": "compute_graph.Layer_289_wts_ddr",
+          "offset_in_bytes": 241336320
+        },
+        {
+          "logical_id": 184,
+          "name": "compute_graph.Layer_293_wts_ddr",
+          "offset_in_bytes": 257925120
+        },
+        {
+          "logical_id": 217,
+          "name": "compute_graph.Layer_339_wts_ddr",
+          "offset_in_bytes": 274513920
+        },
+        {
+          "logical_id": 219,
+          "name": "compute_graph.Layer_340_wts_ddr",
+          "offset_in_bytes": 318750720
+        },
+        {
+          "logical_id": 222,
+          "name": "compute_graph.Layer_345_wts_ddr",
+          "offset_in_bytes": 362987520
+        },
+        {
+          "logical_id": 42,
+          "name": "compute_graph.Layer_68_wts_ddr",
+          "offset_in_bytes": 21135360
+        },
+        {
+          "logical_id": 150,
+          "name": "compute_graph.const_ifm_ddr",
+          "offset_in_bytes": 412385280
+        },
+        {
+          "logical_id": 170,
+          "name": "compute_graph.const_ifm_ddr_1",
+          "offset_in_bytes": 413122560
+        },
+        {
+          "logical_id": 215,
+          "name": "compute_graph.const_ifm_ddr_10",
+          "offset_in_bytes": 414597120
+        },
+        {
+          "logical_id": 237,
+          "name": "compute_graph.const_ifm_ddr_11",
+          "offset_in_bytes": 415334400
+        },
+        {
+          "logical_id": 29,
+          "name": "compute_graph.const_ifm_ddr_2",
+          "offset_in_bytes": 407961600
+        },
+        {
+          "logical_id": 53,
+          "name": "compute_graph.const_ifm_ddr_3",
+          "offset_in_bytes": 408698880
+        },
+        {
+          "logical_id": 16,
+          "name": "compute_graph.const_ifm_ddr_4",
+          "offset_in_bytes": 407224320
+        },
+        {
+          "logical_id": 82,
+          "name": "compute_graph.const_ifm_ddr_5",
+          "offset_in_bytes": 409436160
+        },
+        {
+          "logical_id": 98,
+          "name": "compute_graph.const_ifm_ddr_6",
+          "offset_in_bytes": 410173440
+        },
+        {
+          "logical_id": 120,
+          "name": "compute_graph.const_ifm_ddr_7",
+          "offset_in_bytes": 410910720
+        },
+        {
+          "logical_id": 137,
+          "name": "compute_graph.const_ifm_ddr_8",
+          "offset_in_bytes": 411648000
+        },
+        {
+          "logical_id": 199,
+          "name": "compute_graph.const_ifm_ddr_9",
+          "offset_in_bytes": 413859840
+        }
+      ],
+      "rebuilt_payload_bytes": 416071680,
+      "declared_offset_matches": "28/28",
+      "result": "byte-identical",
+      "payload_base": 282432,
+      "diff_bytes": 0,
+      "compared_bytes": 416071680,
+      "regions": [
+        {
+          "region": "layers.10.adaLN_modulation.0.weight",
+          "payload_offset": 0,
+          "size": 4546560,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_15_wts_ddr"
+        },
+        {
+          "region": "layers.10.attention.to_q.weight",
+          "payload_offset": 4546560,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_25_wts_ddr"
+        },
+        {
+          "region": "layers.10.attention.to_k.weight",
+          "payload_offset": 21135360,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_68_wts_ddr"
+        },
+        {
+          "region": "layers.10.attention.to_v.weight",
+          "payload_offset": 37724160,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_109_wts_ddr"
+        },
+        {
+          "region": "layers.10.attention.to_out.0.weight",
+          "payload_offset": 54312960,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_113_wts_ddr"
+        },
+        {
+          "region": "layers.10.feed_forward.w1.weight",
+          "payload_offset": 70901760,
+          "size": 44236800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_159_wts_ddr"
+        },
+        {
+          "region": "layers.10.feed_forward.w3.weight",
+          "payload_offset": 115138560,
+          "size": 44236800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_160_wts_ddr"
+        },
+        {
+          "region": "layers.10.feed_forward.w2.weight",
+          "payload_offset": 159375360,
+          "size": 44236800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_165_wts_ddr"
+        },
+        {
+          "region": "layers.11.adaLN_modulation.0.weight",
+          "payload_offset": 203612160,
+          "size": 4546560,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_201_wts_ddr"
+        },
+        {
+          "region": "layers.11.attention.to_q.weight",
+          "payload_offset": 208158720,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_211_wts_ddr"
+        },
+        {
+          "region": "layers.11.attention.to_k.weight",
+          "payload_offset": 224747520,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_248_wts_ddr"
+        },
+        {
+          "region": "layers.11.attention.to_v.weight",
+          "payload_offset": 241336320,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_289_wts_ddr"
+        },
+        {
+          "region": "layers.11.attention.to_out.0.weight",
+          "payload_offset": 257925120,
+          "size": 16588800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_293_wts_ddr"
+        },
+        {
+          "region": "layers.11.feed_forward.w1.weight",
+          "payload_offset": 274513920,
+          "size": 44236800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_339_wts_ddr"
+        },
+        {
+          "region": "layers.11.feed_forward.w3.weight",
+          "payload_offset": 318750720,
+          "size": 44236800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_340_wts_ddr"
+        },
+        {
+          "region": "layers.11.feed_forward.w2.weight",
+          "payload_offset": 362987520,
+          "size": 44236800,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.Layer_345_wts_ddr"
+        },
+        {
+          "region": "layers.10.attention_norm1.weight",
+          "payload_offset": 407224320,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_4"
+        },
+        {
+          "region": "layers.10.attention.norm_q.weight",
+          "payload_offset": 407961600,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_2"
+        },
+        {
+          "region": "layers.10.attention.norm_k.weight",
+          "payload_offset": 408698880,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_3"
+        },
+        {
+          "region": "layers.10.attention_norm2.weight",
+          "payload_offset": 409436160,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_5"
+        },
+        {
+          "region": "layers.10.ffn_norm1.weight",
+          "payload_offset": 410173440,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_6"
+        },
+        {
+          "region": "layers.10.ffn_norm2.weight",
+          "payload_offset": 410910720,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_7"
+        },
+        {
+          "region": "layers.11.attention_norm1.weight",
+          "payload_offset": 411648000,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_8"
+        },
+        {
+          "region": "layers.11.attention.norm_q.weight",
+          "payload_offset": 412385280,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr"
+        },
+        {
+          "region": "layers.11.attention.norm_k.weight",
+          "payload_offset": 413122560,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_1"
+        },
+        {
+          "region": "layers.11.attention_norm2.weight",
+          "payload_offset": 413859840,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_9"
+        },
+        {
+          "region": "layers.11.ffn_norm1.weight",
+          "payload_offset": 414597120,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_10"
+        },
+        {
+          "region": "layers.11.ffn_norm2.weight",
+          "payload_offset": 415334400,
+          "size": 737280,
+          "diff_bytes": 0,
+          "declared_sub_buffer": "compute_graph.const_ifm_ddr_11"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+ "plan_key": "xd_m16_kk32_Mblk384_n768-640-768_bfbfe5be",
+ "Mblk": 384,
+ "used_by": [
+  384
+ ],
+ "ndisp_by_M": {
+  "384": 1
+ },
+ "strategy": "xd",
+ "m": 16,
+ "kk": 32,
+ "T": 1,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  3,
+  3,
+  3,
+  3,
+  3,
+  3,
+  3,
+  3
+ ],
+ "l1_max": 55296,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 640,
+   "ntiles": 16,
+   "nkk": 120,
+   "l1": 46592,
+   "a_bytes": 3932160,
+   "b_bytes": 44236800,
+   "c_bytes": 10485760
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 768,
+   "ntiles": 5,
+   "nkk": 320,
+   "l1": 55296,
+   "a_bytes": 10485760,
+   "b_bytes": 44236800,
+   "c_bytes": 3932160
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 768,
+   "ntiles": 5,
+   "nkk": 120,
+   "l1": 55296,
+   "a_bytes": 3932160,
+   "b_bytes": 16588800,
+   "c_bytes": 3932160
+  }
+ },
+ "images": {
+  "ad_xd_m16k32_M384_n640_a1b1_gu": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m16k32_M384_n640_a1b1_gu.xclbin",
+   "sha256": "1f285339d970107e080675724d2c4830e60ec3d0119defc5e300165142a7416c",
+   "l1_design": 46592
+  },
+  "ad_xd_m16k32_M384_n768_a1b1_dn": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m16k32_M384_n768_a1b1_dn.xclbin",
+   "sha256": "081c3af619bb828fe57cbfdf5424e44722a5d73197ecaf3ec9356ef7d70e0373",
+   "l1_design": 55296
+  },
+  "ad_xd_m16k32_M384_n768_a1b1_proj": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m16k32_M384_n768_a1b1_proj.xclbin",
+   "sha256": "586a1a1e6cca8ac859c0d1bca0996452d39c101b57122765169b1fb334f74de6",
+   "l1_design": 55296
+  }
+ },
+ "built_ok": true,
+ "note": "adaptive 32-core placement image set; the plan is the cache key, so an identical plan is built once",
+ "created": "2026-11-03T07:28:29"
+}

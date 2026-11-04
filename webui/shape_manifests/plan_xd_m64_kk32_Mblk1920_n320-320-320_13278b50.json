@@ -1,0 +1,89 @@
+{
+ "plan_key": "xd_m64_kk32_Mblk1920_n320-320-320_13278b50",
+ "Mblk": 1920,
+ "used_by": [
+  5760
+ ],
+ "ndisp_by_M": {
+  "5760": 3
+ },
+ "strategy": "xd",
+ "m": 64,
+ "kk": 32,
+ "T": 1,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  3,
+  3
+ ],
+ "l1_max": 58624,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 320,
+   "ntiles": 32,
+   "nkk": 120,
+   "l1": 58624,
+   "a_bytes": 15728640,
+   "b_bytes": 44236800,
+   "c_bytes": 41943040
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 320,
+   "l1": 58624,
+   "a_bytes": 41943040,
+   "b_bytes": 44236800,
+   "c_bytes": 15728640
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 120,
+   "l1": 58624,
+   "a_bytes": 15728640,
+   "b_bytes": 16588800,
+   "c_bytes": 15728640
+  }
+ },
+ "images": {
+  "ad_xd_m64k32_M1920_n320_a1b1_gu": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M1920_n320_a1b1_gu.xclbin",
+   "sha256": "1ff01d7ef23a7b70b68c1330bb2ae3c1ad314011e833f8228c9d2dbfac1da256",
+   "l1_design": 58624
+  },
+  "ad_xd_m64k32_M1920_n320_a1b1_dn": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M1920_n320_a1b1_dn.xclbin",
+   "sha256": "78c5236b0036207dc977f5be9c50700a3079a2862d9ec6415bff2269374289da",
+   "l1_design": 58624
+  },
+  "ad_xd_m64k32_M1920_n320_a1b1_proj": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M1920_n320_a1b1_proj.xclbin",
+   "sha256": "07330c646f928d7b187ac1c8d08efd73afa8afb6be0a5e1445aff57cca09920a",
+   "l1_design": 58624
+  }
+ },
+ "built_ok": true,
+ "note": "wide grid (npu_wide.py): 1600x900, M=5760",
+ "created": "2026-11-03T08:18:39"
+}

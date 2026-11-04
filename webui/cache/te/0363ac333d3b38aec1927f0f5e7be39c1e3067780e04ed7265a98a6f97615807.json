@@ -1,0 +1,31 @@
+{
+ "version": 1,
+ "key": "0363ac333d3b38aec1927f0f5e7be39c1e3067780e04ed7265a98a6f97615807",
+ "created": "2026-11-04T00:18:58",
+ "created_ts": 1793722738.7364259,
+ "last_used": 1793722738.7364259,
+ "bytes": 206372,
+ "sha256": "1b0c8666092197178884374213f56245394c088b369dcb55914e07cc757dbfb1",
+ "pe_sha256": "2b52dfa6f13ee6050abb3299d8543ff00f1b7ad401e9d56a97724ac0b8bde586",
+ "tokens": 20,
+ "prompt": "<|im_start|>user\n<|im_start|>user\na mountain lake at sunrise<|im_end|>\n<|im_start|>assistant<|im_end|>\n<|im_start|>assistant\n",
+ "prompt_sha256": "d33754216402dc2d9821b00ff980d9ddc00a879daed57d1105a3a4e94cde639b",
+ "backend": "cpu",
+ "lid": 35,
+ "gguf": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\models\\zimage-te-qwen3-4b-bf16.gguf",
+  "size": 8051284800,
+  "mtime_ns": 1792291012794228700
+ },
+ "worker": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\te_worker.py",
+  "size": 13962,
+  "mtime_ns": 1792371893960726500
+ },
+ "driver": {
+  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\textenc\\encode_api.py",
+  "size": 16880,
+  "mtime_ns": 1792045640663705400
+ },
+ "hits": 0
+}

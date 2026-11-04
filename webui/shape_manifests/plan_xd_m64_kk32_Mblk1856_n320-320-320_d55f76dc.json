@@ -1,0 +1,89 @@
+{
+ "plan_key": "xd_m64_kk32_Mblk1856_n320-320-320_d55f76dc",
+ "Mblk": 1856,
+ "used_by": [
+  9248
+ ],
+ "ndisp_by_M": {
+  "9248": 5
+ },
+ "strategy": "xd",
+ "m": 64,
+ "kk": 32,
+ "T": 1,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 32,
+ "per_col": [
+  4,
+  4,
+  4,
+  4,
+  4,
+  3,
+  3,
+  3
+ ],
+ "l1_max": 58624,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 320,
+   "ntiles": 32,
+   "nkk": 120,
+   "l1": 58624,
+   "a_bytes": 15728640,
+   "b_bytes": 44236800,
+   "c_bytes": 41943040
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 320,
+   "l1": 58624,
+   "a_bytes": 41943040,
+   "b_bytes": 44236800,
+   "c_bytes": 15728640
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 320,
+   "ntiles": 12,
+   "nkk": 120,
+   "l1": 58624,
+   "a_bytes": 15728640,
+   "b_bytes": 16588800,
+   "c_bytes": 15728640
+  }
+ },
+ "images": {
+  "ad_xd_m64k32_M1856_n320_a1b1_gu": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M1856_n320_a1b1_gu.xclbin",
+   "sha256": "b5fe7369ea586468b261cb364fbc62ff6d28b06287966fcba70ec93fab554161",
+   "l1_design": 58624
+  },
+  "ad_xd_m64k32_M1856_n320_a1b1_dn": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M1856_n320_a1b1_dn.xclbin",
+   "sha256": "fc8322db09dc861ca4056ba74af6ba227b635bd1a51a3f3ce84a79d5022e732e",
+   "l1_design": 58624
+  },
+  "ad_xd_m64k32_M1856_n320_a1b1_proj": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m64k32_M1856_n320_a1b1_proj.xclbin",
+   "sha256": "c5c524a044128748031c86f76c97c243aeaeb5d92c862062e4262d02c9e70279",
+   "l1_design": 58624
+  }
+ },
+ "built_ok": true,
+ "note": "wide grid (npu_wide.py): 2048x1152, M=9248",
+ "created": "2026-11-03T08:40:29"
+}

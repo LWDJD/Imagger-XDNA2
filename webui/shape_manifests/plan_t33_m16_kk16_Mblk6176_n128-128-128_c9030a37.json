@@ -1,0 +1,89 @@
+{
+ "plan_key": "t33_m16_kk16_Mblk6176_n128-128-128_c9030a37",
+ "Mblk": 6176,
+ "used_by": [
+  6176
+ ],
+ "ndisp_by_M": {
+  "6176": 1
+ },
+ "strategy": "t33",
+ "m": 16,
+ "kk": 16,
+ "T": 13,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 0,
+ "per_col": [
+  49,
+  48,
+  48,
+  48,
+  48,
+  48,
+  48,
+  49
+ ],
+ "l1_max": 64256,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 128,
+   "ntiles": 80,
+   "nkk": 240,
+   "l1": 64256,
+   "a_bytes": 47431680,
+   "b_bytes": 44236800,
+   "c_bytes": 126484480
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 128,
+   "ntiles": 30,
+   "nkk": 640,
+   "l1": 64256,
+   "a_bytes": 126484480,
+   "b_bytes": 44236800,
+   "c_bytes": 47431680
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 128,
+   "ntiles": 30,
+   "nkk": 240,
+   "l1": 64256,
+   "a_bytes": 47431680,
+   "b_bytes": 16588800,
+   "c_bytes": 47431680
+  }
+ },
+ "images": {
+  "ad_t33_m16k16_M6176_n128_a1b1cw_gu": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m16k16_M6176_n128_a1b1cw_gu.xclbin",
+   "sha256": "17b2c0a5e9c92ae9db4b3c882073d0dda5183556ab8c5910fe79e8bc39edc9c4",
+   "l1_design": 58112
+  },
+  "ad_t33_m16k16_M6176_n128_a1b1cw_dn": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m16k16_M6176_n128_a1b1cw_dn.xclbin",
+   "sha256": "ea3ca384445d8eb916ae2434b6bb10bc9f22ef171d9365dbc4fa685859c046ac",
+   "l1_design": 58112
+  },
+  "ad_t33_m16k16_M6176_n128_a1b1cw_proj": {
+   "status": "BUILT",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m16k16_M6176_n128_a1b1cw_proj.xclbin",
+   "sha256": "4a649602ab53df763715d6b49fa94580f45620e9e6aad0da34747470fd957f43",
+   "l1_design": 58112
+  }
+ },
+ "built_ok": true,
+ "note": "wide grid (npu_wide.py): 1440x1080, M=6176",
+ "created": "2026-11-03T08:20:03"
+}

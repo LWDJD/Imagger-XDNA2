@@ -1,0 +1,164 @@
+{
+ "kind": "preflight",
+ "tag": "migrated",
+ "when": "2026-11-04T18:53:32",
+ "job_id": null,
+ "h": 512,
+ "w": 512,
+ "steps": 8,
+ "env_id": "a4f6ba17e035d4bc",
+ "path": "chunked",
+ "power": {
+  "probe": "ctypes.windll.kernel32.GetSystemPowerStatus",
+  "ac_line": 1,
+  "state": "ac",
+  "battery_flag": 1,
+  "battery_pct": 99,
+  "err": "",
+  "scheme": "电源方案 GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (平衡)",
+  "sha256_mib_s": 1798.7
+ },
+ "extras": [],
+ "skipped": [],
+ "env": {
+  "ZIMAGE_BIGM": "1",
+  "ZIMAGE_BIGM_PROJ": "1",
+  "ZIMAGE_CHUNK_PIPE": "0",
+  "T22_HOSTKILL": "1",
+  "T22_DEVKILL": "1",
+  "T22_ATTN_A2": "0",
+  "T22_ATTN_REUSE": "0",
+  "T22_ATTN_NBTHREADS": "0",
+  "T22_ATTN_QB": "0",
+  "T22_BIGM_DEVHANDOFF": "1",
+  "T22_BIGM_DEBUG": "1",
+  "T22_DEVKILL_G": "15",
+  "T22_DEVKILL_PREWARM": "1",
+  "T22_DEVKILL_BREPACK": "1",
+  "T22_BREPACK_CACHE": "1",
+  "T22_FASTGLUE": "1",
+  "T22_FAST_GLUE": "1",
+  "T22_GLUE2": "1",
+  "T22_GLUE3": "1",
+  "T22_FASTGLUE_THREADS": "8",
+  "T22_FASTGLUE_STRICT": "0",
+  "T22_PLAN_FUSE_GU": "0",
+  "T22_REF_SMNB": "1",
+  "T22_FFN_PROF": "1",
+  "ZIMAGE_CHUNK_THREADS": "16",
+  "ZIMAGE_VAE_THREADS": "10",
+  "ZIMAGE_VAE_NPU": "0",
+  "ZIMAGE_VAE_FAST": "1",
+  "ZIMAGE_VAE_LAUNCH": "srv",
+  "ZIMAGE_DEV_WORKER": "0",
+  "T22_QKV": "1",
+  "T22_P10": "1",
+  "T22_XPACK_ONCE": "0",
+  "ZIMAGE_WPACK_PREWARM": "job",
+  "ZIMAGE_WPACK_VERIFY": "1",
+  "ZIMAGE_FFN_IMAGE": "fs_ffn_j5",
+  "T20_FFN_BARRIER": "1",
+  "ZIMAGE_DEVICE_TIMEOUT_S": "7200"
+ },
+ "device_after": {},
+ "results": [
+  {
+   "cid": "P01",
+   "title": "repo tree + both interpreters",
+   "status": "PASS",
+   "detail": "py312 + py310 + t18_run + launcher present",
+   "why": "",
+   "src": "webui/config.py:22-23"
+  },
+  {
+   "cid": "P02",
+   "title": "device actually idle (processes, not the lock)",
+   "status": "PASS",
+   "detail": "no device process for this repo, port 7874 free (waited 12s)",
+   "why": "",
+   "src": "imaggers/contend/wait_and_run.py:34-40"
+  },
+  {
+   "cid": "P03",
+   "title": "lock file: absent, or stale-with-dead-owner",
+   "status": "PASS",
+   "detail": "no imaggers/device.lock (P02 is the real gate)",
+   "why": "",
+   "src": ""
+  },
+  {
+   "cid": "P04",
+   "title": "memory mode will be 'fast' (proved, not read)",
+   "status": "PASS",
+   "detail": "commit 20.69 GB (threshold 9.0), avail 15.72 GB; auto would pick 'fast'; reserve probe 6.00 GiB OK in 0.5s",
+   "why": "",
+   "src": "webui/config.py:546-556"
+  },
+  {
+   "cid": "P05",
+   "title": "size is renderable per webui/capability.py",
+   "status": "PASS",
+   "detail": "512x512 -> path=chunked m=1056 exec=chunked",
+   "why": "",
+   "src": "webui/capability.py:185-243"
+  },
+  {
+   "cid": "P06",
+   "title": "the job env is EXACTLY the recipe",
+   "status": "PASS",
+   "detail": "38 vars set, env_id=a4f6ba17e035d4bc; 0 inherited path switches scrubbed",
+   "why": "",
+   "src": "webui/config.py:131-140"
+  },
+  {
+   "cid": "P07",
+   "title": "thread counts the product will apply",
+   "status": "PASS",
+   "detail": "loop=16 vae=10 (pinned); torch probe=16 threads",
+   "why": "",
+   "src": "webui/config.py:143-163, webui/chunked.py:100-105"
+  },
+  {
+   "cid": "P08",
+   "title": "every device image the path registers exists",
+   "status": "PASS",
+   "detail": "16/16 image pairs present and still referenced",
+   "why": "",
+   "src": "imaggers/image/t18_run.py:319-368"
+  },
+  {
+   "cid": "P09",
+   "title": "wpack artifact + B-repack cache (both present and reusable)",
+   "status": "PASS",
+   "detail": "wpack artifact wpack_l30_v2.bin, 1.85 GiB, built 2026-11-02 15:22, pack_s=33.035 (the BUILD time, not this job's) -> map+verify only (~1-2 s) | B-repack cache brepack_30_k32_d34e7a7a5fcb02ac.bin, 4.94 GiB (5308481536 B), built 2026-11-02T15:59:58, alt=k32, key16=d34e7a7a5fcb02ac, reap_s=8.998 -> the run can MAP it",
+   "why": "",
+   "src": "webui/config.py:195-213, webui/runner.py:838-845; brepack_cache.py:675-772"
+  },
+  {
+   "cid": "P10",
+   "title": "free disk for images + PNGs",
+   "status": "PASS",
+   "detail": "16.7 GiB free",
+   "why": "",
+   "src": ""
+  },
+  {
+   "cid": "P11",
+   "title": "last run of this recipe+shape proved its path",
+   "status": "PASS",
+   "detail": "t185214 (2026-11-04T18:52:30) proved its path: 0 FAIL at env_id a4f6ba17e035d4bc, 512x512 x8 (2 runs of this recipe+shape recorded)",
+   "why": "",
+   "src": ""
+  },
+  {
+   "cid": "P12",
+   "title": "power state is AC (numbers comparable to references)",
+   "status": "PASS",
+   "detail": "power: ac (ACLineStatus=1 scheme=电源方案 GUID: 381b4222-f694-41f0-9685-f battery=99% sha256=1799 MiB/s)",
+   "why": "",
+   "src": "ctypes.windll.kernel32.GetSystemPowerStatus"
+  }
+ ],
+ "fail": 0,
+ "failed_ids": []
+}

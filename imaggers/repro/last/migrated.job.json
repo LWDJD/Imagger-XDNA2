@@ -1,0 +1,3507 @@
+{
+ "id": "20261104-185332-5147ad",
+ "created": "2026-11-04T18:53:32",
+ "created_ts": 1793789612.9020534,
+ "requested": {
+  "height": 512,
+  "width": 512
+ },
+ "padded": {
+  "height": 512,
+  "width": 512
+ },
+ "output": {
+  "height": 512,
+  "width": 512
+ },
+ "status": "done",
+ "stage": "done",
+ "stage_detail": "完成(试跑)",
+ "step": 8,
+ "steps": 8,
+ "exec_mode": "chunked",
+ "estimate": {
+  "mode": "chunked",
+  "seq": 1056,
+  "blocks": 11,
+  "proj_ms_per_layer": 247.3,
+  "ffn_ms_per_layer": 443.3,
+  "barrier_ms_per_layer": 17.0,
+  "host_ms_per_layer": 770.0,
+  "attn_ms_per_layer": 28.5,
+  "layer_ms": 1506.1,
+  "step_s": 45.18,
+  "s_8step": 361.5,
+  "h_8step": 0.1,
+  "dispatches_per_step": 1650,
+  "dispatches_8step": 13200,
+  "attention": "host f32 torch (QK^T+softmax+PV)",
+  "device": "delivered M=96 projection + FFN + o projection, 96-row blocks",
+  "anchor": "480x848/M=1632 prototype 65.4 s/step (device 27.8, staging 4.7, host 32.9); model +10-15 %",
+  "not_a_speed_claim": true,
+  "plan_key": "xd_m48_kk32_Mblk1056_n384-320-384_4a211e7e",
+  "plan": {
+   "plan_key": "xd_m48_kk32_Mblk1056_n384-320-384_4a211e7e",
+   "M": 1056,
+   "strategy": "xd",
+   "m": 48,
+   "kk": 32,
+   "Mblk": 1056,
+   "ndisp": 1,
+   "T": 1,
+   "nm": 22,
+   "per_col": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    2,
+    2
+   ],
+   "l1_max": 55808,
+   "pad_rows": 0,
+   "n": {
+    "gu": 320,
+    "dn": 384,
+    "proj": 384
+   },
+   "ntiles": {
+    "gu": 32,
+    "dn": 10,
+    "proj": 10
+   },
+   "layer_ms": 113.17,
+   "step_s": 3.4,
+   "s_8step": 27.2,
+   "h_8step": 0.01
+  },
+  "plan_l1_max": 55808,
+  "plan_rows": 1056,
+  "plan_dispatches": 1,
+  "plan_tiles": 22,
+  "plan_per_col": [
+   3,
+   3,
+   3,
+   3,
+   3,
+   3,
+   2,
+   2
+  ],
+  "bo_x_bytes": 8110080,
+  "bo_ff_bytes": 21626880,
+  "bo_rows": 1056,
+  "proj_block_rows": 0,
+  "refiner_bytes": 125829120,
+  "refiner_gib": 0.12,
+  "refiner_block_gib": 0.12,
+  "refiner_blocked": false,
+  "fastglue_proj_rows": 1632,
+  "plan_built": true,
+  "done_steps": 8,
+  "elapsed_s": 111.05,
+  "eta_s": 0.0,
+  "measured_loop_s": 94.09,
+  "measured_step_s": 11.76,
+  "measured_vs_estimate": 0.26
+ },
+ "params": {
+  "prompt": "a mountain lake at sunrise",
+  "negative_prompt": "",
+  "resolution": 512,
+  "requested_height": 512,
+  "requested_width": 512,
+  "height": 512,
+  "width": 512,
+  "pad_height": 512,
+  "pad_width": 512,
+  "pad_applied": false,
+  "crop_applied": false,
+  "output_height": 512,
+  "output_width": 512,
+  "requested_shape": "512x512",
+  "shape": "512x512",
+  "m": 1056,
+  "exec_mode": "chunked",
+  "chunk_estimate": {
+   "mode": "chunked",
+   "seq": 1056,
+   "blocks": 11,
+   "proj_ms_per_layer": 247.3,
+   "ffn_ms_per_layer": 443.3,
+   "barrier_ms_per_layer": 17.0,
+   "host_ms_per_layer": 770.0,
+   "attn_ms_per_layer": 28.5,
+   "layer_ms": 1506.1,
+   "step_s": 45.18,
+   "s_8step": 361.5,
+   "h_8step": 0.1,
+   "dispatches_per_step": 1650,
+   "dispatches_8step": 13200,
+   "attention": "host f32 torch (QK^T+softmax+PV)",
+   "device": "delivered M=96 projection + FFN + o projection, 96-row blocks",
+   "anchor": "480x848/M=1632 prototype 65.4 s/step (device 27.8, staging 4.7, host 32.9); model +10-15 %",
+   "not_a_speed_claim": true,
+   "plan_key": "xd_m48_kk32_Mblk1056_n384-320-384_4a211e7e",
+   "plan": {
+    "plan_key": "xd_m48_kk32_Mblk1056_n384-320-384_4a211e7e",
+    "M": 1056,
+    "strategy": "xd",
+    "m": 48,
+    "kk": 32,
+    "Mblk": 1056,
+    "ndisp": 1,
+    "T": 1,
+    "nm": 22,
+    "per_col": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     2,
+     2
+    ],
+    "l1_max": 55808,
+    "pad_rows": 0,
+    "n": {
+     "gu": 320,
+     "dn": 384,
+     "proj": 384
+    },
+    "ntiles": {
+     "gu": 32,
+     "dn": 10,
+     "proj": 10
+    },
+    "layer_ms": 113.17,
+    "step_s": 3.4,
+    "s_8step": 27.2,
+    "h_8step": 0.01
+   },
+   "plan_l1_max": 55808,
+   "plan_rows": 1056,
+   "plan_dispatches": 1,
+   "plan_tiles": 22,
+   "plan_per_col": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    2,
+    2
+   ],
+   "bo_x_bytes": 8110080,
+   "bo_ff_bytes": 21626880,
+   "bo_rows": 1056,
+   "proj_block_rows": 0,
+   "refiner_bytes": 125829120,
+   "refiner_gib": 0.12,
+   "refiner_block_gib": 0.12,
+   "refiner_blocked": false,
+   "fastglue_proj_rows": 1632,
+   "plan_built": true,
+   "done_steps": 8,
+   "elapsed_s": 111.05,
+   "eta_s": 0.0,
+   "measured_loop_s": 94.09,
+   "measured_step_s": 11.76,
+   "measured_vs_estimate": 0.26
+  },
+  "batch": 1,
+  "steps": 8,
+  "seed": 7,
+  "vae": true,
+  "output_dir": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\outputs",
+  "prefix": "repro_migrated",
+  "mode": "trial",
+  "memory_mode": "fast",
+  "bo_resident": false,
+  "qkv": false,
+  "p10": false,
+  "xpack_once": false,
+  "seed_mode": "increment"
+ },
+ "timing": {
+  "job_save_s": 0.13335859999642707,
+  "queue_s": 0.0110015869140625,
+  "log_io_s": 0.9918789999574074,
+  "prepare_s": 0.026854399999137968,
+  "textenc_s": 0.0125934999960009,
+  "textenc_load_s": 0.0,
+  "textenc_decode_s": 0.0,
+  "textenc_boot_s": 0.0,
+  "textenc_reused": false,
+  "textenc_cache": "hit",
+  "textenc_cache_source": "disk",
+  "textenc_cache_key": "92a71951b33f55dd5f41d1573bf5b8b364016750069a4ccd995e1f3a02f4e801",
+  "schedule_s": 0.003342999996675644,
+  "schedule_cache": "hit",
+  "retry_s": 0.0,
+  "retry_attempts": 0,
+  "device_wall_s": 111.1535653999963,
+  "prewarm_wait_s": 1.0429981000052067,
+  "prewarm_src": "reused",
+  "prewarm_pack_wall_s": 33.035,
+  "prewarm_proc_s": 1.0777706000008038,
+  "prewarm_loaded": true,
+  "prewarm_map_s": 0.001,
+  "prewarm_verify_s": 1.438,
+  "bridge_import_s": 0.5853585000004387,
+  "startup_child_s": 15.251602299998922,
+  "startup_s": 15.251602299998922,
+  "prewarm_pack_s": 1.0429981000052067,
+  "device_launch_tp": 38984.4621442,
+  "first_event_tp": 38985.0475027,
+  "startup_done_tp": 39000.299105,
+  "loop_s": 94.09365519999847,
+  "loop_steps_sum_s": 97.03644090000307,
+  "loop_overlap_s": 2.942785700004606,
+  "device_tail_s": 1.2229493999984697,
+  "device_s": 0.0,
+  "staging_s": 0.0,
+  "dispatches": 0,
+  "retries": 0,
+  "vae_spawn_s": 0.0,
+  "vae_load_s": 2.6220067999965977,
+  "vae_npu_s": 0.0,
+  "vae_decode_s": 4.710997700000007,
+  "vae_save_s": 0.10367989999940619,
+  "vae_s": 7.442468099994585,
+  "vae_other_s": 0.005783699998573866,
+  "vae_impl": "cpu",
+  "vae_thread_arm": "pinned",
+  "pass_s": 119.73524900000484,
+  "post_s": 0.008010199999262113,
+  "exec_s": 119.79086459999962,
+  "total_s": 119.80186618691368,
+  "closure": {
+   "buckets": [
+    {
+     "key": "queue_s",
+     "label": "排队",
+     "seconds": 0.0110015869140625
+    },
+    {
+     "key": "prepare_s",
+     "label": "构建缓存",
+     "seconds": 0.026854399999137968
+    },
+    {
+     "key": "prewarm_pack_s",
+     "label": "冷建打包等待",
+     "seconds": 1.0429981000052067
+    },
+    {
+     "key": "textenc_s",
+     "label": "文本编码",
+     "seconds": 0.0125934999960009
+    },
+    {
+     "key": "schedule_s",
+     "label": "调度",
+     "seconds": 0.003342999996675644
+    },
+    {
+     "key": "retry_s",
+     "label": "冷启动重试",
+     "seconds": 0.0
+    },
+    {
+     "key": "worker_drop_s",
+     "label": "常驻 worker 停用",
+     "seconds": 0.0
+    },
+    {
+     "key": "bridge_import_s",
+     "label": "桥进程启动/import",
+     "seconds": 0.5853585000004387
+    },
+    {
+     "key": "startup_s",
+     "label": "启动/注册/载荷驻留",
+     "seconds": 15.251602299998922
+    },
+    {
+     "key": "loop_s",
+     "label": "扩散",
+     "seconds": 94.09365519999847
+    },
+    {
+     "key": "device_tail_s",
+     "label": "器件收尾/落盘",
+     "seconds": 1.2229493999984697
+    },
+    {
+     "key": "vae_spawn_s",
+     "label": "VAE 子进程启动",
+     "seconds": 0.0
+    },
+    {
+     "key": "vae_load_s",
+     "label": "VAE 加载",
+     "seconds": 2.6220067999965977
+    },
+    {
+     "key": "vae_decode_s",
+     "label": "VAE 解码 (CPU)",
+     "seconds": 4.710997700000007
+    },
+    {
+     "key": "vae_npu_s",
+     "label": "VAE 解码 (NPU)",
+     "seconds": 0.0
+    },
+    {
+     "key": "vae_save_s",
+     "label": "保存 PNG",
+     "seconds": 0.10367989999940619
+    },
+    {
+     "key": "vae_other_s",
+     "label": "VAE 收尾(读 latents/sha256/日志)",
+     "seconds": 0.005783699998573866
+    },
+    {
+     "key": "gate_second_s",
+     "label": "复现门第二遍",
+     "seconds": 0.0
+    },
+    {
+     "key": "post_s",
+     "label": "任务收尾",
+     "seconds": 0.008010199999262113
+    }
+   ],
+   "sum_s": 119.70083428690123,
+   "total_s": 119.80186618691368,
+   "unaccounted_s": 0.10103190001245821,
+   "tolerance_s": 1.0,
+   "pass": true
+  }
+ },
+ "images": [
+  {
+   "index": 0,
+   "seed": 7,
+   "file": "repro_migrated_1853325147ad_p0_s7.png",
+   "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\outputs\\repro_migrated_1853325147ad_p0_s7.png",
+   "url": "/api/jobs/20261104-185332-5147ad/images/0",
+   "width": 512,
+   "height": 512,
+   "run_width": 512,
+   "run_height": 512,
+   "crop": null,
+   "bytes": 382271,
+   "sha256": "c4fee5c1b871ae86481bbc52befcd22ec232e8bc7dfbda27ab371bccfc595bae",
+   "decode_s": 4.710997700000007,
+   "save_s": 0.10367989999940619,
+   "vae_decode_threads": {
+    "n": 10,
+    "arm": "pinned",
+    "class": "lsb1",
+    "latent": [
+     64,
+     64
+    ],
+    "rule": "mod5",
+    "why": "ZIMAGE_VAE_THREADS=10 explicit (geometry class lsb1)"
+   },
+   "gate": "trial",
+   "tag": "w1853325147adp0",
+   "timing": {
+    "textenc_share_s": 0.0125934999960009,
+    "startup_share_s": 15.251602299998922,
+    "loop_share_s": 94.09365519999847,
+    "vae_s": 4.710997700000007,
+    "vae_save_s": 0.10367989999940619,
+    "total_share_s": 114.1725285999928
+   },
+   "prompt": "a mountain lake at sunrise",
+   "negative_prompt": "",
+   "resolution": "512x512",
+   "run_resolution": "512x512",
+   "steps": 8,
+   "mode": "trial",
+   "memory_mode": "fast",
+   "te_backend": "gpu",
+   "created": "2026-11-04T18:55:32"
+  }
+ ],
+ "gate": {
+  "mode": "trial",
+  "status": "not_run",
+  "detail": "试跑 — 单次运行,未过复现门"
+ },
+ "memory_mode": "fast",
+ "vae_resident": true,
+ "memory_reason": "user selected fast",
+ "degraded": [],
+ "memory_snapshot": {
+  "available_gb": 15.85,
+  "commit_gb": 19.44,
+  "total_gb": 31.29,
+  "load_pct": 49
+ },
+ "memory_budget": {
+  "ok": true,
+  "m": 1056,
+  "mode": "fast",
+  "required_gb": 12.3,
+  "peak_gb": 10.7,
+  "headroom_gb": 19.44,
+  "short_gb": 0.0,
+  "low_required_gb": 4.48,
+  "basis": "512x512 x8 measured 2026-11-04 by peakwatch: device pid 9.51 GB private, job tree 10.70 GB with the driver excluded; the low number is an ESTIMATE, not sampled",
+  "message": "fast at M=1056 needs 12.30 GB of commit headroom (measured peak 10.70 GB + 15 % margin); this box has 19.44 GB"
+ },
+ "env_flags": {
+  "ZIMAGE_BIGM": "1",
+  "ZIMAGE_BIGM_PROJ": "1",
+  "ZIMAGE_CHUNK_PIPE": "0",
+  "ZIMAGE_ADAPT": null,
+  "T22_HOSTKILL": "1",
+  "T22_DEVKILL": "1",
+  "T22_BIGM_DEVHANDOFF": "1",
+  "T22_FASTGLUE": "1",
+  "T22_PLAN_FFN": null,
+  "T22_PLAN_FUSE_GU": "0",
+  "T22_ADAPT_M": null,
+  "ZIMAGE_CHUNK_THREADS": "16",
+  "ZIMAGE_VAE_FAST": "1",
+  "ZIMAGE_VAE_THREADS": "10",
+  "ZIMAGE_VAE_THREAD_RULE": null,
+  "ZIMAGE_VAE_NPU": "0"
+ },
+ "env_resolved": {
+  "AD_FFN_BARRIER": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "AD_FFN_REFILL": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "NH_BG": {
+   "value": "5",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "5",
+   "effect": "infra"
+  },
+  "NPU_CACHE_DIR": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "NPU_CACHE_HOME": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "NPU_PY312": {
+   "value": "D:\\Project\\deepseek_harness\\test7\\.winml_venv\\Scripts\\python.exe",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "D:\\Project\\deepseek_harness\\test7\\.winml_venv\\Scripts\\python.exe",
+   "effect": "infra"
+  },
+  "PATH": {
+   "value": "C:\\VulkanSDK\\1.4.357.0\\Bin;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\Program Files\\Python312\\Scripts\\;C:\\Program Files\\Python312\\;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\msys64\\ucrt64\\bin;D:\\Program Files\\Go\\bin;D:\\Program Files\\Git\\cmd;C:\\Users\\15081\\anaconda3\\;C:\\Users\\15081\\miniconda3\\Library\\mingw-w64\\bin;C:\\Users\\15081\\miniconda3\\Library\\usr\\bin;C:\\Users\\15081\\miniconda3\\Library\\bin;C:\\Users\\15081\\miniconda3\\Scripts;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Users\\15081\\.cargo\\bin;C:\\Program Files\\Rust stable MSVC 1.92\\bin;C:\\Program Files\\ffmpeg-2026-01-22-git-4561fc5e48-full_build\\bin;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Program Files (x86)\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\180\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\DTS\\Binn\\;C:\\Program Files\\Cloudflare\\Cloudflare WARP\\;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\android_sdk;C:\\android_sdk\\ndk\\27.0.12077973;C:\\android_sdk\\platform-tools;C:\\android_sdk\\build-tools\\34.0.0;C:\\Users\\15081\\.cargo\\bin;d:\\Users\\15081\\AppData\\Local\\Programs\\Trae CN\\bin;C:\\Users\\15081\\AppData\\Local\\pnpm;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Launcher\\;C:\\Users\\15081\\AppData\\Local\\Microsoft\\WindowsApps;D:\\Users\\15081\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;D:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2025.2.3\\bin;D:\\Program Files\\JetBrains\\WebStorm 2025.2.3\\bin;D:\\Program Files\\JetBrains\\RustRover 2025.2.3\\bin;C:\\Users\\15081\\go\\bin;C:\\Users\\15081\\.lmstudio\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\python\\Scripts;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Users\\15081\\AppData\\Roaming\\npm;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;%DevEco Studio%;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;C:\\Users\\15081\\.dotnet\\tools",
+   "source": "shell",
+   "explicit": true,
+   "raw": "C:\\VulkanSDK\\1.4.357.0\\Bin;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\Program Files\\Python312\\Scripts\\;C:\\Program Files\\Python312\\;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\msys64\\ucrt64\\bin;D:\\Program Files\\Go\\bin;D:\\Program Files\\Git\\cmd;C:\\Users\\15081\\anaconda3\\;C:\\Users\\15081\\miniconda3\\Library\\mingw-w64\\bin;C:\\Users\\15081\\miniconda3\\Library\\usr\\bin;C:\\Users\\15081\\miniconda3\\Library\\bin;C:\\Users\\15081\\miniconda3\\Scripts;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Users\\15081\\.cargo\\bin;C:\\Program Files\\Rust stable MSVC 1.92\\bin;C:\\Program Files\\ffmpeg-2026-01-22-git-4561fc5e48-full_build\\bin;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Program Files (x86)\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\180\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\DTS\\Binn\\;C:\\Program Files\\Cloudflare\\Cloudflare WARP\\;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\android_sdk;C:\\android_sdk\\ndk\\27.0.12077973;C:\\android_sdk\\platform-tools;C:\\android_sdk\\build-tools\\34.0.0;C:\\Users\\15081\\.cargo\\bin;d:\\Users\\15081\\AppData\\Local\\Programs\\Trae CN\\bin;C:\\Users\\15081\\AppData\\Local\\pnpm;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Launcher\\;C:\\Users\\15081\\AppData\\Local\\Microsoft\\WindowsApps;D:\\Users\\15081\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;D:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2025.2.3\\bin;D:\\Program Files\\JetBrains\\WebStorm 2025.2.3\\bin;D:\\Program Files\\JetBrains\\RustRover 2025.2.3\\bin;C:\\Users\\15081\\go\\bin;C:\\Users\\15081\\.lmstudio\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\python\\Scripts;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Users\\15081\\AppData\\Roaming\\npm;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;%DevEco Studio%;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;C:\\Users\\15081\\.dotnet\\tools",
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "PEANO_INSTALL_DIR": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "S2_DUMP_STAGES": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "S2_ENGINE": {
+   "value": "inline",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "inline",
+   "effect": "infra"
+  },
+  "S2_FFN32_CHECK": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "S2_STAGE": {
+   "value": "write",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "write",
+   "effect": "diag"
+  },
+  "STEP3_TIMEOUT_MS": {
+   "value": "300000",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "300000",
+   "effect": "timing"
+  },
+  "T18_CAP_X": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T18_DUMP": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T18_PAYLOAD_ORDER": {
+   "value": "last",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "last",
+   "effect": "path"
+  },
+  "T18_SKIP_ATT": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T18_TRACE": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T20_FFN_BARRIER": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "1",
+   "effect": "path"
+  },
+  "T21_3B2_FAST_REF": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "path"
+  },
+  "T21_3B2_WAIT_MS": {
+   "value": "600000",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "600000",
+   "effect": "timing"
+  },
+  "T22_ADAPT_CHUNK": {
+   "value": "1632",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1632",
+   "effect": "timing"
+  },
+  "T22_ADAPT_M": {
+   "value": "1056",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1056",
+   "effect": "bytes-risk"
+  },
+  "T22_AF9M": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTNWIRE": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_A2": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": false,
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_BF16": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_D": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": false,
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_DUMP": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_ATTN_DUMP_N": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "diag"
+  },
+  "T22_ATTN_E": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": false,
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_NB": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_NBTHREADS": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_OBUF": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_PROF": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_ATTN_QB": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_REUSE": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_ATTN_STRICT": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": false,
+   "effect": "bytes-risk"
+  },
+  "T22_BB_FASTK32": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_BIGM_B3_DUAL": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_BIGM_DEBUG": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_BIGM_DEVHANDOFF": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_BIGM_ORDER": {
+   "value": "map",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "map",
+   "effect": "bytes"
+  },
+  "T22_BIGM_PROJ_ORDER": {
+   "value": "image",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "image",
+   "effect": "bytes-risk"
+  },
+  "T22_BREPACK_BUILD": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_BREPACK_CACHE": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "bytes"
+  },
+  "T22_BREPACK_DIR": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "T22_BREPACK_FASTK32": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_BREPACK_PIECE": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "timing"
+  },
+  "T22_BREPACK_PREP": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T22_BREPACK_THREADS": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": 0,
+   "effect": "timing"
+  },
+  "T22_BREPACK_VERIFY": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "infra"
+  },
+  "T22_BREPACK_WRITE_SYNC": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "timing"
+  },
+  "T22_DBG": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_DBG2": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_DEVKILL": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "T22_DEVKILL_BREPACK": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "1",
+   "effect": "path"
+  },
+  "T22_DEVKILL_G": {
+   "value": "15",
+   "source": "shell",
+   "explicit": true,
+   "raw": "15",
+   "default_is": "15",
+   "effect": "bytes-risk"
+  },
+  "T22_DEVKILL_PACK": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_DEVKILL_PREWARM": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "1",
+   "effect": "path"
+  },
+  "T22_DEVKILL_PREWARM_LAYERS": {
+   "value": "30",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "30",
+   "effect": "timing"
+  },
+  "T22_DEVKILL_PROJ_IMG": {
+   "value": "plain15",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "plain15",
+   "effect": "bytes-risk"
+  },
+  "T22_DEVKILL_WDB": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_DUMP_A": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_DUMP_BG": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_DUMP_FFN": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_DUMP_FFNBLOCK": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_DUMP_HOP": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_DUMP_QKV": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_FASTGLUE": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_FASTGLUE_HUNKS": {
+   "value": "1,2,3,4",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1,2,3,4",
+   "effect": "bytes-risk"
+  },
+  "T22_FASTGLUE_SKIP": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T22_FASTGLUE_STRICT": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "T22_FASTGLUE_THREADS": {
+   "value": "8",
+   "source": "shell",
+   "explicit": true,
+   "raw": "8",
+   "default_is": "8",
+   "effect": "bytes-risk"
+  },
+  "T22_FAST_GLUE": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": true,
+   "effect": "bytes-risk"
+  },
+  "T22_FFN_KK32": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_FFN_KK32_PROF": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_FFN_PROBE": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T22_FFN_PROBE_MODE": {
+   "value": "kcdiff",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "kcdiff",
+   "effect": "bytes-risk"
+  },
+  "T22_FFN_PROF": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_FFN_TP": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_FILL_DELAY_MS": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "timing"
+  },
+  "T22_FINAL110": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "T22_GLUE2": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": true,
+   "effect": "bytes-risk"
+  },
+  "T22_GLUE3": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_GLUE_ABSMAXP": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_GLUE_FAIL_OPEN": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": false,
+   "effect": "path"
+  },
+  "T22_GLUE_HALF_OK": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": false,
+   "effect": "bytes-risk"
+  },
+  "T22_GLUE_PROF": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_HOSTKILL": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "T22_LOAD_BLOCKS_ROWMAJOR": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_OVL": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_OVL_THREADS": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_OVL_WGU": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_P10": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "1",
+   "effect": "path"
+  },
+  "T22_P10_BIN": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "T22_P10_XCLBIN": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "T22_P33": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_PFILL": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_BCACHE": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_B_BYTES": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_B_LAYERS": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FAST_DRAIN": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FFN": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "T22_PLAN_FFN_BARRIER": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FFN_BARRIER_IMG": {
+   "value": "att",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "att",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FFN_DEBUG": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_PLAN_FFN_LOG": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "diag"
+  },
+  "T22_PLAN_FFN_M": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FFN_PROBE": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FFN_PROBE_ALT": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FFN_PROBE_DUMP": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_PLAN_FUSE_FILL": {
+   "value": "1.0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1.0",
+   "effect": "bytes-risk"
+  },
+  "T22_PLAN_FUSE_GU": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "bytes"
+  },
+  "T22_PLAN_PREWARM": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "path"
+  },
+  "T22_PREOVL": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "T22_QKV": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "1",
+   "effect": "path"
+  },
+  "T22_QKV_BIN": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "T22_QKV_XCLBIN": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "T22_REF_BF16": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_REF_FAST": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_REF_FFN": {
+   "value": "auto",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "auto",
+   "effect": "bytes-risk"
+  },
+  "T22_REF_FFN_ROWS": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_REF_PROF": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_REF_QCHUNK": {
+   "value": "auto",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "auto",
+   "effect": "bytes-risk"
+  },
+  "T22_REF_RMS": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_REF_SMNB": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": false,
+   "effect": "bytes"
+  },
+  "T22_REF_TORCH": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_S2_CACHE_DIR": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "T22_S2_CACHE_LAYERS": {
+   "value": "4",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "4",
+   "effect": "infra"
+  },
+  "T22_S2_FFN32": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_S2_FFN32_DIR": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T22_S2_PROF": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_S2_PROJ32": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "T22_S2_TAGS": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "T22_S2_XCHECK": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_SBG_ASSERT": {
+   "value": "step",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "step",
+   "effect": "diag"
+  },
+  "T22_SKIP_FFN": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "bytes-risk"
+  },
+  "T22_TIMELINE": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "T22_TIMELINE_FILE": {
+   "value": "devtimeline.tsv",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "devtimeline.tsv",
+   "effect": "diag"
+  },
+  "T22_XPACK_ONCE": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "T3_TIMEOUT_MS": {
+   "value": "300000",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "300000",
+   "effect": "timing"
+  },
+  "ZIMAGE_ADAPT": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_BIGM": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_BIGM_PROJ": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_BUDGET_ENFORCE": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": false,
+   "effect": "infra"
+  },
+  "ZIMAGE_CHUNK_PIPE": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "1",
+   "effect": "path"
+  },
+  "ZIMAGE_CHUNK_REFINER_GB": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "infra"
+  },
+  "ZIMAGE_CHUNK_THREADS": {
+   "value": "16",
+   "source": "shell",
+   "explicit": true,
+   "raw": "16",
+   "default_is": 0,
+   "effect": "bytes-risk"
+  },
+  "ZIMAGE_DEVICE_TIMEOUT_S": {
+   "value": "7200",
+   "source": "shell",
+   "explicit": true,
+   "raw": "7200",
+   "default_is": "",
+   "effect": "timing"
+  },
+  "ZIMAGE_DEV_WORKER": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_DEV_WORKER_KEEP_PAYLOAD": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "path"
+  },
+  "ZIMAGE_DEV_WORKER_KEEP_REFINER": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_DEV_WORKER_RESERVE_GB": {
+   "value": "7.0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "7.0",
+   "effect": "infra"
+  },
+  "ZIMAGE_FFN_IMAGE": {
+   "value": "fs_ffn_j5",
+   "source": "shell",
+   "explicit": true,
+   "raw": "fs_ffn_j5",
+   "default_is": "fs_ffn_j5",
+   "effect": "path"
+  },
+  "ZIMAGE_NO_JOB": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_TE_CACHE_DIR": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "ZIMAGE_TE_CACHE_ENTRIES": {
+   "value": "64",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "64",
+   "effect": "infra"
+  },
+  "ZIMAGE_TE_CACHE_MB": {
+   "value": "256",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "256",
+   "effect": "infra"
+  },
+  "ZIMAGE_TE_CACHE_MEM_ENTRIES": {
+   "value": "8",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "8",
+   "effect": "infra"
+  },
+  "ZIMAGE_TE_GGUF": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "ZIMAGE_TE_MODEL_GB": {
+   "value": "7.0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "7.0",
+   "effect": "infra"
+  },
+  "ZIMAGE_TE_MODEL_RESIDENT": {
+   "value": "auto",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "auto",
+   "effect": "path"
+  },
+  "ZIMAGE_TE_RESIDENT": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_VAE_BARRIER": {
+   "value": "1",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "1",
+   "effect": "bytes-risk"
+  },
+  "ZIMAGE_VAE_FAST": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "1",
+   "effect": "path"
+  },
+  "ZIMAGE_VAE_LAUNCH": {
+   "value": "srv",
+   "source": "default",
+   "explicit": false,
+   "raw": "srv",
+   "default_is": "srv",
+   "effect": "path"
+  },
+  "ZIMAGE_VAE_NPU": {
+   "value": "0",
+   "source": "shell",
+   "explicit": true,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_VAE_ONESHOT": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "diag"
+  },
+  "ZIMAGE_VAE_OPNPU": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": "0",
+   "default_is": "0",
+   "effect": "path"
+  },
+  "ZIMAGE_VAE_RESNET_REWRITE": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "bytes-risk"
+  },
+  "ZIMAGE_VAE_SRV_ADDR": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "infra"
+  },
+  "ZIMAGE_VAE_THREADS": {
+   "value": "10",
+   "source": "shell",
+   "explicit": true,
+   "raw": "10",
+   "default_is": "",
+   "effect": "timing"
+  },
+  "ZIMAGE_VAE_THREAD_RULE": {
+   "value": "",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "",
+   "effect": "timing"
+  },
+  "ZIMAGE_VAE_TRACE": {
+   "value": "0",
+   "source": "default",
+   "explicit": false,
+   "raw": null,
+   "default_is": "0",
+   "effect": "diag"
+  },
+  "ZIMAGE_WPACK_PREWARM": {
+   "value": "job",
+   "source": "shell",
+   "explicit": true,
+   "raw": "job",
+   "default_is": "job",
+   "effect": "path"
+  },
+  "ZIMAGE_WPACK_VERIFY": {
+   "value": "1",
+   "source": "shell",
+   "explicit": true,
+   "raw": "1",
+   "default_is": "1",
+   "effect": "infra"
+  }
+ },
+ "env_provenance": {
+  "schema": "zimage.env-provenance/1",
+  "registry": {
+   "schema": "zimage.knob-registry/2",
+   "sha256": "fe1c0a91f013dada42e765687334fbc0777118e54fad12438b055423beb47a96",
+   "knobs": 177
+  },
+  "arm_id": "8d8993aa1c6fb42b",
+  "arm_values": {
+   "AD_FFN_BARRIER": "0",
+   "AD_FFN_REFILL": "0",
+   "PATH": "C:\\VulkanSDK\\1.4.357.0\\Bin;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\Program Files\\Python312\\Scripts\\;C:\\Program Files\\Python312\\;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\msys64\\ucrt64\\bin;D:\\Program Files\\Go\\bin;D:\\Program Files\\Git\\cmd;C:\\Users\\15081\\anaconda3\\;C:\\Users\\15081\\miniconda3\\Library\\mingw-w64\\bin;C:\\Users\\15081\\miniconda3\\Library\\usr\\bin;C:\\Users\\15081\\miniconda3\\Library\\bin;C:\\Users\\15081\\miniconda3\\Scripts;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Users\\15081\\.cargo\\bin;C:\\Program Files\\Rust stable MSVC 1.92\\bin;C:\\Program Files\\ffmpeg-2026-01-22-git-4561fc5e48-full_build\\bin;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Program Files (x86)\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\180\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\DTS\\Binn\\;C:\\Program Files\\Cloudflare\\Cloudflare WARP\\;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\android_sdk;C:\\android_sdk\\ndk\\27.0.12077973;C:\\android_sdk\\platform-tools;C:\\android_sdk\\build-tools\\34.0.0;C:\\Users\\15081\\.cargo\\bin;d:\\Users\\15081\\AppData\\Local\\Programs\\Trae CN\\bin;C:\\Users\\15081\\AppData\\Local\\pnpm;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Launcher\\;C:\\Users\\15081\\AppData\\Local\\Microsoft\\WindowsApps;D:\\Users\\15081\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;D:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2025.2.3\\bin;D:\\Program Files\\JetBrains\\WebStorm 2025.2.3\\bin;D:\\Program Files\\JetBrains\\RustRover 2025.2.3\\bin;C:\\Users\\15081\\go\\bin;C:\\Users\\15081\\.lmstudio\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\python\\Scripts;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Users\\15081\\AppData\\Roaming\\npm;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;%DevEco Studio%;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;C:\\Users\\15081\\.dotnet\\tools",
+   "T18_CAP_X": "",
+   "T18_PAYLOAD_ORDER": "last",
+   "T18_SKIP_ATT": "",
+   "T20_FFN_BARRIER": "1",
+   "T21_3B2_FAST_REF": "1",
+   "T22_ADAPT_M": "1056",
+   "T22_AF9M": "0",
+   "T22_ATTNWIRE": "0",
+   "T22_ATTN_A2": "0",
+   "T22_ATTN_BF16": "0",
+   "T22_ATTN_D": "0",
+   "T22_ATTN_E": "0",
+   "T22_ATTN_NB": "0",
+   "T22_ATTN_NBTHREADS": "0",
+   "T22_ATTN_OBUF": "0",
+   "T22_ATTN_QB": "0",
+   "T22_ATTN_REUSE": "0",
+   "T22_ATTN_STRICT": "0",
+   "T22_BB_FASTK32": "0",
+   "T22_BIGM_B3_DUAL": "1",
+   "T22_BIGM_DEVHANDOFF": "1",
+   "T22_BIGM_ORDER": "map",
+   "T22_BIGM_PROJ_ORDER": "image",
+   "T22_BREPACK_BUILD": "1",
+   "T22_BREPACK_CACHE": "1",
+   "T22_BREPACK_FASTK32": "1",
+   "T22_BREPACK_PREP": "",
+   "T22_DEVKILL": "1",
+   "T22_DEVKILL_BREPACK": "1",
+   "T22_DEVKILL_G": "15",
+   "T22_DEVKILL_PACK": "1",
+   "T22_DEVKILL_PREWARM": "1",
+   "T22_DEVKILL_PROJ_IMG": "plain15",
+   "T22_DEVKILL_WDB": "1",
+   "T22_FASTGLUE": "1",
+   "T22_FASTGLUE_HUNKS": "1,2,3,4",
+   "T22_FASTGLUE_SKIP": "",
+   "T22_FASTGLUE_STRICT": "0",
+   "T22_FASTGLUE_THREADS": "8",
+   "T22_FAST_GLUE": "1",
+   "T22_FFN_KK32": "0",
+   "T22_FFN_PROBE": "",
+   "T22_FFN_PROBE_MODE": "kcdiff",
+   "T22_FFN_TP": "0",
+   "T22_FINAL110": "0",
+   "T22_GLUE2": "1",
+   "T22_GLUE3": "1",
+   "T22_GLUE_ABSMAXP": "0",
+   "T22_GLUE_FAIL_OPEN": "0",
+   "T22_GLUE_HALF_OK": "0",
+   "T22_HOSTKILL": "1",
+   "T22_LOAD_BLOCKS_ROWMAJOR": "0",
+   "T22_OVL": "0",
+   "T22_OVL_THREADS": "0",
+   "T22_OVL_WGU": "1",
+   "T22_P10": "1",
+   "T22_P33": "0",
+   "T22_PFILL": "0",
+   "T22_PLAN_BCACHE": "0",
+   "T22_PLAN_B_BYTES": "0",
+   "T22_PLAN_B_LAYERS": "0",
+   "T22_PLAN_FAST_DRAIN": "1",
+   "T22_PLAN_FFN": "0",
+   "T22_PLAN_FFN_BARRIER": "1",
+   "T22_PLAN_FFN_BARRIER_IMG": "att",
+   "T22_PLAN_FFN_M": "",
+   "T22_PLAN_FFN_PROBE": "0",
+   "T22_PLAN_FFN_PROBE_ALT": "",
+   "T22_PLAN_FUSE_FILL": "1.0",
+   "T22_PLAN_FUSE_GU": "0",
+   "T22_PLAN_PREWARM": "1",
+   "T22_PREOVL": "0",
+   "T22_QKV": "1",
+   "T22_REF_BF16": "0",
+   "T22_REF_FAST": "0",
+   "T22_REF_FFN": "auto",
+   "T22_REF_FFN_ROWS": "0",
+   "T22_REF_QCHUNK": "auto",
+   "T22_REF_RMS": "0",
+   "T22_REF_SMNB": "1",
+   "T22_REF_TORCH": "0",
+   "T22_S2_FFN32": "0",
+   "T22_S2_FFN32_DIR": "",
+   "T22_S2_PROJ32": "0",
+   "T22_SKIP_FFN": "",
+   "T22_XPACK_ONCE": "0",
+   "ZIMAGE_ADAPT": "0",
+   "ZIMAGE_BIGM": "1",
+   "ZIMAGE_BIGM_PROJ": "1",
+   "ZIMAGE_CHUNK_PIPE": "0",
+   "ZIMAGE_CHUNK_THREADS": "16",
+   "ZIMAGE_DEV_WORKER": "0",
+   "ZIMAGE_DEV_WORKER_KEEP_PAYLOAD": "1",
+   "ZIMAGE_DEV_WORKER_KEEP_REFINER": "0",
+   "ZIMAGE_FFN_IMAGE": "fs_ffn_j5",
+   "ZIMAGE_NO_JOB": "0",
+   "ZIMAGE_TE_MODEL_RESIDENT": "auto",
+   "ZIMAGE_TE_RESIDENT": "0",
+   "ZIMAGE_VAE_BARRIER": "1",
+   "ZIMAGE_VAE_FAST": "1",
+   "ZIMAGE_VAE_LAUNCH": "srv",
+   "ZIMAGE_VAE_NPU": "0",
+   "ZIMAGE_VAE_OPNPU": "0",
+   "ZIMAGE_VAE_RESNET_REWRITE": "0",
+   "ZIMAGE_WPACK_PREWARM": "job"
+  },
+  "launch_source": "shell",
+  "counts": {
+   "total": 177,
+   "explicit": 38,
+   "implicit": 139,
+   "shell": 38,
+   "recipe": 0,
+   "runtime": 0,
+   "source_default": 139,
+   "arm": 108
+  },
+  "env_digest": "ad1b240ed111427f21109d7d659f55fbaea467f571899ff01a375ec9a16304e0",
+  "vars": {
+   "AD_FFN_BARRIER": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "AD_FFN_REFILL": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "NH_BG": {
+    "value": "5",
+    "explicit": false,
+    "source": "default"
+   },
+   "NPU_CACHE_DIR": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "NPU_CACHE_HOME": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "NPU_PY312": {
+    "value": "D:\\Project\\deepseek_harness\\test7\\.winml_venv\\Scripts\\python.exe",
+    "explicit": false,
+    "source": "default"
+   },
+   "PATH": {
+    "value": "C:\\VulkanSDK\\1.4.357.0\\Bin;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\Program Files\\Python312\\Scripts\\;C:\\Program Files\\Python312\\;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\msys64\\ucrt64\\bin;D:\\Program Files\\Go\\bin;D:\\Program Files\\Git\\cmd;C:\\Users\\15081\\anaconda3\\;C:\\Users\\15081\\miniconda3\\Library\\mingw-w64\\bin;C:\\Users\\15081\\miniconda3\\Library\\usr\\bin;C:\\Users\\15081\\miniconda3\\Library\\bin;C:\\Users\\15081\\miniconda3\\Scripts;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Users\\15081\\.cargo\\bin;C:\\Program Files\\Rust stable MSVC 1.92\\bin;C:\\Program Files\\ffmpeg-2026-01-22-git-4561fc5e48-full_build\\bin;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Program Files (x86)\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\180\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\DTS\\Binn\\;C:\\Program Files\\Cloudflare\\Cloudflare WARP\\;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\android_sdk;C:\\android_sdk\\ndk\\27.0.12077973;C:\\android_sdk\\platform-tools;C:\\android_sdk\\build-tools\\34.0.0;C:\\Users\\15081\\.cargo\\bin;d:\\Users\\15081\\AppData\\Local\\Programs\\Trae CN\\bin;C:\\Users\\15081\\AppData\\Local\\pnpm;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Launcher\\;C:\\Users\\15081\\AppData\\Local\\Microsoft\\WindowsApps;D:\\Users\\15081\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;D:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2025.2.3\\bin;D:\\Program Files\\JetBrains\\WebStorm 2025.2.3\\bin;D:\\Program Files\\JetBrains\\RustRover 2025.2.3\\bin;C:\\Users\\15081\\go\\bin;C:\\Users\\15081\\.lmstudio\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\python\\Scripts;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Users\\15081\\AppData\\Roaming\\npm;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;%DevEco Studio%;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;C:\\Users\\15081\\.dotnet\\tools",
+    "explicit": true,
+    "source": "shell",
+    "raw": "C:\\VulkanSDK\\1.4.357.0\\Bin;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\Program Files\\Python312\\Scripts\\;C:\\Program Files\\Python312\\;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\msys64\\ucrt64\\bin;D:\\Program Files\\Go\\bin;D:\\Program Files\\Git\\cmd;C:\\Users\\15081\\anaconda3\\;C:\\Users\\15081\\miniconda3\\Library\\mingw-w64\\bin;C:\\Users\\15081\\miniconda3\\Library\\usr\\bin;C:\\Users\\15081\\miniconda3\\Library\\bin;C:\\Users\\15081\\miniconda3\\Scripts;C:\\Program Files\\Docker\\Docker\\resources\\bin;C:\\Users\\15081\\.cargo\\bin;C:\\Program Files\\Rust stable MSVC 1.92\\bin;C:\\Program Files\\ffmpeg-2026-01-22-git-4561fc5e48-full_build\\bin;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Program Files (x86)\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\180\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\170\\DTS\\Binn\\;C:\\Program Files\\Cloudflare\\Cloudflare WARP\\;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\;D:\\Users\\15081\\miniforge3;D:\\Users\\15081\\miniforge3\\Library\\mingw-w64\\bin;D:\\Users\\15081\\miniforge3\\Library\\usr\\bin;D:\\Users\\15081\\miniforge3\\Library\\bin;D:\\Users\\15081\\miniforge3\\Scripts;C:\\android_sdk;C:\\android_sdk\\ndk\\27.0.12077973;C:\\android_sdk\\platform-tools;C:\\android_sdk\\build-tools\\34.0.0;C:\\Users\\15081\\.cargo\\bin;d:\\Users\\15081\\AppData\\Local\\Programs\\Trae CN\\bin;C:\\Users\\15081\\AppData\\Local\\pnpm;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python312\\;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Users\\15081\\AppData\\Local\\Programs\\Python\\Launcher\\;C:\\Users\\15081\\AppData\\Local\\Microsoft\\WindowsApps;D:\\Users\\15081\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;D:\\Program Files\\JetBrains\\IntelliJ IDEA Community Edition 2025.2.3\\bin;D:\\Program Files\\JetBrains\\WebStorm 2025.2.3\\bin;D:\\Program Files\\JetBrains\\RustRover 2025.2.3\\bin;C:\\Users\\15081\\go\\bin;C:\\Users\\15081\\.lmstudio\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\bin;D:\\Users\\15081\\AppData\\Local\\GAIA\\python\\Scripts;C:\\Users\\15081\\AppData\\Local\\nvm;C:\\nvm4w\\nodejs;C:\\Users\\15081\\AppData\\Roaming\\npm;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;%DevEco Studio%;C:\\Users\\15081\\AppData\\Roaming\\.minecraft\\runtime\\jdk-25.0.1\\bin;D:\\Users\\15081\\AppData\\Local\\lemonade_server\\bin\\;C:\\Users\\15081\\.dotnet\\tools"
+   },
+   "PEANO_INSTALL_DIR": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "S2_DUMP_STAGES": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "S2_ENGINE": {
+    "value": "inline",
+    "explicit": false,
+    "source": "default"
+   },
+   "S2_FFN32_CHECK": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "S2_STAGE": {
+    "value": "write",
+    "explicit": false,
+    "source": "default"
+   },
+   "STEP3_TIMEOUT_MS": {
+    "value": "300000",
+    "explicit": false,
+    "source": "default"
+   },
+   "T18_CAP_X": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T18_DUMP": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T18_PAYLOAD_ORDER": {
+    "value": "last",
+    "explicit": false,
+    "source": "default"
+   },
+   "T18_SKIP_ATT": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T18_TRACE": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T20_FFN_BARRIER": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T21_3B2_FAST_REF": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T21_3B2_WAIT_MS": {
+    "value": "600000",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ADAPT_CHUNK": {
+    "value": "1632",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ADAPT_M": {
+    "value": "1056",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_AF9M": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTNWIRE": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_A2": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "T22_ATTN_BF16": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_D": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_DUMP": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_DUMP_N": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_E": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_NB": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_NBTHREADS": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "T22_ATTN_OBUF": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_PROF": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_ATTN_QB": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "T22_ATTN_REUSE": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "T22_ATTN_STRICT": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BB_FASTK32": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BIGM_B3_DUAL": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BIGM_DEBUG": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_BIGM_DEVHANDOFF": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_BIGM_ORDER": {
+    "value": "map",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BIGM_PROJ_ORDER": {
+    "value": "image",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_BUILD": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_CACHE": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_BREPACK_DIR": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_FASTK32": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_PIECE": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_PREP": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_THREADS": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_VERIFY": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_BREPACK_WRITE_SYNC": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DBG": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DBG2": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DEVKILL": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_DEVKILL_BREPACK": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_DEVKILL_G": {
+    "value": "15",
+    "explicit": true,
+    "source": "shell",
+    "raw": "15"
+   },
+   "T22_DEVKILL_PACK": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DEVKILL_PREWARM": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_DEVKILL_PREWARM_LAYERS": {
+    "value": "30",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DEVKILL_PROJ_IMG": {
+    "value": "plain15",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DEVKILL_WDB": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DUMP_A": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DUMP_BG": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DUMP_FFN": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DUMP_FFNBLOCK": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DUMP_HOP": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_DUMP_QKV": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FASTGLUE": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_FASTGLUE_HUNKS": {
+    "value": "1,2,3,4",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FASTGLUE_SKIP": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FASTGLUE_STRICT": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "T22_FASTGLUE_THREADS": {
+    "value": "8",
+    "explicit": true,
+    "source": "shell",
+    "raw": "8"
+   },
+   "T22_FAST_GLUE": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1",
+    "default_conflict": true
+   },
+   "T22_FFN_KK32": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FFN_KK32_PROF": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FFN_PROBE": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FFN_PROBE_MODE": {
+    "value": "kcdiff",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FFN_PROF": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_FFN_TP": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FILL_DELAY_MS": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_FINAL110": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_GLUE2": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1",
+    "default_conflict": true
+   },
+   "T22_GLUE3": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_GLUE_ABSMAXP": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_GLUE_FAIL_OPEN": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_GLUE_HALF_OK": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_GLUE_PROF": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_HOSTKILL": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_LOAD_BLOCKS_ROWMAJOR": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_OVL": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_OVL_THREADS": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_OVL_WGU": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_P10": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1",
+    "default_conflict": true
+   },
+   "T22_P10_BIN": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_P10_XCLBIN": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_P33": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PFILL": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_BCACHE": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_B_BYTES": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_B_LAYERS": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FAST_DRAIN": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_BARRIER": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_BARRIER_IMG": {
+    "value": "att",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_DEBUG": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_LOG": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_M": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_PROBE": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_PROBE_ALT": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FFN_PROBE_DUMP": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FUSE_FILL": {
+    "value": "1.0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PLAN_FUSE_GU": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "T22_PLAN_PREWARM": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_PREOVL": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_QKV": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1",
+    "default_conflict": true
+   },
+   "T22_QKV_BIN": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_QKV_XCLBIN": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_BF16": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_FAST": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_FFN": {
+    "value": "auto",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_FFN_ROWS": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_PROF": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_QCHUNK": {
+    "value": "auto",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_RMS": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_REF_SMNB": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "T22_REF_TORCH": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_CACHE_DIR": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_CACHE_LAYERS": {
+    "value": "4",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_FFN32": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_FFN32_DIR": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_PROF": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_PROJ32": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_TAGS": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_S2_XCHECK": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_SBG_ASSERT": {
+    "value": "step",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_SKIP_FFN": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_TIMELINE": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_TIMELINE_FILE": {
+    "value": "devtimeline.tsv",
+    "explicit": false,
+    "source": "default"
+   },
+   "T22_XPACK_ONCE": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "T3_TIMEOUT_MS": {
+    "value": "300000",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_ADAPT": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_BIGM": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "ZIMAGE_BIGM_PROJ": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "ZIMAGE_BUDGET_ENFORCE": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_CHUNK_PIPE": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "ZIMAGE_CHUNK_REFINER_GB": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_CHUNK_THREADS": {
+    "value": "16",
+    "explicit": true,
+    "source": "shell",
+    "raw": "16"
+   },
+   "ZIMAGE_DEVICE_TIMEOUT_S": {
+    "value": "7200",
+    "explicit": true,
+    "source": "shell",
+    "raw": "7200"
+   },
+   "ZIMAGE_DEV_WORKER": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "ZIMAGE_DEV_WORKER_KEEP_PAYLOAD": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_DEV_WORKER_KEEP_REFINER": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_DEV_WORKER_RESERVE_GB": {
+    "value": "7.0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_FFN_IMAGE": {
+    "value": "fs_ffn_j5",
+    "explicit": true,
+    "source": "shell",
+    "raw": "fs_ffn_j5"
+   },
+   "ZIMAGE_NO_JOB": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_CACHE_DIR": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_CACHE_ENTRIES": {
+    "value": "64",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_CACHE_MB": {
+    "value": "256",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_CACHE_MEM_ENTRIES": {
+    "value": "8",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_GGUF": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_MODEL_GB": {
+    "value": "7.0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_MODEL_RESIDENT": {
+    "value": "auto",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_TE_RESIDENT": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_VAE_BARRIER": {
+    "value": "1",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_VAE_FAST": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   },
+   "ZIMAGE_VAE_LAUNCH": {
+    "value": "srv",
+    "explicit": false,
+    "source": "default",
+    "raw": "srv",
+    "default_conflict": true
+   },
+   "ZIMAGE_VAE_NPU": {
+    "value": "0",
+    "explicit": true,
+    "source": "shell",
+    "raw": "0"
+   },
+   "ZIMAGE_VAE_ONESHOT": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_VAE_OPNPU": {
+    "value": "0",
+    "explicit": false,
+    "source": "default",
+    "raw": "0"
+   },
+   "ZIMAGE_VAE_RESNET_REWRITE": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_VAE_SRV_ADDR": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_VAE_THREADS": {
+    "value": "10",
+    "explicit": true,
+    "source": "shell",
+    "raw": "10"
+   },
+   "ZIMAGE_VAE_THREAD_RULE": {
+    "value": "",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_VAE_TRACE": {
+    "value": "0",
+    "explicit": false,
+    "source": "default"
+   },
+   "ZIMAGE_WPACK_PREWARM": {
+    "value": "job",
+    "explicit": true,
+    "source": "shell",
+    "raw": "job"
+   },
+   "ZIMAGE_WPACK_VERIFY": {
+    "value": "1",
+    "explicit": true,
+    "source": "shell",
+    "raw": "1"
+   }
+  },
+  "unknown_present": [],
+  "changed_after_boot": []
+ },
+ "cache": {
+  "shape": "512x512",
+  "height": 512,
+  "width": 512,
+  "m": 1056,
+  "dir": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\cache\\512x512",
+  "cached": true,
+  "created": "2026-10-21T19:00:57",
+  "seconds": 0.0
+ },
+ "schedule": {
+  "source": "delivered:t13b_traj.npz",
+  "out_of_distribution": false,
+  "steps": 8
+ },
+ "cap": {
+  "tokens": 13,
+  "shape": [
+   32,
+   3840
+  ],
+  "sha256": "109e2fe5f461ff56313c42e5e080d3ff87a0199dc9b9066fdb4f4924cdf55333"
+ },
+ "tag": "w1853325147adp0",
+ "log_tail": [
+  "[fastglue] layers.26 proj_qkv 0.000 rope+build 0.074 attn 0.088 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.8 gu=57.1 wdn=0.0 dn=38.1 read=3.4 dec=1.3 total=111.0 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.1 ms",
+  "      layers.26  img 1/1  a 5472.000 xm 7115.102 y 17024.0",
+  "[fastglue] layers.27 proj_qkv 0.000 rope+build 0.073 attn 0.087 proj_o 0.029",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=57.2 wdn=0.0 dn=37.8 read=2.7 dec=1.1 total=109.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.7 ms",
+  "      layers.27  img 1/1  a 1616.000 xm 7115.345 y 24704.0",
+  "[fastglue] layers.28 proj_qkv 0.000 rope+build 0.073 attn 0.103 proj_o 0.033",
+  "[devkill] rows=1056 pack=5.7 wgu=4.7 gu=57.3 wdn=0.0 dn=38.0 read=2.9 dec=1.5 total=110.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.6 ms",
+  "      layers.28  img 1/1  a 3296.000 xm 7115.085 y 37632.0",
+  "[fastglue] layers.29 proj_qkv 0.000 rope+build 0.076 attn 0.102 proj_o 0.032",
+  "[devkill] rows=1056 pack=5.8 wgu=4.4 gu=57.4 wdn=0.0 dn=38.0 read=2.9 dec=1.0 total=109.9 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.9 ms",
+  "      layers.29  img 1/1  a 169.000 xm 7103.884 y 9472.0",
+  "  step 4: t= 693.793  pred absmax   4.7206  lat absmax    3.1045  11.8 s (11.78 s/image)  (dev 5246.7 / write 160.6 / pack 399.1 / host 18251.6 ms)",
+  "[fastglue] layers.0 proj_qkv 0.000 rope+build 0.072 attn 0.078 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.8 gu=58.6 wdn=0.0 dn=37.9 read=3.0 dec=1.2 total=111.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.8 ms",
+  "      layers.0   img 1/1  a 21632.000 xm 725.055 y 913408.0",
+  "      [tim] img 1/1 first layer: dev 173 ms  write 5 ms  pack 13 ms  host 2416 ms",
+  "[fastglue] layers.1 proj_qkv 0.000 rope+build 0.071 attn 0.080 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=4.7 gu=56.8 wdn=0.0 dn=37.9 read=3.2 dec=1.1 total=109.9 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.0 ms",
+  "      layers.1   img 1/1  a 8064.000 xm 730.718 y 162816.0",
+  "[fastglue] layers.2 proj_qkv 0.000 rope+build 0.070 attn 0.079 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.7 gu=57.4 wdn=0.0 dn=37.9 read=2.9 dec=1.1 total=110.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.3 ms",
+  "      layers.2   img 1/1  a 5216.000 xm 887.269 y 26880.0",
+  "[fastglue] layers.3 proj_qkv 0.000 rope+build 0.070 attn 0.087 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.3 gu=56.4 wdn=0.0 dn=37.8 read=3.1 dec=1.1 total=108.9 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 109.9 ms",
+  "      layers.3   img 1/1  a 4128.000 xm 929.348 y 16384.0",
+  "[fastglue] layers.4 proj_qkv 0.000 rope+build 0.073 attn 0.096 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.2 wgu=4.7 gu=57.1 wdn=0.0 dn=37.8 read=3.0 dec=1.1 total=110.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.2 ms",
+  "      layers.4   img 1/1  a 2144.000 xm 1042.438 y 10880.0",
+  "[fastglue] layers.5 proj_qkv 0.000 rope+build 0.077 attn 0.093 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.9 gu=57.4 wdn=0.0 dn=38.0 read=3.2 dec=1.3 total=111.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.2 ms",
+  "      layers.5   img 1/1  a 2672.000 xm 1151.742 y 10816.0",
+  "[fastglue] layers.6 proj_qkv 0.000 rope+build 0.073 attn 0.094 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.5 gu=57.1 wdn=0.0 dn=37.9 read=3.0 dec=1.4 total=110.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.3 ms",
+  "      layers.6   img 1/1  a 1968.000 xm 1380.080 y 48896.0",
+  "[fastglue] layers.7 proj_qkv 0.000 rope+build 0.075 attn 0.083 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.1 wgu=4.7 gu=56.8 wdn=0.0 dn=37.8 read=2.8 dec=1.0 total=109.6 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.6 ms",
+  "      layers.7   img 1/1  a 1536.000 xm 1704.292 y 53760.0",
+  "[fastglue] layers.8 proj_qkv 0.000 rope+build 0.072 attn 0.094 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=5.2 gu=57.1 wdn=0.0 dn=39.6 read=3.1 dec=1.1 total=112.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.6 ms",
+  "      layers.8   img 1/1  a 1392.000 xm 2009.483 y 141312.0",
+  "[fastglue] layers.9 proj_qkv 0.000 rope+build 0.076 attn 0.096 proj_o 0.032",
+  "[devkill] rows=1056 pack=6.1 wgu=4.3 gu=58.0 wdn=0.0 dn=39.1 read=3.1 dec=1.2 total=112.0 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.0 ms",
+  "      layers.9   img 1/1  a 564.000 xm 2365.882 y 57856.0",
+  "[fastglue] layers.10 proj_qkv 0.000 rope+build 0.073 attn 0.084 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.2 wgu=4.1 gu=56.8 wdn=0.0 dn=37.8 read=2.9 dec=1.3 total=109.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.4 ms",
+  "      layers.10  img 1/1  a 1416.000 xm 2935.749 y 153600.0",
+  "[fastglue] layers.11 proj_qkv 0.000 rope+build 0.075 attn 0.094 proj_o 0.029",
+  "[devkill] rows=1056 pack=5.9 wgu=4.4 gu=57.1 wdn=0.0 dn=37.8 read=3.8 dec=1.1 total=110.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.5 ms",
+  "      layers.11  img 1/1  a 1012.000 xm 3578.380 y 126464.0",
+  "[fastglue] layers.12 proj_qkv 0.000 rope+build 0.077 attn 0.095 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.7 gu=57.1 wdn=0.0 dn=38.0 read=2.7 dec=1.0 total=109.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.9 ms",
+  "      layers.12  img 1/1  a 6592.000 xm 4441.296 y 90624.0",
+  "[fastglue] layers.13 proj_qkv 0.000 rope+build 0.074 attn 0.077 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.7 wgu=4.5 gu=57.0 wdn=0.0 dn=38.1 read=3.0 dec=1.1 total=109.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.8 ms",
+  "      layers.13  img 1/1  a 8832.000 xm 5226.899 y 141312.0",
+  "[fastglue] layers.14 proj_qkv 0.000 rope+build 0.073 attn 0.082 proj_o 0.029",
+  "[devkill] rows=1056 pack=6.1 wgu=4.5 gu=57.9 wdn=0.0 dn=37.9 read=3.0 dec=1.1 total=110.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.9 ms",
+  "      layers.14  img 1/1  a 492.000 xm 6014.622 y 235520.0",
+  "[fastglue] layers.15 proj_qkv 0.000 rope+build 0.073 attn 0.075 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.8 wgu=4.6 gu=57.4 wdn=0.0 dn=37.8 read=3.0 dec=1.2 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.2 ms",
+  "      layers.15  img 1/1  a 788.000 xm 6514.530 y 83456.0",
+  "[fastglue] layers.16 proj_qkv 0.000 rope+build 0.074 attn 0.080 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.4 gu=57.9 wdn=0.0 dn=37.8 read=3.4 dec=1.1 total=110.9 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.7 ms",
+  "      layers.16  img 1/1  a 2160.000 xm 7159.851 y 128512.0",
+  "[fastglue] layers.17 proj_qkv 0.000 rope+build 0.079 attn 0.090 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.7 gu=57.2 wdn=0.0 dn=37.9 read=3.1 dec=1.2 total=110.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.2 ms",
+  "      layers.17  img 1/1  a 1672.000 xm 7164.201 y 91648.0",
+  "[fastglue] layers.18 proj_qkv 0.000 rope+build 0.073 attn 0.097 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.7 wgu=4.9 gu=57.8 wdn=0.0 dn=38.0 read=3.4 dec=1.1 total=111.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.2 ms",
+  "      layers.18  img 1/1  a 2256.000 xm 7154.953 y 52736.0",
+  "[fastglue] layers.19 proj_qkv 0.000 rope+build 0.074 attn 0.092 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.6 wgu=4.8 gu=57.1 wdn=0.0 dn=38.0 read=3.0 dec=1.3 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.9 ms",
+  "      layers.19  img 1/1  a 1816.000 xm 7148.937 y 81920.0",
+  "[fastglue] layers.20 proj_qkv 0.000 rope+build 0.074 attn 0.091 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.0 wgu=4.3 gu=60.3 wdn=0.0 dn=39.1 read=2.8 dec=1.2 total=114.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 115.1 ms",
+  "      layers.20  img 1/1  a 1320.000 xm 7123.165 y 57088.0",
+  "[fastglue] layers.21 proj_qkv 0.000 rope+build 0.072 attn 0.083 proj_o 0.036",
+  "[devkill] rows=1056 pack=5.6 wgu=4.8 gu=59.1 wdn=0.0 dn=38.0 read=3.3 dec=1.2 total=112.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.4 ms",
+  "      layers.21  img 1/1  a 1736.000 xm 7138.018 y 29568.0",
+  "[fastglue] layers.22 proj_qkv 0.000 rope+build 0.073 attn 0.084 proj_o 0.032",
+  "[devkill] rows=1056 pack=6.2 wgu=4.6 gu=58.1 wdn=0.0 dn=39.0 read=2.8 dec=1.1 total=112.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.2 ms",
+  "      layers.22  img 1/1  a 1784.000 xm 7138.324 y 39168.0",
+  "[fastglue] layers.23 proj_qkv 0.000 rope+build 0.073 attn 0.090 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=57.4 wdn=0.0 dn=37.8 read=2.9 dec=1.1 total=109.9 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.9 ms",
+  "      layers.23  img 1/1  a 3360.000 xm 7156.427 y 19456.0",
+  "[fastglue] layers.24 proj_qkv 0.000 rope+build 0.072 attn 0.080 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=4.7 gu=56.9 wdn=0.0 dn=37.8 read=3.1 dec=1.1 total=109.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.8 ms",
+  "      layers.24  img 1/1  a 1400.000 xm 7163.873 y 15296.0",
+  "[fastglue] layers.25 proj_qkv 0.000 rope+build 0.074 attn 0.093 proj_o 0.033",
+  "[devkill] rows=1056 pack=6.1 wgu=4.6 gu=58.3 wdn=0.0 dn=37.8 read=2.9 dec=1.0 total=111.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.2 ms",
+  "      layers.25  img 1/1  a 2208.000 xm 7166.830 y 17152.0",
+  "[fastglue] layers.26 proj_qkv 0.000 rope+build 0.073 attn 0.075 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.7 wgu=4.7 gu=57.6 wdn=0.0 dn=37.9 read=3.3 dec=1.1 total=110.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.6 ms",
+  "      layers.26  img 1/1  a 5312.000 xm 7172.367 y 21248.0",
+  "[fastglue] layers.27 proj_qkv 0.000 rope+build 0.074 attn 0.088 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.4 wgu=4.3 gu=57.5 wdn=0.0 dn=39.7 read=2.7 dec=1.2 total=112.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.3 ms",
+  "      layers.27  img 1/1  a 988.000 xm 7172.865 y 32000.0",
+  "[fastglue] layers.28 proj_qkv 0.000 rope+build 0.076 attn 0.086 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.6 gu=60.6 wdn=0.0 dn=38.8 read=3.3 dec=1.3 total=115.0 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 116.1 ms",
+  "      layers.28  img 1/1  a 2832.000 xm 7172.711 y 44032.0",
+  "[fastglue] layers.29 proj_qkv 0.000 rope+build 0.073 attn 0.128 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.2 wgu=4.5 gu=58.1 wdn=0.0 dn=40.0 read=2.9 dec=1.4 total=113.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.4 ms",
+  "      layers.29  img 1/1  a 189.000 xm 7161.175 y 10176.0",
+  "  step 5: t= 548.046  pred absmax   4.5771  lat absmax    3.2872  11.7 s (11.75 s/image)  (dev 5233.0 / write 158.9 / pack 401.5 / host 18137.6 ms)",
+  "[fastglue] layers.0 proj_qkv 0.000 rope+build 0.076 attn 0.100 proj_o 0.032",
+  "[devkill] rows=1056 pack=6.1 wgu=4.5 gu=58.0 wdn=0.0 dn=38.1 read=3.0 dec=1.2 total=111.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.3 ms",
+  "      layers.0   img 1/1  a 30976.000 xm 725.059 y 999424.0",
+  "      [tim] img 1/1 first layer: dev 179 ms  write 5 ms  pack 13 ms  host 2442 ms",
+  "[fastglue] layers.1 proj_qkv 0.000 rope+build 0.070 attn 0.083 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.1 gu=56.9 wdn=0.0 dn=37.9 read=2.9 dec=1.1 total=109.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.5 ms",
+  "      layers.1   img 1/1  a 6720.000 xm 756.906 y 65536.0",
+  "[fastglue] layers.2 proj_qkv 0.000 rope+build 0.071 attn 0.088 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.0 gu=57.2 wdn=0.0 dn=37.9 read=2.9 dec=1.3 total=109.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.5 ms",
+  "      layers.2   img 1/1  a 4192.000 xm 920.729 y 13760.0",
+  "[fastglue] layers.3 proj_qkv 0.000 rope+build 0.071 attn 0.080 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.1 gu=57.8 wdn=0.0 dn=37.9 read=3.0 dec=1.1 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.2 ms",
+  "      layers.3   img 1/1  a 2816.000 xm 985.669 y 11968.0",
+  "[fastglue] layers.4 proj_qkv 0.000 rope+build 0.071 attn 0.096 proj_o 0.029",
+  "[devkill] rows=1056 pack=5.9 wgu=4.1 gu=57.2 wdn=0.0 dn=37.8 read=2.8 dec=1.2 total=109.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.4 ms",
+  "      layers.4   img 1/1  a 1552.000 xm 1117.287 y 9856.0",
+  "[fastglue] layers.5 proj_qkv 0.000 rope+build 0.074 attn 0.093 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.3 wgu=4.4 gu=57.3 wdn=0.0 dn=37.8 read=2.9 dec=1.0 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.1 ms",
+  "      layers.5   img 1/1  a 1936.000 xm 1256.517 y 10624.0",
+  "[fastglue] layers.6 proj_qkv 0.000 rope+build 0.072 attn 0.084 proj_o 0.032",
+  "[devkill] rows=1056 pack=6.0 wgu=4.4 gu=57.8 wdn=0.0 dn=38.0 read=3.0 dec=1.0 total=110.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.5 ms",
+  "      layers.6   img 1/1  a 1856.000 xm 1492.335 y 44288.0",
+  "[fastglue] layers.7 proj_qkv 0.000 rope+build 0.074 attn 0.096 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.0 wgu=4.3 gu=57.6 wdn=0.0 dn=38.0 read=3.0 dec=1.0 total=110.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.2 ms",
+  "      layers.7   img 1/1  a 1320.000 xm 1815.402 y 58112.0",
+  "[fastglue] layers.8 proj_qkv 0.000 rope+build 0.074 attn 0.078 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.3 gu=59.4 wdn=0.0 dn=38.0 read=2.7 dec=1.1 total=111.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.8 ms",
+  "      layers.8   img 1/1  a 1232.000 xm 2118.626 y 138240.0",
+  "[fastglue] layers.9 proj_qkv 0.000 rope+build 0.073 attn 0.074 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=4.5 gu=57.1 wdn=0.0 dn=37.8 read=3.1 dec=0.9 total=109.6 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.6 ms",
+  "      layers.9   img 1/1  a 502.000 xm 2473.665 y 59904.0",
+  "[fastglue] layers.10 proj_qkv 0.000 rope+build 0.073 attn 0.075 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=5.0 gu=60.2 wdn=0.0 dn=38.9 read=2.9 dec=1.1 total=114.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 115.3 ms",
+  "      layers.10  img 1/1  a 1320.000 xm 3037.213 y 163840.0",
+  "[fastglue] layers.11 proj_qkv 0.000 rope+build 0.072 attn 0.082 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=60.0 wdn=0.0 dn=39.5 read=2.8 dec=0.9 total=114.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.9 ms",
+  "      layers.11  img 1/1  a 852.000 xm 3679.115 y 125440.0",
+  "[fastglue] layers.12 proj_qkv 0.000 rope+build 0.072 attn 0.094 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.2 wgu=4.4 gu=57.8 wdn=0.0 dn=37.8 read=3.0 dec=1.0 total=110.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.7 ms",
+  "      layers.12  img 1/1  a 6240.000 xm 4541.930 y 89088.0",
+  "[fastglue] layers.13 proj_qkv 0.000 rope+build 0.075 attn 0.091 proj_o 0.033",
+  "[devkill] rows=1056 pack=6.6 wgu=4.4 gu=59.3 wdn=0.0 dn=39.3 read=3.0 dec=1.1 total=114.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 115.2 ms",
+  "      layers.13  img 1/1  a 8320.000 xm 5327.342 y 144384.0",
+  "[fastglue] layers.14 proj_qkv 0.000 rope+build 0.077 attn 0.092 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.7 wgu=4.3 gu=57.3 wdn=0.0 dn=41.5 read=3.2 dec=1.4 total=113.6 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.8 ms",
+  "      layers.14  img 1/1  a 462.000 xm 6120.201 y 221184.0",
+  "[fastglue] layers.15 proj_qkv 0.000 rope+build 0.072 attn 0.085 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.4 gu=57.0 wdn=0.0 dn=37.8 read=2.9 dec=1.3 total=109.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.8 ms",
+  "      layers.15  img 1/1  a 632.000 xm 6621.133 y 79872.0",
+  "[fastglue] layers.16 proj_qkv 0.000 rope+build 0.074 attn 0.110 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.8 wgu=4.6 gu=57.0 wdn=0.0 dn=37.8 read=3.5 dec=1.2 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.2 ms",
+  "      layers.16  img 1/1  a 2016.000 xm 7264.263 y 121856.0",
+  "[fastglue] layers.17 proj_qkv 0.000 rope+build 0.073 attn 0.095 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=4.5 gu=60.5 wdn=0.0 dn=37.9 read=3.0 dec=1.4 total=113.6 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.7 ms",
+  "      layers.17  img 1/1  a 1584.000 xm 7265.123 y 83456.0",
+  "[fastglue] layers.18 proj_qkv 0.000 rope+build 0.072 attn 0.082 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.8 wgu=4.4 gu=57.5 wdn=0.0 dn=38.9 read=2.7 dec=1.0 total=110.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.3 ms",
+  "      layers.18  img 1/1  a 2112.000 xm 7254.572 y 46848.0",
+  "[fastglue] layers.19 proj_qkv 0.000 rope+build 0.075 attn 0.090 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.3 wgu=4.6 gu=56.9 wdn=0.0 dn=37.8 read=2.9 dec=1.2 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.1 ms",
+  "      layers.19  img 1/1  a 1720.000 xm 7250.534 y 76800.0",
+  "[fastglue] layers.20 proj_qkv 0.000 rope+build 0.074 attn 0.098 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=57.3 wdn=0.0 dn=40.9 read=3.1 dec=1.3 total=113.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.6 ms",
+  "      layers.20  img 1/1  a 1256.000 xm 7222.871 y 53504.0",
+  "[fastglue] layers.21 proj_qkv 0.000 rope+build 0.072 attn 0.086 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.8 wgu=5.0 gu=58.5 wdn=0.0 dn=40.8 read=3.0 dec=1.0 total=114.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 115.6 ms",
+  "      layers.21  img 1/1  a 1640.000 xm 7237.604 y 28544.0",
+  "[fastglue] layers.22 proj_qkv 0.000 rope+build 0.073 attn 0.082 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.2 wgu=4.6 gu=57.7 wdn=0.0 dn=37.8 read=2.9 dec=1.1 total=110.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.7 ms",
+  "      layers.22  img 1/1  a 1744.000 xm 7240.076 y 38144.0",
+  "[fastglue] layers.23 proj_qkv 0.000 rope+build 0.075 attn 0.097 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.3 gu=57.7 wdn=0.0 dn=37.9 read=2.9 dec=1.1 total=110.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.3 ms",
+  "      layers.23  img 1/1  a 3072.000 xm 7260.078 y 20992.0",
+  "[fastglue] layers.24 proj_qkv 0.000 rope+build 0.074 attn 0.093 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=57.2 wdn=0.0 dn=40.7 read=2.7 dec=1.2 total=112.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.6 ms",
+  "      layers.24  img 1/1  a 1248.000 xm 7269.537 y 16256.0",
+  "[fastglue] layers.25 proj_qkv 0.000 rope+build 0.073 attn 0.080 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.2 wgu=4.3 gu=59.0 wdn=0.0 dn=38.6 read=2.3 dec=1.5 total=112.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.1 ms",
+  "      layers.25  img 1/1  a 1968.000 xm 7270.131 y 18432.0",
+  "[fastglue] layers.26 proj_qkv 0.000 rope+build 0.074 attn 0.079 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.2 wgu=4.5 gu=57.7 wdn=0.0 dn=37.9 read=2.9 dec=1.0 total=110.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.5 ms",
+  "      layers.26  img 1/1  a 5120.000 xm 7271.253 y 24832.0",
+  "[fastglue] layers.27 proj_qkv 0.000 rope+build 0.075 attn 0.096 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.4 gu=57.1 wdn=0.0 dn=38.0 read=2.3 dec=1.4 total=109.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.4 ms",
+  "      layers.27  img 1/1  a 1056.000 xm 7271.916 y 39424.0",
+  "[fastglue] layers.28 proj_qkv 0.000 rope+build 0.072 attn 0.095 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.1 wgu=4.9 gu=57.4 wdn=0.0 dn=37.9 read=3.1 dec=1.1 total=110.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.7 ms",
+  "      layers.28  img 1/1  a 2336.000 xm 7272.041 y 54528.0",
+  "[fastglue] layers.29 proj_qkv 0.000 rope+build 0.074 attn 0.114 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.2 wgu=4.5 gu=56.9 wdn=0.0 dn=37.8 read=2.9 dec=1.1 total=109.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.7 ms",
+  "      layers.29  img 1/1  a 175.000 xm 7261.499 y 11456.0",
+  "  step 6: t= 337.972  pred absmax   4.5301  lat absmax    3.9423  11.8 s (11.75 s/image)  (dev 5241.6 / write 157.4 / pack 397.4 / host 18201.2 ms)",
+  "[fastglue] layers.0 proj_qkv 0.000 rope+build 0.069 attn 0.097 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.3 wgu=4.0 gu=56.2 wdn=0.0 dn=34.6 read=3.0 dec=1.0 total=105.6 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 106.6 ms",
+  "      layers.0   img 1/1  a 36608.000 xm 725.067 y 913408.0",
+  "      [tim] img 1/1 first layer: dev 165 ms  write 5 ms  pack 14 ms  host 2364 ms",
+  "[fastglue] layers.1 proj_qkv 0.000 rope+build 0.067 attn 0.093 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.3 wgu=4.0 gu=57.3 wdn=0.0 dn=41.0 read=3.0 dec=1.4 total=113.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.5 ms",
+  "      layers.1   img 1/1  a 4416.000 xm 804.374 y 10752.0",
+  "[fastglue] layers.2 proj_qkv 0.000 rope+build 0.073 attn 0.099 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.6 wgu=4.2 gu=59.0 wdn=0.0 dn=37.8 read=2.9 dec=1.3 total=112.0 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.1 ms",
+  "      layers.2   img 1/1  a 3440.000 xm 978.812 y 14528.0",
+  "[fastglue] layers.3 proj_qkv 0.000 rope+build 0.071 attn 0.093 proj_o 0.032",
+  "[devkill] rows=1056 pack=7.1 wgu=5.0 gu=58.0 wdn=0.0 dn=39.9 read=2.9 dec=1.2 total=114.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 115.4 ms",
+  "      layers.3   img 1/1  a 1960.000 xm 1077.406 y 8704.0",
+  "[fastglue] layers.4 proj_qkv 0.000 rope+build 0.071 attn 0.077 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.2 wgu=4.2 gu=56.8 wdn=0.0 dn=37.8 read=2.7 dec=1.1 total=109.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.2 ms",
+  "      layers.4   img 1/1  a 904.000 xm 1237.001 y 6976.0",
+  "[fastglue] layers.5 proj_qkv 0.000 rope+build 0.072 attn 0.083 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.3 gu=57.3 wdn=0.0 dn=37.9 read=2.7 dec=1.2 total=109.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.9 ms",
+  "      layers.5   img 1/1  a 1360.000 xm 1425.003 y 7904.0",
+  "[fastglue] layers.6 proj_qkv 0.000 rope+build 0.075 attn 0.078 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.5 gu=57.5 wdn=0.0 dn=37.9 read=2.8 dec=1.0 total=110.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.1 ms",
+  "      layers.6   img 1/1  a 1568.000 xm 1674.545 y 25088.0",
+  "[fastglue] layers.7 proj_qkv 0.000 rope+build 0.073 attn 0.091 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.8 wgu=4.9 gu=57.1 wdn=0.0 dn=38.0 read=3.2 dec=1.3 total=110.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.8 ms",
+  "      layers.7   img 1/1  a 1064.000 xm 1992.668 y 48640.0",
+  "[fastglue] layers.8 proj_qkv 0.000 rope+build 0.078 attn 0.080 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.1 wgu=4.5 gu=57.7 wdn=0.0 dn=38.0 read=2.8 dec=1.0 total=110.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.6 ms",
+  "      layers.8   img 1/1  a 1040.000 xm 2269.292 y 110592.0",
+  "[fastglue] layers.9 proj_qkv 0.000 rope+build 0.072 attn 0.097 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.0 wgu=4.3 gu=57.5 wdn=0.0 dn=38.1 read=2.9 dec=1.2 total=110.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.5 ms",
+  "      layers.9   img 1/1  a 588.000 xm 2616.845 y 50688.0",
+  "[fastglue] layers.10 proj_qkv 0.000 rope+build 0.074 attn 0.086 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.6 wgu=4.9 gu=57.2 wdn=0.0 dn=38.0 read=3.1 dec=1.2 total=110.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.4 ms",
+  "      layers.10  img 1/1  a 1208.000 xm 3158.941 y 162816.0",
+  "[fastglue] layers.11 proj_qkv 0.000 rope+build 0.079 attn 0.079 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=57.6 wdn=0.0 dn=37.8 read=2.5 dec=1.0 total=109.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.5 ms",
+  "      layers.11  img 1/1  a 648.000 xm 3795.315 y 104960.0",
+  "[fastglue] layers.12 proj_qkv 0.000 rope+build 0.073 attn 0.075 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.8 wgu=4.8 gu=57.4 wdn=0.0 dn=37.9 read=3.1 dec=1.2 total=110.6 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.8 ms",
+  "      layers.12  img 1/1  a 5632.000 xm 4650.515 y 74240.0",
+  "[fastglue] layers.13 proj_qkv 0.000 rope+build 0.073 attn 0.073 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.8 wgu=4.4 gu=57.1 wdn=0.0 dn=37.9 read=2.8 dec=1.0 total=109.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.5 ms",
+  "      layers.13  img 1/1  a 7552.000 xm 5433.342 y 137216.0",
+  "[fastglue] layers.14 proj_qkv 0.000 rope+build 0.072 attn 0.095 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.4 gu=57.2 wdn=0.0 dn=37.8 read=2.9 dec=1.1 total=109.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.8 ms",
+  "      layers.14  img 1/1  a 392.000 xm 6235.861 y 195584.0",
+  "[fastglue] layers.15 proj_qkv 0.000 rope+build 0.074 attn 0.092 proj_o 0.032",
+  "[devkill] rows=1056 pack=6.1 wgu=4.6 gu=57.9 wdn=0.0 dn=39.6 read=3.0 dec=1.3 total=112.8 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.9 ms",
+  "      layers.15  img 1/1  a 372.000 xm 6737.828 y 65024.0",
+  "[fastglue] layers.16 proj_qkv 0.000 rope+build 0.075 attn 0.096 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.8 wgu=4.6 gu=57.3 wdn=0.0 dn=38.0 read=2.9 dec=1.5 total=110.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.7 ms",
+  "      layers.16  img 1/1  a 1744.000 xm 7373.598 y 104960.0",
+  "[fastglue] layers.17 proj_qkv 0.000 rope+build 0.072 attn 0.085 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=4.7 gu=57.4 wdn=0.0 dn=37.9 read=3.0 dec=1.1 total=110.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.2 ms",
+  "      layers.17  img 1/1  a 1432.000 xm 7374.756 y 70656.0",
+  "[fastglue] layers.18 proj_qkv 0.000 rope+build 0.073 attn 0.093 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=5.0 gu=57.6 wdn=0.0 dn=37.9 read=3.1 dec=1.0 total=110.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.7 ms",
+  "      layers.18  img 1/1  a 1872.000 xm 7361.352 y 37632.0",
+  "[fastglue] layers.19 proj_qkv 0.000 rope+build 0.074 attn 0.084 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=4.3 gu=57.4 wdn=0.0 dn=38.0 read=2.8 dec=1.0 total=109.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.8 ms",
+  "      layers.19  img 1/1  a 1472.000 xm 7360.999 y 64512.0",
+  "[fastglue] layers.20 proj_qkv 0.000 rope+build 0.073 attn 0.081 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.3 wgu=4.3 gu=60.0 wdn=0.0 dn=38.7 read=2.9 dec=1.1 total=113.6 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.7 ms",
+  "      layers.20  img 1/1  a 1136.000 xm 7326.041 y 45056.0",
+  "[fastglue] layers.21 proj_qkv 0.000 rope+build 0.074 attn 0.093 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.2 wgu=4.4 gu=57.6 wdn=0.0 dn=37.9 read=2.9 dec=1.0 total=110.3 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.5 ms",
+  "      layers.21  img 1/1  a 1368.000 xm 7342.998 y 24192.0",
+  "[fastglue] layers.22 proj_qkv 0.000 rope+build 0.073 attn 0.086 proj_o 0.029",
+  "[devkill] rows=1056 pack=5.6 wgu=4.3 gu=56.9 wdn=0.0 dn=38.1 read=3.0 dec=1.1 total=109.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.5 ms",
+  "      layers.22  img 1/1  a 1384.000 xm 7346.915 y 32768.0",
+  "[fastglue] layers.23 proj_qkv 0.000 rope+build 0.076 attn 0.087 proj_o 0.031",
+  "[devkill] rows=1056 pack=6.4 wgu=4.4 gu=57.2 wdn=0.0 dn=37.8 read=2.9 dec=1.1 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.1 ms",
+  "      layers.23  img 1/1  a 2560.000 xm 7367.932 y 19072.0",
+  "[fastglue] layers.24 proj_qkv 0.000 rope+build 0.073 attn 0.082 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.0 wgu=4.5 gu=58.7 wdn=0.0 dn=39.7 read=2.9 dec=1.3 total=113.4 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 114.4 ms",
+  "      layers.24  img 1/1  a 1184.000 xm 7375.778 y 12992.0",
+  "[fastglue] layers.25 proj_qkv 0.000 rope+build 0.073 attn 0.090 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=57.0 wdn=0.0 dn=37.9 read=3.0 dec=1.1 total=110.1 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 111.1 ms",
+  "      layers.25  img 1/1  a 1112.000 xm 7370.407 y 16512.0",
+  "[fastglue] layers.26 proj_qkv 0.000 rope+build 0.073 attn 0.085 proj_o 0.030",
+  "[devkill] rows=1056 pack=5.9 wgu=4.6 gu=57.1 wdn=0.0 dn=37.9 read=2.9 dec=1.1 total=109.9 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.9 ms",
+  "      layers.26  img 1/1  a 4672.000 xm 7359.498 y 20864.0",
+  "[fastglue] layers.27 proj_qkv 0.000 rope+build 0.072 attn 0.090 proj_o 0.031",
+  "[devkill] rows=1056 pack=5.9 wgu=4.7 gu=57.0 wdn=0.0 dn=38.0 read=2.7 dec=1.0 total=109.7 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 110.5 ms",
+  "      layers.27  img 1/1  a 2256.000 xm 7359.677 y 50432.0",
+  "[fastglue] layers.28 proj_qkv 0.000 rope+build 0.073 attn 0.073 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=57.2 wdn=0.0 dn=40.1 read=3.0 dec=1.4 total=112.5 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 113.8 ms",
+  "      layers.28  img 1/1  a 824.000 xm 7360.285 y 83456.0",
+  "[fastglue] layers.29 proj_qkv 0.000 rope+build 0.078 attn 0.104 proj_o 0.030",
+  "[devkill] rows=1056 pack=6.1 wgu=4.4 gu=58.4 wdn=0.0 dn=38.1 read=2.9 dec=1.0 total=111.2 ms (wdb=on wgn=0.0 pad=0)",
+  "[ffnprof] seq=1056 small total 112.4 ms",
+  "      layers.29  img 1/1  a 296.000 xm 7352.245 y 14208.0",
+  "  step 7: t=   8.929  pred absmax   4.4344  lat absmax    3.9761  11.6 s (11.63 s/image)  (dev 5221.7 / write 158.3 / pack 400.8 / host 17989.5 ms)",
+  "[t3d] dev_ms_by_image: {}",
+  "[t3d] write_ms_by_image: {}",
+  "[t3d] barriers 0 (0.0 ms, states {})",
+  "[t3d] dispatches 0 (0 retries)  device 0.0 s  staging 0.0 s  wall 97.0 s",
+  "[t10] share_weights False",
+  "[t10] batch 1: wall 97.04 s  ->  97.036 s/image  0.6183 images/min  (device 0.00 s = 0.000 s/image, staging 0.00 s = 0.000 s/image)",
+  "[t3d] dev by dispatch tag: {}",
+  "[t3d] NPU share: 0.0 % of the wall is the NPU computing; 0.0 % counting the host-side staging it forces",
+  "[t3d] latents -> w1853325147adp0_latents.npy (VAE decode is the py3.12 stage)",
+  "@@WEBUI@@ {\"code\": 0, \"elapsed_s\": 109.36726927757263, \"event\": \"driver_done\", \"t\": 1793789723.9793, \"tp\": 39094.406551}",
+  "[webui] device stage: bridge import 0.59 s + startup 15.25 s (+ prewarm wait 1.04 s, pack built, 33.03 s, src reused)",
+  "[webui] loop complete: 94.09 s, device 0.00 s, latents 2abf91331200d069",
+  "[vae] ZIMAGE_VAE_NPU=0; CPU decoder",
+  "[vae] resident decoder loaded in 2.62 s (one-time per server; later jobs pay 0) [lean]",
+  "[vae] decode threads: torch intra-op 10 [arm pinned] latent 64x64 (ZIMAGE_VAE_THREADS=10 explicit (geometry class lsb1))",
+  "[vae] repro_migrated_1853325147ad_p0_s7.png: 512x512 382271 B in 4.711 s [cpu] sha256=c4fee5c1b871ae86",
+  "[webui] job 20261104-185332-5147ad done in 119.8 s; timing closure PASS (sum 119.70 + unaccounted +0.10 = total 119.80)"
+ ],
+ "log_lines": 1066,
+ "error": null,
+ "hint": "",
+ "cancel_requested": false,
+ "started_ts": 1793789612.913055,
+ "finished_ts": 1793789732.7041256,
+ "started": "2026-11-04T18:53:32",
+ "finished": "2026-11-04T18:55:32",
+ "attempts": [
+  {
+   "tag": "w1853325147adp0",
+   "rc": 0,
+   "complete": true,
+   "steps": 8,
+   "seconds": 111.1535653999963
+  }
+ ],
+ "te_cache": {
+  "hit": true,
+  "key": "92a71951b33f55dd5f41d1573bf5b8b364016750069a4ccd995e1f3a02f4e801",
+  "source": "disk",
+  "backend": "gpu",
+  "tokens": 13,
+  "seconds": 0.0126,
+  "pe_sha256": "90514d089ec4b35662d81a8ae000ea909dacb39347c4d25d389cd804bbe9a04c"
+ },
+ "te_resident": false,
+ "pe": {
+  "sha256": "90514d089ec4b35662d81a8ae000ea909dacb39347c4d25d389cd804bbe9a04c",
+  "tokens": 13,
+  "backend": "gpu"
+ },
+ "fastglue_hooks": {
+  "on": 8,
+  "total": 8
+ },
+ "startup_s": 15.251602299998922,
+ "steps_rec": [
+  {
+   "step": 0,
+   "t": 1000.0,
+   "seconds": 15.508425300002273,
+   "seconds_per_image": 15.508425300002273,
+   "pred_absmax": 6.591831207275391
+  },
+  {
+   "step": 1,
+   "t": 947.5425415039062,
+   "seconds": 11.512752900001942,
+   "seconds_per_image": 11.512752900001942,
+   "pred_absmax": 5.531306743621826
+  },
+  {
+   "step": 2,
+   "t": 882.7877807617188,
+   "seconds": 11.319546299993817,
+   "seconds_per_image": 11.319546299993817,
+   "pred_absmax": 4.801126956939697
+  },
+  {
+   "step": 3,
+   "t": 800.8373413085938,
+   "seconds": 11.79002539999783,
+   "seconds_per_image": 11.79002539999783,
+   "pred_absmax": 4.813775062561035
+  },
+  {
+   "step": 4,
+   "t": 693.7930908203125,
+   "seconds": 11.775184400001308,
+   "seconds_per_image": 11.775184400001308,
+   "pred_absmax": 4.720559120178223
+  },
+  {
+   "step": 5,
+   "t": 548.0455932617188,
+   "seconds": 11.748959400007152,
+   "seconds_per_image": 11.748959400007152,
+   "pred_absmax": 4.577052116394043
+  },
+  {
+   "step": 6,
+   "t": 337.97216796875,
+   "seconds": 11.753855800001475,
+   "seconds_per_image": 11.753855800001475,
+   "pred_absmax": 4.530106544494629
+  },
+  {
+   "step": 7,
+   "t": 8.928571701049805,
+   "seconds": 11.627691399997275,
+   "seconds_per_image": 11.627691399997275,
+   "pred_absmax": 4.434386253356934
+  }
+ ],
+ "vae_impl": "cpu",
+ "vae_decode_threads": {
+  "n": 10,
+  "arm": "pinned",
+  "class": "lsb1",
+  "latent": [
+   64,
+   64
+  ],
+  "rule": "mod5",
+  "why": "ZIMAGE_VAE_THREADS=10 explicit (geometry class lsb1)"
+ },
+ "te_backend": "gpu",
+ "latents_sha256": "2abf91331200d0697d5582e16619db69cad9e387ca95137d18c234be38e84d6e",
+ "crop": null,
+ "dispatches": 0,
+ "retries": 0,
+ "teardown_rc": null,
+ "elapsed_s": 119.80207228660583,
+ "log_url": "/api/jobs/20261104-185332-5147ad/log",
+ "queue_position": null
+}

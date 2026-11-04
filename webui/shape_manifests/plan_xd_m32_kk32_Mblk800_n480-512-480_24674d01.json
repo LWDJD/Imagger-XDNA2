@@ -1,0 +1,91 @@
+{
+ "plan_key": "xd_m32_kk32_Mblk800_n480-512-480_24674d01",
+ "Mblk": 800,
+ "used_by": [
+  800,
+  1568
+ ],
+ "ndisp_by_M": {
+  "800": 1,
+  "1568": 2
+ },
+ "strategy": "xd",
+ "m": 32,
+ "kk": 32,
+ "T": 1,
+ "cols": 8,
+ "cpc": 4,
+ "mixed": true,
+ "adepth": 1,
+ "bdepth": 1,
+ "pad_rows": 32,
+ "per_col": [
+  4,
+  3,
+  3,
+  3,
+  3,
+  3,
+  3,
+  3
+ ],
+ "l1_max": 55296,
+ "gemms": {
+  "gu": {
+   "K": 3840,
+   "N": 10240,
+   "n": 512,
+   "ntiles": 20,
+   "nkk": 120,
+   "l1": 55296,
+   "a_bytes": 7864320,
+   "b_bytes": 44236800,
+   "c_bytes": 20971520
+  },
+  "dn": {
+   "K": 10240,
+   "N": 3840,
+   "n": 480,
+   "ntiles": 8,
+   "nkk": 320,
+   "l1": 52096,
+   "a_bytes": 20971520,
+   "b_bytes": 44236800,
+   "c_bytes": 7864320
+  },
+  "proj": {
+   "K": 3840,
+   "N": 3840,
+   "n": 480,
+   "ntiles": 8,
+   "nkk": 120,
+   "l1": 52096,
+   "a_bytes": 7864320,
+   "b_bytes": 16588800,
+   "c_bytes": 7864320
+  }
+ },
+ "images": {
+  "ad_xd_m32k32_M800_n512_a1b1_gu": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m32k32_M800_n512_a1b1_gu.xclbin",
+   "sha256": "9d24b23d4b1ca07d67415d1c012e71e8bc0168c24d7a7c864859b77d28e335a8",
+   "l1_design": 55296
+  },
+  "ad_xd_m32k32_M800_n480_a1b1_dn": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m32k32_M800_n480_a1b1_dn.xclbin",
+   "sha256": "ca9d9a1d7a3fe4a960db6e2effafe66a3a1730ffaddc860c79cc3f79ca61cf17",
+   "l1_design": 52096
+  },
+  "ad_xd_m32k32_M800_n480_a1b1_proj": {
+   "status": "CACHED",
+   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_xd_m32k32_M800_n480_a1b1_proj.xclbin",
+   "sha256": "49e71d8cd307cd893f1daaceff799476efa8c75111dcc7f44b4affb3812a97ea",
+   "l1_design": 52096
+  }
+ },
+ "built_ok": true,
+ "note": "adaptive 32-core placement image set; the plan is the cache key, so an identical plan is built once",
+ "created": "2026-11-03T07:28:29"
+}
