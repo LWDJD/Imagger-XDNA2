@@ -1,343 +1,187 @@
-# Z-Image BFP16 on AMD XDNA2 NPU — open IRON + XRT route
+# Imagger-XDNA2
 
-A self-contained, reproducible collection of everything needed to **feed
-BlockFP16 (`bfp16ebs8`) weights straight to the AMD XDNA2 NPU** without the
-VitisAI EP, without an fp32 expansion, and without per-call conversion.
+**Z-Image-Turbo 512²–1080p image generation on the AMD XDNA2 NPU**, with a WebUI,
+a BlockFP16 weight format, and a measured performance record.
 
-Target: AMD Ryzen AI 9 H 365 (Radeon 880M), NPU **Strix** (XDNA2 / AIE2P).
+This repository is the **clean, runnable core**. It is not the research tree: every
+file here is reachable from `webui.py` or from a build script in
+[docs/BUILD.md](docs/BUILD.md).
+
+> **Status:** runs on Ryzen AI 9 H 365 / Radeon 880M (XDNA2 "Strix", 32 AIE tiles).
+> Verified byte-reproducible: 512² x8 steps -> latents `2abf91331200d069…`,
+> reproduced from **this** tree after the move.
 
 ---
 
-## Why this route
+## 1. What this does
 
-The goal is to keep weights as **BlockFP16 all the way to the hardware**:
-
-| requirement | why |
+| | |
 |---|---|
-| BFP16 **storage** | 1.125 B/param instead of 4 B/param fp32 |
-| BFP16 **residency** | the same 1.125 B/param in RAM |
-| **no runtime overhead** | no per-call unpack, no fp32 conversion, no reload |
+| Model | Z-Image-Turbo, a 30-layer DiT + text encoder + VAE, distilled to 8 steps |
+| Weights | **BlockFP16 (BFP16)** — **9 bytes per 8 values**: one scale byte plus 8 int8-range values, `value = m x 2^(byte-133)`. Peak device rate **49.152 TOPS** = 32 cores x 512 MAC/cycle x 2 x 1.5 GHz |
+| Backend | AMD XDNA2 NPU via XRT + MLIR-AIE compiled `xclbin` images |
+| Host | the CPU does attention, the refiner pre-stage, norms/rope/packing |
+| Resolutions | 512², 1024², 1920x1080, 1080x1920 and other multiples of 64 (see §6) |
+| Batch | `--batch B`; with the two-chain engine two images are in flight at once |
 
-Anything that materialises fp32 loses the whole advantage over an iGPU, so the
-conversion must never happen on the host.
+**BFP16 is an 8-bit format. It is not bf16.** See [docs/BFP16.md](docs/BFP16.md).
 
-The VitisAI EP path cannot do this: it converts on load, its `wgt_formatting`
-tool rejects BFP16, and its compiled `.rai` artifacts carry an integrity
-signature that is not recomputable.  The **open** path does not have any of
-those problems.
+## 2. Measured performance (512², 8 steps, AC power)
 
----
+| configuration | loop | note |
+|---|---:|---|
+| delivered default | ~90–94 s | the numbers in this README's tables |
+| + `ZIMAGE_SKIP_STEPS=7` | ~78–81 s | one step skipped, latents corr 0.9999748 |
+| + fast attention (`T22_ATTN_*`) | ~81 s | corr 0.9975444 |
+| + `--batch 2` two chains | 70.5 s/image | −19.7 %, byte-identical to serial |
 
-## What is in here
+Wall clock resolves to only ±2 s; the per-section columns in the logs are the real
+evidence ([docs/MEASUREMENTS.md](docs/MEASUREMENTS.md)). Device utilisation: 45 %
+single-chain, 56–59 % two-chain.
 
-| file | what it is |
-|---|---|
-| `pack_bfp16.py` | the `bfp16ebs8` encoder.  Verified byte-for-byte against a vendor `.rai` on 12 synthetic shapes **and** a real 16-tensor transformer shard (416,071,680 B region, 0 differing bytes). |
-| `bfp16_gemm_iron.py` | the first open IRON BFP16 matmul: `mm_bfp` (aie2p) + ObjectFIFOs + Worker + `pipeline`. |
-| `run_with_xrt.py` | the run side: loads `xclbin`/`insts.bin` through `pyxrt` and feeds BFP16 buffers straight to the NPU. |
-| `verify_packer.py` | checks `pack_bfp16` against AMD's own reference implementation (`aie.utils.bfp`). |
-| `ENVIRONMENT.md` | the exact paths and versions this was built and run against. |
-| `REPRODUCE.md` | step-by-step reproduction. |
-| `KNOWN-ISSUES.md` | what is unfinished and what has already been ruled out. |
+## 3. Requirements
 
----
+### Hardware
+* AMD Ryzen AI (XDNA2) NPU with 4+ columns. Verified on Ryzen AI 9 H 365 (32 tiles).
+* ~13 GB free commit at 512²; **17 GB** for 1080p.
 
-## Format (settled — do not re-derive)
+### Software that this repository does **not** contain
 
-Block float, 8 elements sharing one exponent, **9 bytes per group of 8**:
+Nothing in this list is redistributed here — install it yourself.
 
-```
-group of 8 consecutive elements along K
-    -> [exponent byte][8 x int8 mantissa]
-
-e   = floor(log2(amax)) - 6        UNCONDITIONALLY
-      (there is NO special case for an exact power of two; that variant is wrong)
-m   = sign(v) * floor(|v| / 2^e + 0.5)     round half AWAY from zero
-if m.max() > 127: e += 1; recompute         -128 is legal, +128 is not
-exponent byte = (e + 133) & 0xFF             IEEE bias 127
-```
-
-Tiling for the AMD kernel layout: tiles of `tile_rows` rows x 32 K-elements;
-inside a tile
-
-```
-slot = (r//8)*32 + (c//8)*8 + (r%8)     r = row % tile_rows,  c = kelem % 32
-```
-
-`tile_rows` is a function of (N, K, M) where M is the token count.  At seq=96
-the measured values are 48 / 32 / 32 / 64 for the four matrix shapes of the
-Z-Image transformer.
-
-**Independent confirmation of `block_size = 8`** from four AMD sources:
-`quark/torch/quantization/config/config.py` (`group_size=8`),
-`quark/torch/kernel/hw_emulation/hw_emulation_interface.py` (`block_size = 8`),
-`aie.utils.bfp` (`BLOCK=8, BLOCK_BYTES=9`), and Quark's
-`BFPAttributes: {block_size: 8}`.  The often-quoted "32 elements share an
-exponent" is wrong for `bfp16ebs8` — it confuses the `q4nx` group of 32.
-
-**AMD's own reference codec** (from
-`quark/onnx/operators/custom_ops/src/bfp/cpu/bfp_kernel.cc`) agrees with the
-encoder above:
-
-```c
-shared_exp_value = max_biased_exponent - 127;
-m_bits           = bit_width - 9;                        // 16 -> 7
-scale            = 2 ** (shared_exp_value - (m_bits-1)); // == 2**(e_unb - 6)
-max_v            = 2 ** (shared_exp_value + 1) - scale;
-// rounding: STD_ROUND = std::round  (half away from zero)
-```
-
----
-
-### Weight residency — the goal, measured
-
-`weights.bfp16` is 6,913,965,970 B holding 6,143,056,384 parameters in 506
-tensors (270 packed `bfp16ebs8` + 236 raw fp32 1-D), across 17 shards of
-~407 MB each.
-
-    resident (bfp16ebs8 + raw fp32)   6,913,878,016 B
-    fp32 equivalent                  24,572,225,536 B
-    compression                                    3.554x
-    saved                            17,658,347,520 B  (71.9%)
-
-And the property the whole exercise exists for, instrumented rather than
-asserted: over N=3 steady-state iterations of the block's access pattern,
-`unpack` is called **0 times**.  Decoding per call instead would mean 8 unpack
-calls and 203,489,280 B of decode work per three iterations.  See
-`imaggers/residency/residency.py` and `residency_report.md`.
-
-### Assembly: stage 1 is VERIFIED on the NPU
-
-The task-compliant three-kernel chain
-
-    rms_norm_weighted (gamma != 1) -> adaln_modulate (per-token scale/shift)
-      -> mm_bfp(mixed=True)         [bf16 activations, BFP16 weights]
-
-runs at M=32 K=3840 N=32, tile (16,8,16), on the memtile2 architecture:
-
-    4/4 runs ERT_CMD_STATE_COMPLETED (5.8-6.5 ms), run-to-run byte-identical
-    max abs err 128.0 = exactly 1 bf16 ulp;  max ulp 1.000 at both seeds
-    99.90% bit-exact (1023/1024);  <=2 bf16 ulps criterion PASS
-
-Artifact `imaggers/block/out/s1w_M32_K3840_N32_m16_k8_n16_d111.xclbin`
-(21,304 B).  Gamma is folded into one packed `[scale|shift|gamma]` stream
-element because `core_dma_channels_in == 2` bars a third input fifo; L1 at the
-norm core measures 65,280 of 65,536 B.
-
-Two traps that were costing whole rounds, now settled:
-  * **use `set_current_device(NPU2())`**, not `from_name("npu2")` — the latter
-    exposes only one shim tile to the placer and refuses any multi-fill design,
-    with an error message that reads like a hardware limit but is not
-  * `pack_bfp16`'s API is `pack(W, tile_rows=None) -> bytes`; there is no
-    `quantize(...)` and no `unpack_and_quantize(...)`
-
-Next: stage 2, the attention branch (`to_q/to_k/to_v -> unflatten ->
-norm_q/norm_k -> RoPE -> QK^T -> softmax_rows_bf16 -> P*V -> to_out`), reusing
-`imaggers/attn_impl/` which already verifies at the full Z-Image geometry.
-
-### Assembly has begun: three kernels in one design
-
-`imaggers/block/step1_design.py` chains `rms_norm` -> `adaln_modulate` ->
-`mm_bfp(mixed=True)` on the memtile2 architecture and compiles:
-
-    step1.xclbin   17,480 B
-    step1.bin         900 B
-
-The invocation that works (the earlier failure was the call form, not the
-design):
-
-    spec = S.memtile_worker.specialize(M=..., K=..., ..., use_cache=False)
-    xcl, ins = spec.compile(xclbin_path=..., inst_path=...)
-
-Next: run it on the NPU and verify against `imaggers/kernels/refs.py` within
-2 bf16 ulps.
-
-### The 34-block stack: enumerated and measured
-
-`imaggers/pipeline/stack34.py` walks the whole transformer in forward order —
-`noise_refiner.0/1`, `context_refiner.0/1`, `layers.0..29` — and measures the
-residency property at full scale:
-
-    506 tensors   6,913,878,016 B resident   6,143,056,384 params
-    one pass: 506 reads, **0 unpack calls**
-
-So the property the project exists for is confirmed on the real stack: the
-weights stay as `bfp16ebs8` blocks and are never re-decoded.
-
-## The pipeline is BATCHED across three phases, not one image at a time
-
-The weights are not a constraint: DiT 7.1B + text 4B + VAE 0.5B ≈ 11.6B
-params, so BFP16 (1.125 B/param) is about 13 GB for the WHOLE pipeline.  Even
-if memory is tight the phases can be swapped in and out — and load time is
-short enough that it does not matter.
-
-The throughput win comes from batching at the phase boundary:
-
-    text encoder  : batch over PROMPTS    -> pe (L, 2560) each
-    DiT, 34 x 8   : batch over (prompt, seed) -> latents
-    VAE           : batch over LATENTS    -> images
-
-Each phase reads its weights ONCE and amortises them over every sample.
-Because the DiT's per-dispatch traffic is 97.29% weight bytes, batching N
-samples leaves the weight traffic unchanged and multiplies the compute by N —
-so the arithmetic intensity rises again by N.
-
-Arithmetic intensity is the token count, and it grows with the prompt:
-
-    prompt length    tokens    FLOP/byte (Qwen3-4B forward)
-    short               13          13.6
-    medium             256         268
-    long             1,024       1,074
-    very long        4,096       4,294
-
-The text encoder is a SINGLE FORWARD PASS — no autoregressive decoding, no KV
-cache management, all tokens parallel.  That is the best possible load shape
-for a systolic array, and at a thousand tokens it is as compute-bound as the
-denoiser at 512x512.  **The text encoder belongs on the NPU too**; the earlier
-"keep it on the CPU" advice was based on two arithmetic errors and is
-withdrawn.
-
-## The scope rule: compute per byte decides what goes on the NPU
-
-Estimates per 128x128 image, 8 denoising steps:
-
-| component | bytes | FLOP per image | FLOP per byte | where it runs |
-|---|---|---|---|---|
-| 34 DiT blocks | 6.14 GB | ~9.25 TFLOP | **~1,500** | **NPU** |
-| VAE decoder | 0.34 GB | ~10 GFLOP | ~29 | CPU |
-| text encoder | 7.67 GB | ~1 GFLOP | **~0.13** | CPU |
-
-The denoiser is ~99.9% of the compute and is the only part worth putting on the
-NPU — and it is exactly the part the BlockFP16 residency requirement is about.
-The text encoder is the largest tensor set in the checkpoint but the
-lightest per byte: moving it to the NPU would cost 6.7 GB of BFP16 residency
-for no throughput gain.
-
-So the split is deliberate, not a shortcut: **BFP16 weights and the NPU are
-for the denoiser; the text encoder stays on the CPU.**
-
-**Update — the VAE goes on the NPU too, in BFP16.**  The owner's call: faster
-to keep the whole image path on the NPU than to round-trip through the iGPU,
-and BFP16 (`bfp16ebs8`, 1.125 B/param) — explicitly *not* bf16 — keeps one
-residency story.  The VAE is ~0.38 GB in BFP16 and ~10 GFLOP per image, so it
-adds little residency and no meaningful load.  It reuses the same
-`mm_bfp(mixed=True)` pipeline as the DiT.
-
-The text encoder runs on the **GPU via the existing llama.cpp** — the owner's
-call: no new encoder implementation, no rebuilding llama.cpp.  The machine
-already has a Vulkan build at
-`D:\Project\openhanako\workbench\prism-vulkan\` with `llama-embedding.exe`,
-plus `llama.cpp-0.5.0`, `prism-llama.cpp` and an `.ollama` tree.
-
-So the final placement is:
-
-| component | where | format |
+| dependency | why | where |
 |---|---|---|
-| 34 DiT blocks | NPU | **BFP16** (`bfp16ebs8`) |
-| VAE decoder | NPU | **BFP16** (`bfp16ebs8`) |
-| text encoder | GPU | llama.cpp (Vulkan), reused as-is |
+| **AMD NPU driver + XRT** | the device runtime | [docs/BUILD.md](docs/BUILD.md) §2 |
+| **MLIR-AIE / Peano** | compiles the `xclbin` images | only to rebuild kernels; this repo ships the built ones |
+| **Python 3.10 and 3.12** | the product hard-codes two interpreters | `webui/config.py`, override with env vars, §5 |
+| `torch` (CPU build) | the host maths | `pip install torch --index-url https://download.pytorch.org/whl/cpu` |
+| `numpy`, `numba` | host maths, fused softmax | pip (numba on 3.10 only) |
+| **Vulkan SDK** (optional) | only for the GPU experiments | `glslangValidator`, `glslc` |
 
-## Where this stands
+`torch` here is a **CPU-only** build. There is no CUDA/HIP backend on this platform;
+the GPU is reachable only through `ggml`+Vulkan or `torch-directml`, neither of which
+the product uses yet. See [docs/GPU.md](docs/GPU.md).
 
-**The hard part is done**: BFP16 weights are packed, the open toolchain compiles
-them for aie2p, and the NPU executes a BFP16 kernel.  The remaining work is
-assembly, not research.
+### Artifacts you must supply (not in git — too large)
 
-### Kernel coverage for a DiT block — `COVERAGE.md`
+| artifact | size | how to get it |
+|---|---:|---|
+| `webui/models/zimage-te-qwen3-4b-bf16.gguf` | 8.05 GB | **download** — the Qwen3-4B text encoder |
+| `weights.bfp16` (in `zimage-port/`, outside this repo) | 6.91 GB | **build or download** — the wpack's only input |
+| `weights/block*.npz` (30 files) | 6.38 GB | **build** from the upstream model |
+| `webui/cache/wpack/wpack_l30_v2.bin` | 1.90 GB | **build** from `weights.bfp16`, ~33 s |
+| `brepack_cache/brepack_30_k32_*.bin` | 5.31 GB | **build once**, content-addressed |
 
-7 of the 8 operators a Z-Image block needs are already in mlir-aie's IRON
-library:
+A fresh clone cannot generate an image until those are in place. Everything else —
+including the compiled NPU images (**66 files, ~8.8 MB**) — is in this repository.
+See [docs/WEIGHTS.md](docs/WEIGHTS.md), which also records the fact that the upstream
+transformer shards are **gone** on the reference box, so `weights/block*.npz` and
+`weights.bfp16` currently cannot be rebuilt there.
 
-| operator | status |
+## 4. Quick start
+
+```powershell
+git clone https://github.com/LWDJD/Imagger-XDNA2
+cd Imagger-XDNA2
+git checkout dev
+
+# 1. put the artifacts from section 3 in place
+# 2. point the product at your interpreters and driver
+$env:IMAGGER_PY310 = "C:\path\to\python310.exe"
+$env:IMAGGER_PY312 = "C:\path\to\python312.exe"
+$env:IMAGGER_XRT   = "C:\path\to\npu_mcdm_stack_prod"
+
+# 3. prove the path before generating anything (host-only, no device)
+.\imaggers\repro\t22_run.ps1 -Action preflight -Size 512 -Steps 8
+
+# 4. generate
+.\imaggers\repro\t22_run.ps1 -Size 512 -Steps 8 -Tag first
+# or the WebUI:
+python webui.py     # then open http://127.0.0.1:4168
+```
+
+See [scripts/README.md](scripts/README.md) for the three commands you will actually
+use.
+
+## 5. Configuration
+
+Hard-coded paths are overridable by environment variable:
+
+| variable | default | meaning |
+|---|---|---|
+| `IMAGGER_PY310` | the shipped absolute path | interpreter for the device worker |
+| `IMAGGER_PY312` | the shipped absolute path | interpreter for the planner |
+| `IMAGGER_XRT` | the shipped absolute path | the XRT driver stack |
+| `IMAGGER_PEANO` | `_pylibs/llvm-aie/llvm-aie` | MLIR-AIE toolchain (build only) |
+
+Runtime switches are environment flags, documented one per entry in
+[docs/KNOBS.md](docs/KNOBS.md) — 177 variables, classified by whether they can move a
+byte. The important ones:
+
+| flag | default | effect |
+|---|---|---|
+| `T22_FASTGLUE` | 1 in the product recipe | installs the 8 host/device hooks |
+| `T22_BREPACK_CACHE` | 1 in the product recipe | maps the 5.31 GB B-repack cache; startup 47.2 -> 17.2 s |
+| `T22_PROJ_BLOCK` | `1` = 1056 rows | projection block size; **must stay on above 1056 rows** (§7) |
+| `ZIMAGE_SKIP_STEPS` | unset | e.g. `7`; −9…−12.5 s at corr 0.9999748 |
+| `T22_ATTN_REUSE` | 0 | fast attention; corr 0.9975444 |
+| `T22_CHAIN2B` | 0 | two-chain batch engine; byte-identical, −19.7 % |
+
+## 6. Resolution support
+
+The NPU image is compiled for a fixed number of row tiles (RT). **A fixed-tile image
+cannot compute more rows than it has tiles**, so the projection runs in blocks sized
+to the image's own tile count (1056 rows = RT 11). This is enforced — the guard
+refuses to run rather than read stale memory.
+
+| resolution | rows (M) | path | status |
+|---|---:|---|---|
+| 512x512 | 1056 | 1 projection launch | byte-reproducible |
+| 1024x1024 | 4128 | 4 blocks | byte-identical to the reference |
+| 1920x1080 / 1080x1920 | 8256 | 8 blocks | generates a correct image |
+| anything else | `ceil(h/8)*ceil(w/8)+32` | same rule | each side must be 64..2048 |
+
+## 7. Things that will bite you
+
+* **Rows above the tile count.** A single launch of an 11-tile image handed 86 tiles
+  of rows leaves 75 tiles of *stale* buffer — a plausible-looking image that is wrong
+  above row 1056. This is a real, measured failure mode; the projection block guard
+  exists for it.
+* **The B-repack cache is content-addressed over the payload k-block order.** A cache
+  built in a different order changes the arithmetic in the last bits, which amplifies
+  ~1.55x per layer and reaches 4.19e-2 by step 8. Do not mix caches.
+* **Two chains need one shared read-only context set.** Every `pyxrt.kernel()` is its
+  own hardware context; a chain needs 18 and the ~27th is refused with `0xc01e0009`.
+  Two processes, and two independently registered `Dev`s, are both impossible — see
+  [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §4.
+* **A flag that never reached the process looks exactly like a flag that did
+  nothing.** See [docs/MEASUREMENTS.md](docs/MEASUREMENTS.md) §5.
+
+## 8. Documentation
+
+| file | contents |
 |---|---|
-| BFP16 GEMM (`mm_bfp`, incl. `mixed=True` = bf16 activations + BFP16 weights) | found |
-| RMSNorm / LayerNorm | found (unweighted) |
-| Softmax | found |
-| RoPE (incl. HF split-half form) | found |
-| SwiGLU / SiLU / GELU | found |
-| elementwise add / mul / mul_add | found |
-| attention toolkit (`mha`) | found |
-| **adaLN modulation** | **missing** — composable from mul + add |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | the 20-segment chain, where time goes, the device model |
+| [docs/BUILD.md](docs/BUILD.md) | toolchain, the two interpreters, how the `xclbin` images were built |
+| [docs/WEIGHTS.md](docs/WEIGHTS.md) | upstream model -> `block*.npz` -> `wpack` -> `brepack`, and the blocker |
+| [docs/BFP16.md](docs/BFP16.md) | the 9-byte/8-value format and why it is not bf16 |
+| [docs/KNOBS.md](docs/KNOBS.md) | every runtime flag, its default and its effect class |
+| [docs/MEASUREMENTS.md](docs/MEASUREMENTS.md) | how to measure without fooling yourself |
+| [docs/GPU.md](docs/GPU.md) | the iGPU situation, honestly |
+| [docs/API.md](docs/API.md) | the WebUI's HTTP surface |
+| [docs/reports/INDEX.md](docs/reports/INDEX.md) | 23 curated engineering reports + what was deliberately dropped |
 
-The four gaps are all *composition* gaps, not missing kernels:
+## 9. Verification status
 
-  1. adaLN — `mul` + `add` with a per-token conditioning vector
-  2. RMSNorm with learnable gamma — `rms_norm` then a separate `mul`
-  3. **bidirectional attention softmax — SOLVED, no new C++ needed**
-     (`attn/DESIGN.md`).  The causal mask is a single call site,
-     `softmax_aie2p.h:237`; removing it yields `softmax_rows_bf16`
-     (`softmax_aie2p.h:222-229`), which already exists UNMASKED in the same
-     object and only lacks a Python binding.  Contract:
-     `softmax_rows_bf16(bfloat16 *in, bfloat16 *out, rows=96, row_len=96)`,
-     (96,96) bf16 row-major, 18,432 B each, `row_len % 32` hard.
-     `mha.cc`'s online-softmax cannot simply drop its mask (causality is a
-     derived diagonal plus three hard `kv>q` skips), so the recommendation is
-     QK^T -> `softmax_rows_bf16` -> P*V with `1/sqrt(128)` folded into Q.
-  4. flash attention at head_dim 128 — `prefill_fv` covers 256/512 only,
-     though the `mha` micro-tile toolkit does accept 128
+This is a research-driven port, so the repository records what is *proven*:
 
-`_examples/block_datatypes/matrix_multiplication/whole_array_shuffle/whole_array.py`
-is the most composed design available and the right skeleton to copy;
-`single_core_mixed/` and `whole_array_mixed/` show `mm_bfp(mixed=True)`, which
-is exactly the BlockFP16-weights configuration.
+* 512²x8 -> `2abf91331200d069…`, reproduced across sessions **and from this tree after
+  the move** (preflight 12/12 PASS, loop 94.09 s, device released cleanly).
+* 1024²x1 -> `af993cadfecbc419…`, byte-identical to an independent chunked path.
+* 1920x1080 -> a real image, device peak 12.71 GB.
+* Fast attention, skip-step and two-chain arms each carry an 8-step quality gate and
+  a **negative control that is shown to fail**.
 
-### What is left, honestly
+## 10. License
 
-| milestone | state |
-|---|---|
-| BFP16 encoder byte-exact vs the vendor format | **done** |
-| single `weights.bfp16` file (6.439 GiB) | **done** |
-| open toolchain compiles BFP16 for aie2p | **done** |
-| **BFP16 matmul VERIFIED on the NPU** | **done** — rel 1.01e-02, the quantisation floor |
-| **two-op pipeline (RMSNorm -> GEMM) on the NPU** | **done** — 100.00% bit-exact |
-| **corner turn expressible by DMA** | **done** — measured, hidden to 1792 |
-| attention softmax + adaLN + weighted RMSNorm designs | **done** (`attn/`, `adaln/`) |
-| hidden 3840 (the real Z-Image dim) | path documented in `dit2/FINDINGS.md`, not built |
-| full DiT block in IRON | next |
-| 34-block transformer, VAE, end-to-end image | not started |
-
-### The architecture is now proven end to end at small scale
-
-`dit2/two_worker.py` runs RMSNorm on one core and `mm_bfp(mixed=True)` on
-another, with the corner turn between them expressed **as a DMA `to_stream`
-permutation** — no custom kernel.  Verified **100.00% bit-exact** against a
-numpy RMSNorm-then-matmul model at hidden 32 … 1792, `ERT_CMD_STATE_COMPLETED`
-and byte-identical on reruns.
-
-The trick: at per-GEMM `k=8`, an `(m,8)` A tile's `(8,8,8)` micro-tile layout
-**is** row-major, so the corner turn collapses to permuting
-`(m, K/8, 8) -> (K/8, m, 8)` — one three-dimensional `to_stream` walk, proven
-offline with `tap.gather()` before compiling.
-
-Hard limits found on the way (all with verbatim error text in
-`dit2/FINDINGS.md`):
-  * compute-tile DMA descriptors take **at most 3 dimensions**
-  * bfp16ebs8 strides must be **4-byte multiples** (9-byte blocks need packing)
-  * **L1 is 64 KB per tile** — K=1792 uses 64,768 of 65,536 B
-  * a single DMA descriptor caps at **16383 words**, which is what refuses
-    hidden 2048 and 3840
-
-> **2026-10-20 note**: every hardware/platform fact used by this repo (L1 64 KB,
-> 16 KB program region, 16 BDs, ≤7 data arguments, state-8, the ~7 s ERT
-> watchdog, BFP16 vs BF16 …) is consolidated — with provenance (report:line /
-> commit) and design impact — in `docs/KNOWN-PLATFORM-FACTS.md`.
-
-To reach hidden 3840: keep the `(m,K)` tile in a **memtile** (512 KB), turn the
-corner on the memtile hop, and use asymmetric transfer granularity so the GEMM
-core receives ready `(m,k)` slices — then neither core holds `(m,K)`.
-
-**Reference-model trap worth knowing:** `mm_bfp_mixed.cc` re-rounds C to bf16
-after *every* GEMM call.  A numpy reference must round-trip through bf16 per
-accumulation; a plain f64 sum drifts up to 13 ulps at K=1792 and looks like a
-bug when it is not.
-
-    XRT 2.21.0            ->  xrt-smi examine  ->  NPU Strix
-    pyxrt (Python 3.10)   ->  pyxrt.device(0)
-
-The compile side and the run side use different Python versions; that is the
-natural layering, not a workaround:
-
-    compile : Python 3.12 + mlir_aie   ->  aiecc  ->  xclbin + insts.bin
-    run     : Python 3.10 + pyxrt      ->  device(0) / bo / kernel / run
-
-See `ENVIRONMENT.md` for the exact interpreter and DLL paths.
+MIT — see [LICENSE](LICENSE).
