@@ -1,0 +1,191 @@
+{
+  "results": [
+    {
+      "shard": "noise_refiner",
+      "status": "PASS",
+      "rel_vs_ref": 0.04082646185359268,
+      "out_absmax": 29.665956497192383,
+      "ref_absmax": 29.830717086791992,
+      "finite": true,
+      "wall_s": 559.56,
+      "build_s": 548.45,
+      "n_nodes": 588
+    },
+    {
+      "shard": "context_refiner",
+      "status": "PASS",
+      "rel_vs_ref": 0.03886285453362297,
+      "out_absmax": 206.5802001953125,
+      "ref_absmax": 206.6514434814453,
+      "finite": true,
+      "wall_s": 455.46,
+      "build_s": 452.32,
+      "n_nodes": 522
+    },
+    {
+      "shard": "layers_00_02",
+      "status": "PASS",
+      "rel_vs_ref": 0.01698329123910716,
+      "out_absmax": 59.77076721191406,
+      "ref_absmax": 59.56939697265625,
+      "finite": true,
+      "wall_s": 4.4,
+      "build_s": 0.57,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_02_04",
+      "status": "PASS",
+      "rel_vs_ref": 0.029079217121382943,
+      "out_absmax": 36.77019500732422,
+      "ref_absmax": 36.61332321166992,
+      "finite": true,
+      "wall_s": 3.59,
+      "build_s": 0.36,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_04_06",
+      "status": "PASS",
+      "rel_vs_ref": 0.029801576546599574,
+      "out_absmax": 31.60093116760254,
+      "ref_absmax": 31.197324752807617,
+      "finite": true,
+      "wall_s": 3.8,
+      "build_s": 0.39,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_06_08",
+      "status": "PASS",
+      "rel_vs_ref": 0.037754504892160624,
+      "out_absmax": 55.448486328125,
+      "ref_absmax": 57.624053955078125,
+      "finite": true,
+      "wall_s": 3.84,
+      "build_s": 0.37,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_08_10",
+      "status": "PASS",
+      "rel_vs_ref": 0.021177659987616566,
+      "out_absmax": 93.81062316894531,
+      "ref_absmax": 94.86658477783203,
+      "finite": true,
+      "wall_s": 3.68,
+      "build_s": 0.38,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_10_12",
+      "status": "PASS",
+      "rel_vs_ref": 0.01594330213863643,
+      "out_absmax": 202.69964599609375,
+      "ref_absmax": 203.485107421875,
+      "finite": true,
+      "wall_s": 3.39,
+      "build_s": 0.29,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_12_14",
+      "status": "PASS",
+      "rel_vs_ref": 0.0196676303824566,
+      "out_absmax": 173.3996124267578,
+      "ref_absmax": 175.23226928710938,
+      "finite": true,
+      "wall_s": 3.44,
+      "build_s": 0.35,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_14_16",
+      "status": "PASS",
+      "rel_vs_ref": 0.019953515196613977,
+      "out_absmax": 191.80978393554688,
+      "ref_absmax": 191.0499725341797,
+      "finite": true,
+      "wall_s": 3.51,
+      "build_s": 0.22,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_16_18",
+      "status": "PASS",
+      "rel_vs_ref": 0.0339923455263531,
+      "out_absmax": 56.195335388183594,
+      "ref_absmax": 57.01346206665039,
+      "finite": true,
+      "wall_s": 3.74,
+      "build_s": 0.32,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_18_20",
+      "status": "PASS",
+      "rel_vs_ref": 0.025848589407151044,
+      "out_absmax": 186.8974609375,
+      "ref_absmax": 189.1894989013672,
+      "finite": true,
+      "wall_s": 3.44,
+      "build_s": 0.27,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_20_22",
+      "status": "PASS",
+      "rel_vs_ref": 0.04022693031168758,
+      "out_absmax": 184.60769653320312,
+      "ref_absmax": 188.4474334716797,
+      "finite": true,
+      "wall_s": 3.56,
+      "build_s": 0.35,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_22_24",
+      "status": "FAIL",
+      "rel_vs_ref": 0.06685129649757114,
+      "out_absmax": 85.92886352539062,
+      "ref_absmax": 85.98899841308594,
+      "finite": true,
+      "wall_s": 3.7,
+      "build_s": 0.32,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_24_26",
+      "status": "PASS",
+      "rel_vs_ref": 0.048761955184564255,
+      "out_absmax": 106.21844482421875,
+      "ref_absmax": 105.09480285644531,
+      "finite": true,
+      "wall_s": 3.78,
+      "build_s": 0.32,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_26_28",
+      "status": "FAIL",
+      "rel_vs_ref": 0.18051227700368982,
+      "out_absmax": 52.889808654785156,
+      "ref_absmax": 53.06814956665039,
+      "finite": true,
+      "wall_s": 3.51,
+      "build_s": 0.34,
+      "n_nodes": 588
+    },
+    {
+      "shard": "layers_28_30",
+      "status": "FAIL",
+      "rel_vs_ref": 0.21809058696734532,
+      "out_absmax": 131.729248046875,
+      "ref_absmax": 133.25433349609375,
+      "finite": true,
+      "wall_s": 3.06,
+      "build_s": 0.19,
+      "n_nodes": 588
+    }
+  ]
+}
