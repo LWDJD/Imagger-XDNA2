@@ -1,4 +1,18 @@
+**English** | [简体中文](README.zh-CN.md)
+
 # Imagger-XDNA2
+
+> [!WARNING]
+> **This is a VibeCoding MVP, not production software.**
+>
+> It was built end-to-end by an AI agent working under human direction, over a few weeks,
+> on a single machine. It generates real images on real hardware, and every number in
+> this README was measured rather than estimated — but it has **no test suite, no CI, no
+> installer, no packaging and no API stability**. Four absolute paths still have to be
+> edited by hand on a new machine (§10.6). Treat it as a working reference and a record
+> of what was measured, **not as something to deploy.**
+
+---
 
 **Z-Image-Turbo 512²–1080p image generation on the AMD XDNA2 NPU**, with a WebUI,
 a BlockFP16 weight format, and a measured performance record.
@@ -159,8 +173,6 @@ refuses to run rather than read stale memory.
 
 ## 8. Documentation
 
-| file | contents |
-|---|---|
 **[docs/README.md](docs/README.md) is the index of the whole documentation tree.**
 
 | folder | files | what it is |
@@ -192,6 +204,118 @@ This is a research-driven port, so the repository records what is *proven*:
 * Fast attention, skip-step and two-chain arms each carry an 8-step quality gate and
   a **negative control that is shown to fail**.
 
-## 10. License
+## 10. Third-party distributions (not in this repository)
+
+Nothing below is redistributed here. Each row gives **what it is, the exact
+version, where to get it, where it must live, and whether the product needs it at
+run time or only to rebuild kernels.**
+
+### 10.1 The model and its derivatives
+
+| artifact | size | how to obtain | destination | needed for |
+|---|---:|---|---|---|
+| `Tongyi-MAI/Z-Image-Turbo` transformer, 3 safetensors shards | 24,619,690,888 B | `modelscope download --model Tongyi-MAI/Z-Image-Turbo --include 'transformer/*'` | `zimage-port/_models/Z-Image-Turbo/transformer/` | **rebuilding `weights.bfp16`** |
+| same repo, `text_encoder/` 3 shards | 8,042,086,080 B | same, `--include 'text_encoder/*'` | `zimage-port/_models/Z-Image-Turbo/text_encoder/` | rebuilding the captioner GGUF |
+| same repo, `vae/`, `tokenizer/`, `scheduler/` | ~180 MB | same | `zimage-port/_models/Z-Image-Turbo/` | **run time** — VAE decode, tokenising |
+| text-encoder **GGUF** `zimage-te-qwen3-4b-bf16.gguf` | 8,051,284,800 B | **converted** from `text_encoder/` with llama.cpp `convert_hf_to_gguf.py` at bf16 | anywhere; point `ZIMAGE_TE_GGUF` at it | **run time** — captioning |
+
+`weights.bfp16` is **rebuildable from the transformer shards, byte for byte**:
+
+```bash
+modelscope download --model Tongyi-MAI/Z-Image-Turbo \
+    --include 'transformer/*' --local_dir ./zit
+python weights/build_bfp16_weights.py \
+    --index  ./zit/transformer/diffusion_pytorch_model.safetensors.index.json \
+    --shards ./zit/transformer \
+    --manifest weights/skeleton_manifest.json \
+    --out ./weights.bfp16
+sha256sum ./weights.bfp16   # 4ff5b6a66ea3b3ae5a29ecc601097d50eade61979c222f8e0c58d3a272cb8042
+```
+
+6,913,965,970 B, 506 tensors (270 packed, 236 raw), ~9 minutes on 64 cores and
+~25 GB of scratch. Details in [weights/README.md](weights/README.md).
+
+### 10.2 The NPU toolchain
+
+| component | version | how to obtain | destination | needed for |
+|---|---|---|---|---|
+| **XRT** — `xrt_core.dll`, `xrt_coreutil.dll`, `xrt-smi.exe`, `pyxrt.pyd` | **2.21.0**, driver 376 | `RyzenAI_Deployment.1.8.0.nupkg` from AMD's Ryzen AI **1.8.0** installer | any directory; `IMAGGER_XRT` overrides `webui/config.py:24` | **run time** — every device call |
+| **MLIR-AIE** (`mlir_aie`) | **1.4.4** | `https://github.com/Xilinx/mlir-aie/releases/download/v1.4.4/mlir_aie-1.4.4-cp312-cp312-win_amd64.whl` | unzip into `_pylibs/mlir_aie/` | compiling kernels |
+| **Peano / llvm-aie** — `aiecc`, `aie-opt`, `aie-translate`, `bootgen` | **1.8.0** | bundled inside the mlir_aie wheel | `_pylibs/mlir_aie/bin/` | compiling kernels |
+
+The wheel is **not on PyPI**. Unzip it instead of `pip install`, and put both the
+directory and `<dir>\mlir_aie\python` on `sys.path` — the wheel ships an `aie.pth`
+pointing at the latter.
+
+**Hard constraint:** `pyxrt.pyd` links `python310.dll`. The device side **must** be
+a Python 3.10 interpreter; 3.12 cannot import it whatever `sys.path` says.
+
+### 10.3 The captioner runtime
+
+| component | version | how to obtain | destination | needed for |
+|---|---|---|---|---|
+| **llama.cpp** Vulkan build — `llama.dll`, `ggml.dll`, `ggml-base.dll`, `ggml-cpu-*.dll`, `ggml-vulkan.dll` | **llama.cpp mainline**, built with `-DGGML_VULKAN=ON` | `https://github.com/ggerganov/llama.cpp` | `<checkout>/third_party/llama.cpp/build/bin/`, or set `ZIMAGE_LLAMA_DIR` | **run time** — loaded by `ctypes.WinDLL` |
+| **Vulkan SDK** — `glslangValidator`, `glslc` | 1.4.357.0 | LunarG | — | only to build the Vulkan backend |
+
+**Build it from mainline, not from a leftover tree.** A previous agent left a
+working copy at `D:\Project\openhanako\workbench\prism-vulkan`; it is a
+convenience on that one machine and is **not** a dependency of this project. Anything
+you intend to reproduce must come from an upstream build of llama.cpp.
+
+```bash
+git clone https://github.com/ggerganov/llama.cpp
+cmake -B build -DGGML_VULKAN=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release -j
+# -> build/bin/{llama,ggml,ggml-base,ggml-cpu-*,ggml-vulkan}.dll
+```
+
+`encode_api.py` resolves the DLL directory in this order, first hit wins:
+`ZIMAGE_LLAMA_DIR` -> `<checkout>/third_party/llama.cpp/build/bin` -> the legacy
+`prism-vulkan` path -> the documented path (so the loader fails with a message that
+names the right place).
+
+`webui/te_worker.py` has a `cpu` mode that loads **only** `ggml-cpu-*.dll` with
+`n_gpu_layers=0`, for when the iGPU memory is held by something else.
+
+### 10.4 Python
+
+Two complete interpreters, on purpose — the stacks do not coexist:
+
+| role | version | packages that matter |
+|---|---|---|
+| **run** (device) | **3.10.9** | numpy 1.26.4, torch 2.3.1+cpu, **numba 0.62.1**, llvmlite 0.45.1, pyxrt |
+| **compile / plan** | **3.12.11** | numpy 1.26.4, torch 2.4.1+cpu, **ml_dtypes 0.5.4**, onnx 1.22.0, llvm-aie 1.8.0, diffusers 0.36.0 |
+
+`numba` exists only on 3.10; `ml_dtypes` and `llvm-aie` only on 3.12. Override with
+`IMAGGER_PY310` / `IMAGGER_PY312`; preflight **P01** checks both run. `torch` is
+CPU-only on both — no CUDA/HIP here, and `torch-directml` is not installable.
+
+### 10.5 What a fresh clone can do
+
+| | clone only | + model | + NPU toolchain | + llama.cpp + GGUF |
+|---|:---:|:---:|:---:|:---:|
+| read the code, run the planners | ✅ | ✅ | ✅ | ✅ |
+| `weights/build_bfp16_weights.py` | ❌ | ✅ | | |
+| rebuild kernels (`.xclbin`) | ❌ | | ✅ | |
+| **generate an image** | ❌ | ✅ (weights) | ✅ | ✅ |
+
+The **66 compiled kernel images (~8.8 MB) are in this repository** (`webui/cache/<shape>/`
+and `imaggers/*/out/`), so running does **not** need the compiler — only the XRT runtime.
+
+### 10.6 Absolute paths to change on a new machine
+
+| file | constant | currently points at | override |
+|---|---|---|---|
+| `webui/config.py:24` | `XRT_DIR` | `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod` | `IMAGGER_XRT` |
+| `webui/config.py:22-23` | `PY312`, `PY310` | the two interpreters | `IMAGGER_PY312` / `IMAGGER_PY310` |
+| `imaggers/textenc/encode_api.py` | `LLAMA_DIR` | resolved: `ZIMAGE_LLAMA_DIR` -> `third_party/llama.cpp/build/bin` -> legacy | `ZIMAGE_LLAMA_DIR` |
+| `imaggers/textenc/encode_api.py` | `GGUF` | resolved: `ZIMAGE_TE_GGUF` -> `<checkout>/webui/models/` -> workspace copies | `ZIMAGE_TE_GGUF` |
+
+`webui/config.py:27` resolves `PORT` from `__file__`, so it follows the checkout and
+needs no edit. The two captioner paths are now resolved at import time rather than
+hard-coded; only `XRT_DIR` and the interpreters still need editing on a new machine,
+and each has an environment variable.
+
+## 11. License
 
 MIT — see [LICENSE](LICENSE).
