@@ -13,13 +13,33 @@ venv/
 # Sizes are from _scratch/par/provenance/artifacts.json (full-file sha256, 30.6 GB
 # hashed in 155 s).  Excluded because GitHub rejects >100 MB and warns above
 # 50 MB -- NOT because they are unimportant.  See docs/WEIGHTS.md.
-weights/                          # 34 files, 6,586,939,269 B  (BFP16 source blocks)
-webui/models/                     #  8,051,284,800 B text-encoder GGUF
-webui/cache/wpack/                #  1,990,656,000 B packed device weights
-webui/cache/numba/                #  compiled numba cache -- rebuilt on first use
-brepack_cache/                    #  2 x 5,308,481,536 B, content-addressed
-_scratch/image/t3real_prep/       #  3,981,319,680 B driver payloads
-_scratch/image/t6_refcache/       #  2,862,993,020 B refiner cache
+# NOTE: git has no inline comments.  "weights/   # 34 files" is a pattern that
+# matches nothing, so every exclusion below was silently inert until 2026-11-05.
+# Keep the comment on its own line.
+
+# 34 files, 6,586,939,269 B (BFP16 source blocks).
+# The conversion scripts and JSON plans in this directory ARE tracked; only the
+# large .npz payloads are excluded.
+weights/
+
+# 8,051,284,800 B text-encoder GGUF.
+webui/models/
+
+# 1,990,656,000 B packed device weights, rebuilt by bridge.py --pack-prewarm.
+webui/cache/wpack/
+
+# compiled numba cache, rebuilt on first use.
+webui/cache/numba/
+
+# 2 x 5,308,481,536 B, content-addressed.
+brepack_cache/
+
+# 3,981,319,680 B driver payloads.
+_scratch/image/t3real_prep/
+
+# 2,862,993,020 B refiner cache.
+_scratch/image/t6_refcache/
+
 _out/
 
 # ---- Device images ARE committed --------------------------------------------
@@ -40,7 +60,8 @@ _scratch/
 _gpuwork/
 _npu_cache*/
 memtile2/
-kernels/                          # demo bench for two .cc kernels; nothing reads it
+# demo bench for two .cc kernels; nothing reads it.
+kernels/
 
 # ---- Editor / OS -------------------------------------------------------------
 .vscode/
