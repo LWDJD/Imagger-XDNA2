@@ -1,4 +1,18 @@
+**English** | [简体中文](README.zh-CN.md)
+
 # Imagger-XDNA2
+
+> [!WARNING]
+> **This is a VibeCoding MVP, not production software.**
+>
+> It was built end-to-end by an AI agent working under human direction, over a few weeks,
+> on a single machine. It generates real images on real hardware, and every number in
+> this README was measured rather than estimated — but it has **no test suite, no CI, no
+> installer, no packaging and no API stability**. Four absolute paths still have to be
+> edited by hand on a new machine (§10.6). Treat it as a working reference and a record
+> of what was measured, **not as something to deploy.**
+
+---
 
 **Z-Image-Turbo 512²–1080p image generation on the AMD XDNA2 NPU**, with a WebUI,
 a BlockFP16 weight format, and a measured performance record.
@@ -159,8 +173,6 @@ refuses to run rather than read stale memory.
 
 ## 8. Documentation
 
-| file | contents |
-|---|---|
 **[docs/README.md](docs/README.md) is the index of the whole documentation tree.**
 
 | folder | files | what it is |
