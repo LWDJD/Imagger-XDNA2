@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: MIT
 """encode_api.py — Z-Image text encoder through the llama.cpp LIBRARY.
 
-Calls the *existing* ``llama.dll`` (prism-vulkan Vulkan build) directly with
-ctypes: the 13 chat-prompt token ids go in as ONE sequence via
+Calls an upstream ``llama.dll`` (llama.cpp mainline >= 0.9.0, Vulkan build)
+directly with ctypes: the 13 chat-prompt token ids go in as ONE sequence via
 ``llama_decode``, and the per-token ``hidden_states[-2]`` rows come out of the
-fork's layer-input tap:
+layer-input tap, which is part of mainline (src/llama-ext.h):
 
     setter: ?llama_set_embeddings_layer_inp@@YAXPEAUllama_context@@I_N@Z
     getter: ?llama_get_embeddings_layer_inp@@YAPEAMPEAUllama_context@@I@Z

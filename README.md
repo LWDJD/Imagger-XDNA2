@@ -217,7 +217,31 @@ run time or only to rebuild kernels.**
 | `Tongyi-MAI/Z-Image-Turbo` transformer, 3 safetensors shards | 24,619,690,888 B | `modelscope download --model Tongyi-MAI/Z-Image-Turbo --include 'transformer/*'` | `zimage-port/_models/Z-Image-Turbo/transformer/` | **rebuilding `weights.bfp16`** |
 | same repo, `text_encoder/` 3 shards | 8,042,086,080 B | same, `--include 'text_encoder/*'` | `zimage-port/_models/Z-Image-Turbo/text_encoder/` | rebuilding the captioner GGUF |
 | same repo, `vae/`, `tokenizer/`, `scheduler/` | ~180 MB | same | `zimage-port/_models/Z-Image-Turbo/` | **run time** — VAE decode, tokenising |
-| text-encoder **GGUF** `zimage-te-qwen3-4b-bf16.gguf` | 8,051,284,800 B | **converted** from `text_encoder/` with llama.cpp `convert_hf_to_gguf.py` at bf16 | anywhere; point `ZIMAGE_TE_GGUF` at it | **run time** — captioning |
+| text-encoder **GGUF** `zimage-te-qwen3-4b-bf16.gguf` | 8,051,284,800 B | **already published** — see below | anywhere; point `ZIMAGE_TE_GGUF` at it | **run time** — captioning |
+
+**You do not have to convert the text encoder yourself.** It is Qwen3-4B (36 layers,
+2560 hidden, vocab 151,936) and the loader only reads it — the layer tap is a
+run-time feature of the DLL, not a property of the file. Upstream publishes the
+same tower in five quantisations at `Qwen/Qwen3-4B-GGUF` on ModelScope:
+
+| file | size |
+|---|---:|
+| `Qwen3-4B-Q4_K_M.gguf` | 2.33 GiB |
+| `Qwen3-4B-Q5_K_M.gguf` | 2.69 GiB |
+| `Qwen3-4B-Q6_K.gguf` | 3.08 GiB |
+| `Qwen3-4B-Q8_0.gguf` | 3.99 GiB |
+
+```bash
+modelscope download --model Qwen/Qwen3-4B-GGUF --include 'Qwen3-4B-Q8_0.gguf'
+```
+
+Those carry an `lm_head` this pipeline never reads, which costs a few hundred MB and
+nothing else. **But a quantised tower is not the delivered baseline.** It changes
+`pe`, and `pe` is the conditioning tensor for all 30 blocks, so a quantised GGUF is a
+new baseline: re-run the 8-step gate before you quote any number from it. The
+delivered 8.05 GB file is bf16 with the output head trimmed (398 tensors), produced
+by `convert_hf_to_gguf.py --outtype bf16` from `text_encoder/`; the conversion
+recipe is in `webui/rebuild_te_gguf.ps1`.
 
 `weights.bfp16` is **rebuildable from the transformer shards, byte for byte**:
 
@@ -254,7 +278,7 @@ a Python 3.10 interpreter; 3.12 cannot import it whatever `sys.path` says.
 
 | component | version | how to obtain | destination | needed for |
 |---|---|---|---|---|
-| **llama.cpp** Vulkan build — `llama.dll`, `ggml.dll`, `ggml-base.dll`, `ggml-cpu-*.dll`, `ggml-vulkan.dll` | **llama.cpp mainline**, built with `-DGGML_VULKAN=ON` | `https://github.com/ggerganov/llama.cpp` | `<checkout>/third_party/llama.cpp/build/bin/`, or set `ZIMAGE_LLAMA_DIR` | **run time** — loaded by `ctypes.WinDLL` |
+| **llama.cpp** Vulkan build — `llama.dll`, `ggml.dll`, `ggml-base.dll`, `ggml-cpu-*.dll`, `ggml-vulkan.dll` | **llama.cpp mainline, 0.9.0 or newer** (ggml 0.29.0+), built with `-DGGML_VULKAN=ON -DBUILD_SHARED_LIBS=ON` | `https://github.com/ggml-org/llama.cpp` | `<checkout>/third_party/llama.cpp/build/bin/`, or set `ZIMAGE_LLAMA_DIR` | **run time** — loaded by `ctypes.WinDLL` |
 | **Vulkan SDK** — `glslangValidator`, `glslc` | 1.4.357.0 | LunarG | — | only to build the Vulkan backend |
 
 **Build it from mainline, not from a leftover tree.** A previous agent left a
@@ -263,11 +287,55 @@ convenience on that one machine and is **not** a dependency of this project. Any
 you intend to reproduce must come from an upstream build of llama.cpp.
 
 ```bash
-git clone https://github.com/ggerganov/llama.cpp
-cmake -B build -DGGML_VULKAN=ON -DCMAKE_BUILD_TYPE=Release
-cmake --build build --config Release -j
-# -> build/bin/{llama,ggml,ggml-base,ggml-cpu-*,ggml-vulkan}.dll
+git clone https://github.com/ggml-org/llama.cpp
+cd llama.cpp
+cmake -B build -G "Visual Studio 17 2022" -A x64 \
+      -DGGML_VULKAN=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+      -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_SERVER=OFF
+cmake --build build --config Release --target llama
+# -> build/bin/Release/{llama,ggml,ggml-base,ggml-cpu-*,ggml-vulkan}.dll
 ```
+
+**Two things will bite you here.**
+
+`-DBUILD_SHARED_LIBS=ON` is not optional: without it you get static libraries and
+no `llama.dll` for `ctypes.WinDLL` to load.
+
+The **version floor is real**. This project does not call the ordinary embedding
+API — `llama_get_embeddings()` returns the *last* block **after** `output_norm`,
+which is a different tensor. It needs the per-layer input tap, declared in
+`src/llama-ext.h` (a staging header, not `include/llama.h`):
+
+```c
+LLAMA_API void    llama_set_embeddings_layer_inp(struct llama_context * ctx, uint32_t lid, bool value);
+LLAMA_API float * llama_get_embeddings_layer_inp(struct llama_context * ctx, uint32_t lid);
+```
+
+These have **C++ linkage**, so they appear in the DLL under mangled names, and
+`imaggers/textenc/encode_api.py` looks them up by exactly those strings:
+
+```
+?llama_set_embeddings_layer_inp@@YAXPEAUllama_context@@I_N@Z
+?llama_get_embeddings_layer_inp@@YAPEAMPEAUllama_context@@I@Z
+```
+
+Verified on **llama.cpp 0.9.0** (ggml 0.29.0). A build without the tap fails loudly
+at import with an unresolved-symbol message rather than silently returning the
+wrong tensor.
+
+**A mainline build and the retired fork are byte-identical end to end.** Same recipe,
+same 512x512 / 8-step job, two DLL sets:
+
+| build | `latents` sha256 | output PNG sha256 | `loop_s` |
+|---|---|---|---|
+| llama.cpp 0.9.0 mainline | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 91.92 |
+| `prism-vulkan` (fork) | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 87.77 |
+
+The `pe` tensor itself differs in the last few bits (cosine 0.9999999 against the
+fork, max relative error 5.3e-05) because a different llama.cpp version accumulates
+in a different order. That difference does not survive the DiT: the latents and the
+PNG are identical. `loop_s` moves by ~4 s run to run and is not attributable to the
+DLL.
 
 `encode_api.py` resolves the DLL directory in this order, first hit wins:
 `ZIMAGE_LLAMA_DIR` -> `<checkout>/third_party/llama.cpp/build/bin` -> the legacy
