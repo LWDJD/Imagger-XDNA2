@@ -360,7 +360,7 @@ Run byproducts (safe to delete): `_scratch/preovl/arm_*.txt`,
 `webui/jobs/20261102-20*` job dirs of these eight runs.
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 
 # 1. the host-only gate (no device; ~2 min)
 py310 _scratch\preovl\gate_preovl.py
@@ -378,5 +378,5 @@ Arm B is arm A plus `T22_PREOVL=1` and nothing else.
 The whole measurement in one line:
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu; powershell -NoProfile -ExecutionPolicy Bypass -File _scratch\preovl\run_preovl.ps1 -Arm A -Tag pv_a3 -Steps 8 -GlueProf 1; powershell -NoProfile -ExecutionPolicy Bypass -File _scratch\preovl\run_preovl.ps1 -Arm B -Tag pv_b3 -Steps 8 -GlueProf 1; py310 _scratch\preovl\analyze.py pv_a3 pv_b3
+cd <checkout>; powershell -NoProfile -ExecutionPolicy Bypass -File _scratch\preovl\run_preovl.ps1 -Arm A -Tag pv_a3 -Steps 8 -GlueProf 1; powershell -NoProfile -ExecutionPolicy Bypass -File _scratch\preovl\run_preovl.ps1 -Arm B -Tag pv_b3 -Steps 8 -GlueProf 1; py310 _scratch\preovl\analyze.py pv_a3 pv_b3
 ```

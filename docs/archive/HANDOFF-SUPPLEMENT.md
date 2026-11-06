@@ -62,7 +62,7 @@ verify output.
 
 ### A3. `REPRODUCE.md` step 0 relative paths only work from a specific cwd — CONFIRMED
 
-`_pylibs` lives at `public_work\_pylibs`, i.e. the PARENT of the repo.  The
+`_pylibs` lives at `<workspace>\_pylibs`, i.e. the PARENT of the repo.  The
 in-tree scripts use `HERE.parent / "_pylibs"`.
 
 **Sanity command from the repo root**:
@@ -75,10 +75,10 @@ in-tree scripts use `HERE.parent / "_pylibs"`.
 > **可用块见 `HANDOFF-SUPPLEMENT-v2.md`:19-27,或 `REPRODUCE.md` §0。**
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
-$py312 = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$env:PEANO_INSTALL_DIR = 'D:\Project\deepseek_harness\public_work\_pylibs\llvm-aie\llvm-aie'
-$env:PYTHONPATH = 'D:\Project\deepseek_harness\public_work\_pylibs\mlir_aie\python;D:\Project\deepseek_harness\public_work\_pylibs'
+cd <checkout>
+$py312 = '<python312>\python.exe'
+$env:PEANO_INSTALL_DIR = '<workspace>\_pylibs\llvm-aie\llvm-aie'
+$env:PYTHONPATH = '<workspace>\_pylibs\mlir_aie\python;<workspace>\_pylibs'
 & $py312 -c "import aie; from aie.iron import NPU2; print('aie OK')"
 ```
 
@@ -175,7 +175,7 @@ that was already repaired.
 ```
 python build_bfp16_weights.py --out zimage-port/weights.bfp16
 ```
-`build_bfp16_weights.py` is in `public_work\zimage-port\`.  It reads the
+`build_bfp16_weights.py` is in `<workspace>\zimage-port\`.  It reads the
 **transformer** shards (`_models/Z-Image-Turbo/transformer/`, 3 safetensors)
 via `read_checkpoint_tensor` (header byte offsets + `np.frombuffer`, because
 `safetensors.get_tensor()` raises an access violation on this machine).

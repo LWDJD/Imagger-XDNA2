@@ -50,12 +50,21 @@ import sys
 import time
 import traceback
 
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
 HERE = pathlib.Path(__file__).resolve().parent
 KERNEL = "MLIR_AIE"
 TIMEOUT_MS = 600000
 XRT_DIRS = [
-    pathlib.Path(r"D:\Project\deepseek_harness\test7\WStmp\driver376"
-                 r"\npu_mcdm_stack_prod"),
+    _paths.xrt_dir(),
     pathlib.Path(r"C:\Windows\System32\AMD"),
 ]
 

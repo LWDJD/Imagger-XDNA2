@@ -39,7 +39,7 @@
 3. 投影 zero-copy（T22_FINAL110）建议并入（默认关、零风险、−0.5 s/步）。
 4. 可选后路：OPENSTACK §3.4 KV 分片+片上 partial 归约（1-2 天、质量风险）。
 
-## 4. 仓库与关键文件（都在 D:\Project\deepseek_harness\public_work\zimage-bfp16-npu，git 管理）
+## 4. 仓库与关键文件（都在 <checkout>，git 管理）
 - 主报告链：OPENSTACK-REPORT.md（三级阶梯全账）、HOSTKILL-REPORT.md、DEVKILL-REPORT.md、FINAL110-REPORT.md、BIGPIPE{,2,3}-REPORT.md、BOTTLENECK-MAP.md、GRAPHOPT-47-REPORT.md、TIME1024-REPORT.md（待产）
 - 方法论/逆向：_scratch/block/stackhw/CLOSED-RT-DIR{,S2,S3}.md（官方逆向三卷）、S3-A-PATH-SPEC.md
 - 历史战役：_scratch/block/{bigm,kgu64,swiglu,d1proto}/（PRODASM-STEP345 123 节、KG64-REPORT、T22-BREADOUT-REPORT 8 契约修复全账）

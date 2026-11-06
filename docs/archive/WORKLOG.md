@@ -247,11 +247,11 @@ BlockFP16, no fp32 expansion and no per-call overhead.
   `use_cache=False`.  The ACL is NOT the cause
   (`diagnose-windows-sandbox-acl` returned NOT_THIS_CLASS)
 * `xclbinutil` is off-PATH; add
-  `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod`
+  `<xrt>`
 
 ---
 
-`xrt-smi examine` (from `D:\Project\deepseek_harness\test7\WStmp\driver376\
+`xrt-smi examine` (from `<xrt-parent>\
 npu_mcdm_stack_prod\xrt-smi.exe`) reports:
 
     XRT Version          : 2.21.0   (hash 15e6319be8de1e76a6150111a3861729)
@@ -280,7 +280,7 @@ Where the pieces live:
 the working interpreter is Python 3.12.  `xrt_coreutil.dll` itself imports only
 system DLLs, so the C++ API is usable from ctypes or from a 3.10 interpreter.
 No Python 3.10 interpreter was found on the machine (only embedded
-`python310.dll` copies inside Trae / JetBrains / GAIA).
+`python310.dll` copies inside an IDE / JetBrains / GAIA).
 
 ### What this unblocks
 
@@ -407,8 +407,8 @@ XRT entry above.  What is true:
 
 `pyxrt` works under a Python 3.10 interpreter that was on the machine all along:
 
-    D:\Users\15081\AppData\Local\GAIA\python\python.exe        (3.10.9)
-    C:\Users\15081\AppData\Roaming\Trae CN\ModularData\ai-agent\vm\tools\python\python.exe
+    <python310>\python.exe        (3.10.9)
+    <an IDE's bundled python.exe>
 
 Earlier searches missed them because the paths contain no "310"/"3.10" text.
 Verified:
@@ -416,7 +416,7 @@ Verified:
     >>> import pyxrt; pyxrt.device(0)
     <pyxrt.device object>
 
-with `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod` on
+with `<xrt>` on
 `sys.path` / `os.add_dll_directory`.  That folder holds `pyxrt.pyd` (533,864 B),
 `xrt_core.dll`, `xrt_coreutil.dll`, `xrt-smi.exe`.
 

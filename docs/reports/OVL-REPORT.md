@@ -482,7 +482,7 @@ Three independent reasons the arithmetic cannot move, in order of strength:
 ## 8. Reproduce
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 
 # 1. the host-only gate (no device; ~1 min)
 py310 imaggers\ovl\gate_ovl.py --all

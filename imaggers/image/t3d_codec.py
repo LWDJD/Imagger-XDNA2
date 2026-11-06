@@ -2,7 +2,7 @@
 """t3d_codec.py -- the HOST CODECS the T3d loop needs, in PURE NUMPY.
 
 Why this file exists: t3_real.py's device stage runs on
-D:/Users/15081/AppData/Local/GAIA/python/python.exe (3.10), which has numpy but
+<python310> (3.10), which has numpy but
 NOT the MLIR-AIE "aie" package.  Until now every bfp16ebs8 / blocked-layout pack
 happened in the py3.12 prep leg, one dispatch per process.  An in-loop image run
 packages the payloads BETWEEN dispatches, so the codecs have to exist on the

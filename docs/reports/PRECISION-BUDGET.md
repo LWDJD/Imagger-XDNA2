@@ -555,8 +555,8 @@ budget point — this harness cannot settle it without the device, and the devic
 ## 10. Reproduce
 
 ~~~powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
-$py = 'D:\Users\15081\AppData\Local\GAIA\python\python.exe'
+cd <checkout>
+$py = '<python310>\python.exe'
 
 # 1. the decoder is byte-exact and 15x faster than pack_bfp16.unpack
 & $py imaggers\pbudget\pb_decode.py gate

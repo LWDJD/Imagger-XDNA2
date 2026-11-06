@@ -16,9 +16,9 @@ repository's grandparent.  Use the absolute block below instead.  Measured
 2026-10-19 **from `C:\`** (i.e. not from the repo): exit 0, `aie OK NPU2()`.
 
 ```powershell
-$py312 = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$env:PEANO_INSTALL_DIR = 'D:\Project\deepseek_harness\public_work\_pylibs\llvm-aie\llvm-aie'
-$env:PYTHONPATH = 'D:\Project\deepseek_harness\public_work\_pylibs\mlir_aie\python;D:\Project\deepseek_harness\public_work\_pylibs'
+$py312 = '<python312>\python.exe'
+$env:PEANO_INSTALL_DIR = '<workspace>\_pylibs\llvm-aie\llvm-aie'
+$env:PYTHONPATH = '<workspace>\_pylibs\mlir_aie\python;<workspace>\_pylibs'
 & $py312 -c "import aie; from aie.iron.device import NPU2; print('aie OK', NPU2())"
 ```
 
@@ -28,13 +28,13 @@ import NPU2` raises `ImportError: cannot import name 'NPU2' from 'aie.iron'`
 need `os.add_dll_directory`; that is only for pyxrt on 3.10.
 
     # run side (Python 3.10)
-    "D:\Users\15081\AppData\Local\GAIA\python\python.exe" -c "
+    "<python310>\python.exe" -c "
         import sys, os
-        d = r'D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod'
+        d = r'<xrt>'
         sys.path.insert(0, d); os.add_dll_directory(d)
         import pyxrt; print(pyxrt.device(0))"
 
-    "D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod\xrt-smi.exe" examine
+    "<xrt>\xrt-smi.exe" examine
 
 Expected: `NPU2()`, a `<pyxrt.device object>`, and `|NPU Strix|` in the device
 table.

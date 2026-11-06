@@ -255,9 +255,9 @@ sha256sum ./weights.bfp16   # 4ff5b6a66ea3b3ae5a29ecc601097d50eade61979c222f8e0c
 | **llama.cpp** 的 Vulkan 构建——`llama.dll`、`ggml.dll`、`ggml-base.dll`、`ggml-cpu-*.dll`、`ggml-vulkan.dll` | **llama.cpp 主线 0.9.0 或更新**（ggml 0.29.0+），用 `-DGGML_VULKAN=ON -DBUILD_SHARED_LIBS=ON` 构建 | `https://github.com/ggml-org/llama.cpp` | `<checkout>/third_party/llama.cpp/build/bin/`，或设 `ZIMAGE_LLAMA_DIR` | **运行时**——由 `ctypes.WinDLL` 加载 |
 | **Vulkan SDK**——`glslangValidator`、`glslc` | 1.4.357.0 | LunarG | — | 仅用于构建 Vulkan 后端 |
 
-**请从主线构建，不要用别人留下的树。** 之前有个智能体在
-`D:\Project\openhanako\workbench\prism-vulkan` 留了一份可用的副本；那只是那一台机器上的
-便利，**不是本项目的依赖**。任何你打算复现的东西都必须来自 llama.cpp 的上游构建。
+**请从主线构建，不要用别人留下的树。** 本工作早期版本用过一份私有 fork，已经退役；
+那个构建**不是本项目的依赖**，本仓库也不写明它当初放在哪里。任何你打算复现的东西
+都必须来自 llama.cpp 的上游构建。
 
 ```bash
 git clone https://github.com/ggml-org/llama.cpp
@@ -300,14 +300,14 @@ LLAMA_API float * llama_get_embeddings_layer_inp(struct llama_context * ctx, uin
 | 构建 | `latents` sha256 | 输出 PNG sha256 | `loop_s` |
 |---|---|---|---|
 | llama.cpp 0.9.0 主线 | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 91.92 |
-| `prism-vulkan`（fork） | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 87.77 |
+| 已退役的 fork 构建 | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 87.77 |
 
 `pe` 张量本身在最后几位上有差异（相对 fork 余弦 0.9999999，最大相对误差 5.3e-05），
 原因是不同版本的 llama.cpp 累加顺序不同。这个差异过不了 DiT：latents 和 PNG 完全相同。
 `loop_s` 每次运行有约 4 秒的波动，不能归因于 DLL。
 
 `encode_api.py` 按下面的顺序查找 DLL 目录，先命中者优先：
-`ZIMAGE_LLAMA_DIR` → `<checkout>/third_party/llama.cpp/build/bin` → 旧的 `prism-vulkan` 路径
+`ZIMAGE_LLAMA_DIR` → `<checkout>/third_party/llama.cpp/build/bin`。除此之外不查别处——
 → 文档路径（让加载失败时报出正确的放置位置）。
 
 `webui/te_worker.py` 有一个 `cpu` 模式，只加载 `ggml-cpu-*.dll` 并设 `n_gpu_layers=0`，
@@ -338,18 +338,32 @@ LLAMA_API float * llama_get_embeddings_layer_inp(struct llama_context * ctx, uin
 **66 个编译好的内核镜像（约 8.8 MB）就在本仓库里**（`webui/cache/<shape>/` 与
 `imaggers/*/out/`），所以运行**不需要**编译器，只需要 XRT 运行时。
 
-### 10.6 换机器时需要改的绝对路径
+### 10.6 没有需要修改的文件
 
-| 文件 | 常量 | 当前指向 | 覆盖方式 |
-|---|---|---|---|
-| `webui/config.py:24` | `XRT_DIR` | `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod` | `IMAGGER_XRT` |
-| `webui/config.py:22-23` | `PY312`、`PY310` | 两个解释器 | `IMAGGER_PY312` / `IMAGGER_PY310` |
-| `imaggers/textenc/encode_api.py` | `LLAMA_DIR` | 解析顺序：`ZIMAGE_LLAMA_DIR` → `third_party/llama.cpp/build/bin` → 旧路径 | `ZIMAGE_LLAMA_DIR` |
-| `imaggers/textenc/encode_api.py` | `GGUF` | 解析顺序：`ZIMAGE_TE_GGUF` → `<checkout>/webui/models/` → 工作区内的副本 | `ZIMAGE_TE_GGUF` |
+**不需要打开任何文件、也不需要改任何常量。** 每个第三方位置都由 `imaggers/paths.py`
+按同一顺序解析：先环境变量，再 `<checkout>/third_party/<name>`，最后抛出
+`FileNotFoundError` 并点名该设哪个变量。
 
-`webui/config.py:27` 从 `__file__` 解析 `PORT`，会跟着 checkout 走，无需修改。
-两处文本编码器路径现在是导入时解析而非硬编码；新机器上只剩 `XRT_DIR` 和两个解释器
-需要手工改，而它们各自都有环境变量。
+| 组件 | 变量 | `third_party/` 下的名字 |
+|---|---|---|
+| Python 3.12 | `ZIMAGE_PY312` | `third_party/python312/` |
+| Python 3.10 | `ZIMAGE_PY310` | `third_party/python310/` |
+| XRT 运行时 | `ZIMAGE_XRT_DIR` | `third_party/xrt/` |
+| LLVM-AIE（仅编译） | `ZIMAGE_LLVM_AIE` | `third_party/llvm-aie/` |
+| MLIR-AIE（仅编译） | `ZIMAGE_MLIR_AIE` | `third_party/mlir-aie/` |
+| llama.cpp 的 DLL | `ZIMAGE_LLAMA_DIR` | `third_party/llama.cpp/build/bin/` |
+| 文本编码器 GGUF | `ZIMAGE_TE_GGUF` | `webui/models/`（不在 third_party） |
+
+`third_party/` 已被 git 忽略：把真实的目录放进去、链进去，或者把变量指到别处。
+查看当前 shell 解析到什么：
+
+```bash
+python imaggers/paths.py
+```
+
+`webui/config.py` 里其余的一切（`NPU`、`WS`、`PORT`、`MODELS`、`CACHE_DIR`）都由
+`__file__` 推导，所以你把它放在哪里它就跟到哪里。唯一剩下的假设是模型树位于
+`<workspace>/zimage-port/`，即与 checkout 同级——见 10.1 节。
 
 ## 11. 许可证
 

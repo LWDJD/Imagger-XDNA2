@@ -141,8 +141,8 @@ client                           worker (独立进程)
 ## 6. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 & $py -u "$d\_scratch\sessA_c3build.py" 26    # 造 26 子图并分区
 & $py -u "$d\_scratch\sessA_c3one.py" 26      # 单进程会话+run（重复跑看 warm/cold）
 & $py -u "$d\_scratch\sessA_c3_inv.py"        # B3: M 集合 / C3 目录盘点

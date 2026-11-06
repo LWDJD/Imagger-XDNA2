@@ -98,7 +98,7 @@ rai files: []
 
 | 原计划 | 现状 | 建议 |
 |---|---|---|
-| ② 重导出 1 片 M=96 冷编译 | **沙箱挡住**（VAIP 缓存不可写） | 需放开 `C:\temp\15081\vaip\⟧ 写权限；否则此项无法在本环境完成 |
+| ② 重导出 1 片 M=96 冷编译 | **沙箱挡住**（VAIP 缓存不可写） | 需放开 `C:\temp\<user>\vaip\⟧ 写权限；否则此项无法在本环境完成 |
 | ③ 修 80 子图坏件（重打包/重跑 pack） | **坏的是打包器本身**，不是单个文件 | 先定位 pack 脚本里写 `ctrl_pkt_patch_info⟧ 的分支；空表分支写坏了 |
 | ④ 17 片组装 | 前置依赖 ③ | 打包器修好前，M=1056/M=96 的 DD 路线都跑不起来 |
 
@@ -119,8 +119,8 @@ rai files: []
 ## 5. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 & $py -u "$d\_scratch\sessA_packchk.py"    # 逐包验 ctrl_meta JSON
 & $py -u "$d\_scratch\sessA_packidx2.py"   # 逐 key 覆盖面 + 好坏标记
 & $py -u "$d\_scratch\sessA_cache_en.py"   # XLNX_ENABLE_CACHE 全开仍 0 文件

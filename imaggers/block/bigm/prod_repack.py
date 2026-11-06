@@ -16,6 +16,20 @@ pairing, only preserve it.  That is the interface t22_swiglu needs.
     py312 prod_repack.py --selftest
     py312 prod_repack.py --which B3 --out io_repacked
 """
+import os
+import pathlib
+import sys
+
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
 from __future__ import annotations
 import argparse, json, pathlib, sys
 import numpy as np
@@ -65,8 +79,8 @@ def from_bigm(b: np.ndarray, s: dict) -> np.ndarray:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--src", default=r"D:\Project\deepseek_harness\public_work"
-                    r"\zimage-bfp16-npu\imaggers\block\t4_out\payload_nh5c_k8")
+    ap.add_argument("--src", default=str(_paths.CHECKOUT /
+                    "imaggers" / "block" / "t4_out" / "payload_nh5c_k8"))
     ap.add_argument("--out", default="")
     ap.add_argument("--which", default="BG", choices=["BG", "B3"])
     ap.add_argument("--sweeps", type=int, default=0)

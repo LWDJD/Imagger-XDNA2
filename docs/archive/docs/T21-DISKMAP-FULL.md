@@ -1,11 +1,11 @@
-# T21 全域磁盘普查（public_work / 只读，零删除）
+# T21 全域磁盘普查（<workspace> / 只读，零删除）
 
 **任务号** t21_diskmap ｜ **模式** 只读全域普查 ｜ **本文件是本会话唯一新建文件**
 
 > ## ⚠ 范围声明
-> **本报告的范围 = 工作区 `D:\Project\deepseek_harness\public_work`。**
-> **D 盘其它区域（D:\ 下 public_work 之外的目录、其它盘符）不在本单范围：不测、不归因、不写入本报告。**
-> 任何"D 盘 651 GiB 都去哪了"的问题，本报告**不作回答**；本报告只回答"public_work 这 98.55 GiB 物理占用由什么构成"。
+> **本报告的范围 = 工作区 `<workspace>`。**
+> **D 盘其它区域（D:\ 下 <workspace> 之外的目录、其它盘符）不在本单范围：不测、不归因、不写入本报告。**
+> 任何"D 盘 651 GiB 都去哪了"的问题，本报告**不作回答**；本报告只回答"<workspace> 这 98.55 GiB 物理占用由什么构成"。
 
 **时间锚点**
 - 首轮全量扫描：**2026-10-19T11:35:38 – 11:35:41**（聚合口径）＋ 11:36–11:37（inode 去重 / 扩展名 / 全深度目录树三遍）
@@ -23,9 +23,9 @@
 
 ## 0. 结论先行
 
-1. **public_work 路径合计 121.632 GiB（130,601,117,006 B / 86,185 文件），inode 去重后物理占用 98.548 GiB（105,815,386,676 B）。** 两者相差 **23.084 GiB**，全部来自硬链接（263 个 inode 的 nlink>1），**不是"文件消失了"，是"同一份数据有多个名字"**。
+1. **<workspace> 路径合计 121.632 GiB（130,601,117,006 B / 86,185 文件），inode 去重后物理占用 98.548 GiB（105,815,386,676 B）。** 两者相差 **23.084 GiB**，全部来自硬链接（263 个 inode 的 nlink>1），**不是"文件消失了"，是"同一份数据有多个名字"**。
 2. **"工作区已占 100 GB+"成立，并且账是闭合的。** 98.548 GiB 物理占用逐块归位：权重/模型 **55.92 GiB（56.7%）**＋zimage 实验产物区 **26.10 GiB（26.5%）**＋备份集独占载荷 **10.07 GiB（10.2%）**＋工具链 **3.79 GiB（3.8%）**＋其它项目 **2.67 GiB（2.7%）**，残差 0.00 GiB。
-3. **public_work 内没有"隐藏的巨块"。** 全部非 zimage 主题（llama.cpp / k2h / deepseek-harness / research / 加密研究…）合计只有 **6.37 GiB（占路径 5.2% / 占物理 6.5%）**。所谓"大头去向不明"在 public_work 范围内**不成立**——如果 D 盘确实有 550+ GiB 说不清，那部分**在 public_work 之外**，按本单范围不予追查。
+3. **<workspace> 内没有"隐藏的巨块"。** 全部非 zimage 主题（llama.cpp / k2h / deepseek-harness / research / 加密研究…）合计只有 **6.37 GiB（占路径 5.2% / 占物理 6.5%）**。所谓"大头去向不明"在 <workspace> 范围内**不成立**——如果 D 盘确实有 550+ GiB 说不清，那部分**在 <workspace> 之外**，按本单范围不予追查。
 4. **旧审计 T21-DISKAUDIT 的一级目录表与本单逐行吻合（最大偏差 0.01 GiB），但它的 A/B/C 分档不闭合。** A+B+C = 110.26 GiB，对不上它自己的路径合计 121.62 GiB（差 11.4），也对不上物理 98.55 GiB（多 11.7）。原因有三：①C1 备份集与其 3 个硬链接成员**重复计 14.67 GiB**；②`_probe_out\weights.bfp16`（6.44 GiB）同时被算进"B 档最大单项"和"C3"，双计；③硬链接虚增被低估 **9.15 GiB**（旧文估 13.9，实测 23.08）。旧文把这 11.4 GiB 差额甩给了"其它主题区长尾"，但真正**完全没分档**的非 zimage 只有 **1.79 GiB**（详见 §5.2）。
 5. **可立即释放的仍然只有 A 档 743.1 MiB**；B 档（需批准）**17,405.0 MiB = 17.0 GiB**。C 档 103.909 GiB（路径）/ 80.910 GiB（物理）不可删。
 6. **144 个 ACL 拒绝目录，144/144 连 `icacls` 都返回 `Access is denied`（rc=5）**，只能计数、无法测容，下界 0。**而旧审计把这批目录写成了"空目录、全部 0 字节"**——数量高度重合（旧文 37+9+45+12，本单 48+9+45+6+…），这几乎可以确定旧文的"0 字节"是**把"测不到"当成了"空"**。
@@ -64,7 +64,7 @@
 | 20 | _faucet | 264 | 0.009 | 0.009 | 09-11 09:13 |
 | 21 | _net | 115 | 0.004 | 0.004 | 09-11 09:15 |
 | 22 | _sn | 9 | 0.002 | 0.002 | 09-11 09:05 |
-| 23 | 其余 60 项（_ln / _urls / _earn / _plat / ops / dsh-subagent-control / zimage-bfp16-repo / _acl_recovery / .jspace / _piptmp / 48 个 pip-tmp-quark 目录 / 根散件 .mjs .md .py） | ~1,200 | 0.186 | 0.186 | 09-11 – 10-19 |
+| 23 | 其余 60 项（_ln / _urls / _earn / _plat / ops / <temp>-control / zimage-bfp16-repo / _acl_recovery / .jspace / _piptmp / 48 个 pip-tmp-quark 目录 / 根散件 .mjs .md .py） | ~1,200 | 0.186 | 0.186 | 09-11 – 10-19 |
 | | **合计** | **86,185** | **121.632** | **98.548** | — |
 
 \* 根目录那个 GGUF 的物理归属记在 `_backup_staging\01_…`（同一 inode 的三个名字里，字典序最小的是备份集那份），故此处为 0.000，避免重复计。
@@ -97,7 +97,7 @@
 | 域 | 路径 GiB | 物理 GiB | 占物理 |
 |---|---:|---:|---:|
 | zimage 域（zimage-port ＋ zimage-bfp16-npu ＋ _backup_staging ＋ 根 GGUF） | 115.265 | 92.182 | 93.5% |
-| **非 zimage 域**（工具链 _pylibs 1.54 / _wheels 1.28 / ryzen_ai_nuget 0.26 ＋ K2 权重 0.62 ＋ llama.cpp-0.5.0 0.82 / k2h-llama.cpp 0.69 / _git_backup_pre_purge(2) 0.88 / deepseek-harness 0.09 / research 0.10 ＋ wallets / arweave_research / aie-rt / _faucet / _net / _sn / _ln / _urls / _earn / _plat / ops / dsh-subagent-control / .npm-cache / _piptmp / 48 个 pip-tmp-quark 目录 / 根散件 ≈0.19） | **6.367** | **6.366** | **6.5%** |
+| **非 zimage 域**（工具链 _pylibs 1.54 / _wheels 1.28 / ryzen_ai_nuget 0.26 ＋ K2 权重 0.62 ＋ llama.cpp-0.5.0 0.82 / k2h-llama.cpp 0.69 / _git_backup_pre_purge(2) 0.88 / deepseek-harness 0.09 / research 0.10 ＋ wallets / arweave_research / aie-rt / _faucet / _net / _sn / _ln / _urls / _earn / _plat / ops / <temp>-control / .npm-cache / _piptmp / 48 个 pip-tmp-quark 目录 / 根散件 ≈0.19） | **6.367** | **6.366** | **6.5%** |
 
 > 结论：**"其它项目"不是本次的隐藏大头，它只有 6.37 GiB。** 若要腾出 10 GiB 以上，动不到"其它项目"，只能动 B 档（实验产物 17.0 GiB）或 C 档。旧审计 §1.1 表里那句"其余（aie-rt、wallets…）~75 MiB"也是对的，本单实测 ~95 MiB。
 
@@ -107,7 +107,7 @@
 
 ### 2.1 > 1 GiB 文件全清单（14 个）
 
-路径相对 `public_work\`；`nlink` 由 `GetFileInformationByHandle` 实测。
+路径相对 `<workspace>\`；`nlink` 由 `GetFileInformationByHandle` 实测。
 
 | # | 路径 | GiB | inode 组 | nlink | 别名 / Junction | 档 |
 |---:|---|---:|---|---:|---|---|
@@ -134,7 +134,7 @@
 
 全树 depth≤3 且 >100 MiB 的目录共 **59 个**，合计 263.95 GiB（含重复计名）。按体积降序取前 40：
 
-| # | 目录（相对 public_work） | MiB | 深度 |
+| # | 目录（相对 <workspace>） | MiB | 深度 |
 |---:|---|---:|---:|
 | 1 | zimage-port | 53,157.18 | 1 |
 | 2 | zimage-bfp16-npu | 32,211.52 | 1 |
@@ -230,10 +230,10 @@
 
 | 路径 | 目标 |
 |---|---|
-| zimage-port\npu-conversion\_models | `…\public_work\zimage-port\_models` |
-| zimage-port\npu-conversion\_probe_out | `…\public_work\zimage-port\_probe_out` |
-| zimage-bfp16-repo\_models | `…\public_work\zimage-port\_models` |
-| zimage-bfp16-repo\_probe_out | `…\public_work\zimage-port\_probe_out` |
+| zimage-port\npu-conversion\_models | `…\<workspace>\zimage-port\_models` |
+| zimage-port\npu-conversion\_probe_out | `…\<workspace>\zimage-port\_probe_out` |
+| zimage-bfp16-repo\_models | `…\<workspace>\zimage-port\_models` |
+| zimage-bfp16-repo\_probe_out | `…\<workspace>\zimage-port\_probe_out` |
 
 → 4 个 Junction、0 字节。**若跟随它们遍历，会凭空多出 45.2 GiB 的双计**（_models 30.64 + _probe_out 14.58，各多算一遍，npu-conversion 与 bfp16-repo 两处共 4 个入口）。这正是"路径合计"最容易虚增的地方，本单已排除。
 
@@ -368,7 +368,7 @@
 
 ### 5.3 "此前 zimage 域审计漏了哪些大头"
 
-**结论：在 public_work 范围内，没有漏掉任何网点级大头。** 逐条核过：
+**结论：在 <workspace> 范围内，没有漏掉任何网点级大头。** 逐条核过：
 
 | 旧文可能漏的 | 本单实测 | 判定 |
 |---|---:|---|
@@ -393,7 +393,7 @@
 
 | 父目录 | 个数 |
 |---|---:|
-| `public_work\`（48 个：Work / _condaenvs / _condapkgs / pip-install-* / pip-ephem-* / pip-build-tracker-* / pip-unpack-* / quark_onnx.quant.* / tmp*） | 48 |
+| `<workspace>\`（48 个：Work / _condaenvs / _condapkgs / pip-install-* / pip-ephem-* / pip-build-tracker-* / pip-unpack-* / quark_onnx.quant.* / tmp*） | 48 |
 | `zimage-port\`（tmp*/…） | 45 |
 | `zimage-bfp16-npu\` | 9 |
 | `_probe_out\utils_probe\tmp` | 6 |
@@ -442,7 +442,7 @@
 ### 6.5 本单自身的写入
 
 - **工作区内唯一新建文件 = 本报告**（`zimage-bfp16-npu\docs\T21-DISKMAP-FULL.md`）。
-- 中间数据落在 **`%TEMP%\dsh-kxZHGu\`**（`t21_diskmap.json` / `t21_diskmap2.json` / `t21_dir`… 共 4 个），**不在工作区、不在任何被审计路径下**，可随时删除，不参与任何统计。
+- 中间数据落在 **`%TEMP%\<temp>\`**（`t21_diskmap.json` / `t21_diskmap2.json` / `t21_dir`… 共 4 个），**不在工作区、不在任何被审计路径下**，可随时删除，不参与任何统计。
 - **零删除、零移动、零改名、零权限修改**；未 `git` 操作；未执行任何 `rmtree`/`Remove-Item`。
 
 ---
@@ -494,7 +494,7 @@ nlink = bhfi.nNumberOfLinks
 
 ## 8. 一句话结论
 
-**public_work 的 98.55 GiB 物理占用已经全部对上账（权重 55.92 ＋ 实验 26.10 ＋ 备份独占 10.07 ＋ 工具链 3.79 ＋ 其它 2.67，残差 0.00）；路径合计 121.63 GiB 与物理的 23.08 GiB 差额是 263 组硬链接，不是失踪文件。旧审计不是"漏了大头"，而是备份集重复计 14.33 GiB 与硬链接少扣 9.15 GiB 互相抵消，把 11.4 GiB 的缺口伪装成了"长尾"。可立即释放仍然只有 A 档 743 MiB；要动 10 GiB 以上，只能批 B 档（17.0 GiB，最大三项是 _probe_out 4.13 GiB、perfc 3.62 GiB、block 2.92 GiB）。**
+**<workspace> 的 98.55 GiB 物理占用已经全部对上账（权重 55.92 ＋ 实验 26.10 ＋ 备份独占 10.07 ＋ 工具链 3.79 ＋ 其它 2.67，残差 0.00）；路径合计 121.63 GiB 与物理的 23.08 GiB 差额是 263 组硬链接，不是失踪文件。旧审计不是"漏了大头"，而是备份集重复计 14.33 GiB 与硬链接少扣 9.15 GiB 互相抵消，把 11.4 GiB 的缺口伪装成了"长尾"。可立即释放仍然只有 A 档 743 MiB；要动 10 GiB 以上，只能批 B 档（17.0 GiB，最大三项是 _probe_out 4.13 GiB、perfc 3.62 GiB、block 2.92 GiB）。**
 
 ---
 

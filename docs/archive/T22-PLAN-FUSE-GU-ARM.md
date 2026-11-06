@@ -229,7 +229,7 @@ is a blocker for ever making the plan path a product default.
 ## 7. Reproduce
 
 ~~~powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 
 # the pair (house recipe; -Skip P06 because T22_PLAN_FFN is on the FORBID list by design)
 _scratch\repro\t22_run.ps1 -Size 512 -Steps 8 -Tag f8a `

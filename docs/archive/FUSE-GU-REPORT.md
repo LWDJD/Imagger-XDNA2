@@ -378,8 +378,8 @@ plan needs 4 (2048 rows each), and the host silu it deletes is 1.2 s per layer.
 ## 9. Reproduce
 
 ~~~powershell
-$py312 = D:\Project\deepseek_harness\test7\.winml_venv\Scripts\python.exe
-$py310 = D:\Users\15081\AppData\Local\GAIA\python\python.exe
+$py312 = <test7>\.winml_venv\Scripts\python.exe
+$py310 = <python310>\python.exe
 
 # 1. the plan (pure output must be unchanged; the fused plan is the new one)
 & $py312 webui\npu_plan.py --selftest

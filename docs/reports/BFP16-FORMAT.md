@@ -303,14 +303,14 @@ ops_json = {"xclbin": "llama2_mladf_2x4x4_v1_gemmbfp16_silu_mul_mha_rms_rope.xcl
 
 | 检索 | 范围 | 命中 |
 |---|---|---|
-| 文件系统按名 | `test7` 深度 6、`public_work` 深度 5、`D:\Project` 深度 6 | 0（目录与文件都查了） |
+| 文件系统按名 | `test7` 深度 6、`<workspace>` 深度 5、`D:\Project` 深度 6 | 0（目录与文件都查了） |
 | 18 个 wheel 的成员名 + 正文 | 全量 | 0 |
 | `RyzenAI-SW` git | `git grep`（HEAD）+ `git log -S`（全历史） | 0 |
 | 1.8 官方文档 26 篇 md | grep | 0 |
 
 **诚实结论：这个目录名在本机所有可读的官方材料里都不存在。** 最接近的三个候选，供后续核对：
 
-1. `quark` 在量化时生成的临时目录 —— 本机确有 `quark_onnx.quant.9zjvohcs`（`public_work/`，**空目录**），命名模式是 `quark_onnx.quant.<随机>`，不是 `.onnx_transformers`。
+1. `quark` 在量化时生成的临时目录 —— 本机确有 `quark_onnx.quant.9zjvohcs`（`<workspace>/`，**空目录**），命名模式是 `quark_onnx.quant.<随机>`，不是 `.onnx_transformers`。
 2. `model_generate` 的 ONNX 中间产物目录（`model_generate` wheel 内有 `onnx_tools/`、`scripts/add_cast_nodes.py`、`scripts/add_pack_consts.py`）。
 3. `optimum`/`transformers` 的导出缓存。
 

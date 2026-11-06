@@ -54,9 +54,18 @@ HOSTT = REPO / "_models" / "Z-Image-Turbo" / "host_tensors.safetensors"
 MODELS = PORT / "_models" / "Z-Image-Turbo"
 ORACLE96 = PIPE / "oracle96.png"
 
-PY310 = pathlib.Path(r"D:\Users\15081\AppData\Local\GAIA\python\python.exe")
-XRT_DIR = pathlib.Path(
-    r"D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod")
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
+PY310 = _paths.python310()
+XRT_DIR = _paths.xrt_dir()
 
 D, HEADS, HD, FF, SEQ, CAP = 3840, 30, 128, 10240, 96, 32
 IMG_GRID = (1, 8, 8)

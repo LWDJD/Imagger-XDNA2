@@ -237,8 +237,8 @@ export ONNX (17 片)                 读 17 个 .state          load 输入 late
 ## 5. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 & $py -u "$d\_scratch\sessA_e1c.py"      # load_state 计时 + 缺失文件负对照
 & $py -u "$d\_scratch\sessA_e1ladder.py" # load_state -> init -> execute 阶梯（停在 init）
 & $py -u "$d\_scratch\sessA_e3.py"       # txn key 命中率

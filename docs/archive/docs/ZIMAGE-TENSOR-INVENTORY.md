@@ -6,7 +6,7 @@ comes from the header JSON (`dtype`, `shape`, `data_offsets`) of the three shard
 
 ## 0. Source and method
 
-Directory: `D:\Project\deepseek_harness\public_work\zimage-port\_models\Z-Image-Turbo\transformer\`
+Directory: `<workspace>\zimage-port\_models\Z-Image-Turbo\transformer\`
 
 | File | Bytes |
 |---|---:|

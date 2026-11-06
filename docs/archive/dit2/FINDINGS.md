@@ -183,7 +183,7 @@ raw i8 objects); MLIR types must be built inside `core_fn`; the
 `os.mkdir(0o700)` machine bug (mitigated by the process-local mkdir shim +
 `use_cache=False`, copied from `dit_block_v1_run.py`); `xclbinutil` is
 off-PATH (driver prepends
-`D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod`).
+`<xrt>`).
 
 ## 5. Sweep data (M=32 tokens, N=32, tile (16,8,16), seed 0)
 
@@ -235,7 +235,7 @@ Representative device numbers (K=1792, depths 1/1):
 ## 7. Reproduction
 
 ```
-"..." = "D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe"   (3.12)
+"..." = "<python312>\python.exe"   (3.12)
 
 "..." zimage-bfp16-npu\_scratch\dit2\run.py -K 32                (all phases)
 "..." zimage-bfp16-npu\_scratch\dit2\run.py -K 1792 --inA-depth 1 --mid-depth 1
@@ -245,7 +245,7 @@ Representative device numbers (K=1792, depths 1/1):
 ```
 
 The device half is `run_xrt.py` under Python 3.10
-(`D:\Users\15081\AppData\Local\GAIA\python\python.exe`), invoked
+(`<python310>\python.exe`), invoked
 automatically by run.py.  Artifacts per config:
 `out\tw_M32_K<K>_N32_m16_k8_n16_d<in><mid>.{xclbin,bin}` plus `_io.npz`
 (inputs + references) and `_C_raw.npy` (raw device C).

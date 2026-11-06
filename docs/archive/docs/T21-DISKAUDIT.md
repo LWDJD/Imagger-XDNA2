@@ -1,7 +1,7 @@
 # T21 磁盘清理审计单（只读，零删除）
 
 **任务号** t21_diskaudit ｜ **模式** 只读审计，本文件是本会话唯一新建文件 ｜ **审计窗口** 2026-10-19 09:30:39–09:53（Asia/Shanghai）
-**工作根** D:\Project\deepseek_harness\public_work ｜ **git 仓库** zimage-bfp16-npu（HEAD 6be3320，git status 894 条未提交/未跟踪）
+**工作根** <workspace> ｜ **git 仓库** zimage-bfp16-npu（HEAD 6be3320，git status 894 条未提交/未跟踪）
 **盘况锚点** D: total 652.9 GiB，**free = 953,962,496 B = 0.89 GiB**（[System.IO.DriveInfo] 于 **09:35:07** 读数；Get-PSDrive/Get-CimInstance/fsutil 在本沙箱被拒）
 **单位口径** 除标注 GB(10^9) 外，全部为 **MiB/GiB**（PowerShell 1MB=2^20）。历史台账混用二进制与十进制，凡引用处均注明。
 
@@ -21,7 +21,7 @@
 
 ## 1. 体量分布（U1）
 
-### 1.1 public_work 顶层（files = 文件数，MiB = MiB）
+### 1.1 <workspace> 顶层（files = 文件数，MiB = MiB）
 
 | 顶层区域 | 文件数 | MiB | GiB | 备注 |
 |---|---:|---:|---:|---|
@@ -100,7 +100,7 @@
 | `__pycache__` / `.pyc` | 152 目录 / 834 文件 / **16.60 MiB**（.pyc 15.68） | 其中 _pylibs 工具链 ~7.3、_probe_out 2.1、仓库 ~7.2 |
 | `*.lock` | 599 个 / 0.00 MiB | 全部 <1 KiB |
 | 根目录 `*.log` + `*.txt` | **16 个 / 10.86 MiB** | build-vulkan.log 10.22 为主 |
-| 空 `tmp*` 目录 | public_work 根 **37**、仓库 **9**、zimage-port **45**，**全部 0 字节** | 另有 pip-install / pip-ephem / quark 等 12 个空目录 |
+| 空 `tmp*` 目录 | <workspace> 根 **37**、仓库 **9**、zimage-port **45**，**全部 0 字节** | 另有 pip-install / pip-ephem / quark 等 12 个空目录 |
 
 ---
 
@@ -314,7 +314,7 @@ A 724.93 MiB + B 13,719.70 MiB + C 98,465.86 MiB = **112,910.49 MiB = 110.26 GiB
 
 ### 5.5 本审计自身的写入
 
-唯一应新建的文件是本报告。**如实披露**：扫描过程中我误把一次 stdout（64,000 B 的截断扫描文本）写成了 `public_work\_scan_v3.txt.tmp`，随即在同一会话内 Remove-Item 删除并 Test-Path 复核为 False。除此之外零写入、零移动、零改名；未删除任何审计对象。
+唯一应新建的文件是本报告。**如实披露**：扫描过程中我误把一次 stdout（64,000 B 的截断扫描文本）写成了 `<workspace>\_scan_v3.txt.tmp`，随即在同一会话内 Remove-Item 删除并 Test-Path 复核为 False。除此之外零写入、零移动、零改名；未删除任何审计对象。
 
 ### 5.6 其它诚实负结果
 
@@ -335,7 +335,7 @@ A 724.93 MiB + B 13,719.70 MiB + C 98,465.86 MiB = **112,910.49 MiB = 110.26 GiB
 | `_probe_out\zimage_loop` | **2026-10-17 12:24:14** | 其内容文件最新仍为 10-10 20:38，说明改的是**目录项**（少了一个子项），不是文件内容 |
 | `_probe_out` 其它子目录 | 最新 2026-10-13 18:59（route3_diff） | 10-17 12:24 那一刻**只有** _probe_out 与 zimage_loop 被动过 |
 
-两条 mtime 相差 1 秒，指向**同一次操作**。除此之外，全 public_work 与 zimage-port 根目录在 **10-17 12:10–12:40 之间没有任何文件被写入**（含日志）——即这次删除**没有留下任何日志文件**。
+两条 mtime 相差 1 秒，指向**同一次操作**。除此之外，全 <workspace> 与 zimage-port 根目录在 **10-17 12:10–12:40 之间没有任何文件被写入**（含日志）——即这次删除**没有留下任何日志文件**。
 
 ### 6.2 回收站：没有
 
@@ -413,11 +413,11 @@ dump：`*_dumpNNNNN_{A,X,xmid,Y}.npy`，每 tag 32 个（A/X/Y 各 737,408 B，x
 
 | 命令（同一台机、同一分钟） | 结果 |
 |---|---|
-| cwd = `public_work`，`Get-ChildItem '_scratch\image' -Filter 'r3*' -ErrorAction SilentlyContinue` | **0** |
+| cwd = `<workspace>`，`Get-ChildItem '_scratch\image' -Filter 'r3*' -ErrorAction SilentlyContinue` | **0** |
 | cwd = `zimage-bfp16-npu`，同一条命令 | **93** |
 | cwd = `zimage-bfp16-npu`，`Get-ChildItem '_scratch/image/r3*'` | **93** |
 
-原因：`public_work\_scratch` **存在但只有 `wregen\`**，没有 `image\` 子目录。从 public_work 基点写相对路径 `_scratch\image` 会命中一个不存在的路径；配上 `-ErrorAction SilentlyContinue`（或 `Test-Path` 直接 False），错误被吞掉 → 得到“0 命中”的**假阴性**。
+原因：`<workspace>\_scratch` **存在但只有 `wregen\`**，没有 `image\` 子目录。从 <workspace> 基点写相对路径 `_scratch\image` 会命中一个不存在的路径；配上 `-ErrorAction SilentlyContinue`（或 `Test-Path` 直接 False），错误被吞掉 → 得到“0 命中”的**假阴性**。
 
 其它可能但**未成立**的解释：①文件被删后又重建（不成立——mtime 仍是 10-17 08:48–08:52，重建会刷新）；②东西被搬到子目录（不成立——`Group-Object DirectoryName` 只有一个桶）；③在 `zimage-bfp16-repo` 里查的（该树没有 `_scratch`，只有 `_models`/`_probe_out` 两个 junction）。
 
@@ -495,7 +495,7 @@ dump：`*_dumpNNNNN_{A,X,xmid,Y}.npy`，每 tag 32 个（A/X/Y 各 737,408 B，x
 
 ## 附录 A — 全树 >50 MiB 文件（190 个，降序；单位 MiB）
 
-路径相对 `D:\Project\deepseek_harness\public_work\`；C = 永不可删，B = 需批准。档位按 §1.5 的关键词口径粗分；`t4_out` / `step5_out` 的个别大文件以 §2.3（C19）与 §8.2 的更正为准，不以本表字母为准。
+路径相对 `<workspace>\`；C = 永不可删，B = 需批准。档位按 §1.5 的关键词口径粗分；`t4_out` / `step5_out` 的个别大文件以 §2.3（C19）与 §8.2 的更正为准，不以本表字母为准。
 
 | # | 文件 | MiB | 档 |
 |---:|---|---:|---|

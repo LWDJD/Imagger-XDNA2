@@ -42,7 +42,7 @@
   "sbg": "row=[mod[2]-1, 0, ffn_norm1] tiled to FFN_M (make_sbg)",
   "walk": "x_image64 / pack_blocked / unpack_bytes (t8_codec)",
   "x_pad_token": {
-   "missing": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\image\\t3real_host_tensors.npz"
+   "missing": "imaggers\\image\\t3real_host_tensors.npz"
   },
   "pe_alignment": "cap 32 rows; image rows padded to padded_tokens with x_pad_token at pos (0,0,0); caption follows"
  },

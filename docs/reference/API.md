@@ -3,7 +3,7 @@
 生产可用的单页 WebUI,把已验证的 t13 8 步 × 30 层 + 4 refiner + VAE 链路包装成
 参数化界面。纯 Python stdlib HTTP server + 单文件 HTML/JS,零 pip、零下载、零 CDN。
 
-    repo : D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+    repo : <checkout>
     入口 : webui.py          (py312, HTTP + 调度)
     器件 : webui/bridge.py   (py310, import t13_run.py,不改驱动)
 
@@ -11,8 +11,8 @@
 
 ## 1. 启动
 
-    $py312 = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-    cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+    $py312 = '<python312>\python.exe'
+    cd <checkout>
     & $py312 webui.py --host 127.0.0.1 --port 7860
 
 打开 http://127.0.0.1:7860 。首次请求校验/复制 128 构建缓存(<1 s),之后按任务
@@ -92,7 +92,7 @@ webui.py;运行时产物在 webui/cache|jobs|outputs。
 
 已验证路径(见 imaggers/textenc/FINDINGS.md):
 
-* llama.cpp Vulkan build prism-vulkan\llama.dll + GGUF Qwen3-4B;
+* llama.cpp Vulkan build llama.dll + GGUF Qwen3-4B;
 * 取 layer-input tap lid=35 = HF hidden_states[-2],(1,L,2560) f32;
 * chat 模板 = <|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n;
 * 已知 13-token 参考 prompt 的 pe 与缓存 ab1b0a2d17949d71.npz cosine 0.9999855,

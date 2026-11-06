@@ -114,8 +114,8 @@ if not entries:
 ## 6. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 & $py -u "$d\_scratch\sessA_scaling.py"    # 三档 N 的冷/热 + ns/param
 & $py -u "$d\_scratch\sessA_warmgemm.py"   # ref 档热会话复测
 ```

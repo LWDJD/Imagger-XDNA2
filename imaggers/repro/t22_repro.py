@@ -56,9 +56,30 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 # the two interpreters the product itself hard-codes (webui/config.py:22-23)
-PY312 = pathlib.Path(r"D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe")
-PY310 = pathlib.Path(r"D:\Users\15081\AppData\Local\GAIA\python\python.exe")
-XRT_DIR = pathlib.Path(r"D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod")
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
+# soft: a harness must import on a machine that has not been set up yet, and say
+# what is missing in the preflight rather than dying on line 70.  The spawn sites
+# below call _need() so the message still names the variable.
+PY312 = _paths.soft(_paths.python312)
+PY310 = _paths.soft(_paths.python310)
+XRT_DIR = _paths.soft(_paths.xrt_dir)
+
+
+def _need(value, what: str, env: str) -> pathlib.Path:
+    if value is None:
+        raise SystemExit(
+            "%s not found.  Set %s, or put it under third_party/ (README 10.6)."
+            % (what, env))
+    return value
 
 PORT = 7874
 URL = "http://127.0.0.1:%d" % PORT
@@ -1141,7 +1162,7 @@ def thread_plan():
            "print('TORCH_THREADS', torch.get_num_threads())\n".format(
                root=str(ROOT))
     try:
-        r = subprocess.run([str(PY312), "-c", code], cwd=str(ROOT),
+        r = subprocess.run([str(_need(PY312, "the Python 3.12 interpreter", "ZIMAGE_PY312")), "-c", code], cwd=str(ROOT),
                            capture_output=True, text=True, timeout=300,
                            env=dict(os.environ))
         for line in (r.stdout or "").splitlines():
@@ -1217,8 +1238,10 @@ def report(results, heading, kind="postflight"):
 def pf_repo(ctx):
     missing = [str(p) for p in (ROOT / "webui" / "config.py", T18, LAUNCHER,
                                 ROOT / "webui.py") if not p.is_file()]
-    for py in (PY312, PY310):
-        if not py.is_file():
+    for py, env in ((PY312, "ZIMAGE_PY312"), (PY310, "ZIMAGE_PY310")):
+        if py is None:
+            missing.append("%s (set %s)" % (env, env))
+        elif not py.is_file():
             missing.append(str(py))
     if missing:
         return R("P01", "repo tree + both interpreters", "FAIL",
@@ -1873,7 +1896,7 @@ def start_server(tag):
     RECORDS.mkdir(parents=True, exist_ok=True)
     so = open(RECORDS / (tag + ".server.out.log"), "wb")
     se = open(RECORDS / (tag + ".server.err.log"), "wb")
-    p = subprocess.Popen([str(PY312), str(LAUNCHER)], cwd=str(ROOT),
+    p = subprocess.Popen([str(_need(PY312, "the Python 3.12 interpreter", "ZIMAGE_PY312")), str(LAUNCHER)], cwd=str(ROOT),
                          stdout=so, stderr=se, stdin=subprocess.DEVNULL,
                          env=dict(os.environ))
     return p, so, se
@@ -3464,7 +3487,7 @@ def doc(check=False):
     add("## 1. The one command")
     add("")
     add(Q*3 + "powershell")
-    add("cd D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu")
+    add("cd <checkout>")
     add("imaggers\\repro\\t22_run.ps1 -Size 512 -Steps 8 -Tag mytag")
     add("imaggers\\repro\\t22_run.ps1 -Size 128 -Steps 1 -Tag small")
     add(Q*3)

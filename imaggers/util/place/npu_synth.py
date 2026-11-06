@@ -45,11 +45,12 @@ HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[2]                 # the repo
 OUT = HERE / "out"
 MANIFESTS = ROOT / "webui" / "shape_manifests"
-PY312 = os.environ.get(
-    "NPU_PY312", r"D:\Project\deepseek_harness\test7\.winml_venv\Scripts\python.exe")
 
 sys.path.insert(0, str(ROOT))
+from imaggers import paths as _paths                                # noqa: E402
 from webui import npu_plan as P                                    # noqa: E402
+
+PY312 = os.environ.get("NPU_PY312", str(_paths.python312()))
 
 DESIGN = {"xd": "ffn_xb", "t33": "ffn_t33"}
 #: the FUSED gu (silu(gate)*up inside the image).  It is an xd-form image with a

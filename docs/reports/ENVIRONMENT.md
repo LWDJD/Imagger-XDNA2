@@ -24,14 +24,14 @@ found on the machine; none were downloaded except the `mlir_aie` wheel.
 
 | role | version | path |
 |---|---|---|
-| **compile** (mlir_aie, cp312) | 3.12 | `D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe` |
-| **run** (pyxrt) | **3.10.9** | `D:\Users\15081\AppData\Local\GAIA\python\python.exe` |
+| **compile** (mlir_aie, cp312) | 3.12 | `<python312>\python.exe` |
+| **run** (pyxrt) | **3.10.9** | `<python310>\python.exe` |
 
 `pyxrt.pyd` links `python310.dll`, so the run side MUST be a 3.10 interpreter.
 Two complete 3.10 installs exist on this machine:
 
-    D:\Users\15081\AppData\Local\GAIA\python\python.exe
-    C:\Users\15081\AppData\Roaming\Trae CN\ModularData\ai-agent\vm\tools\python\python.exe
+    <python310>\python.exe
+    <user>\AppData\Roaming\an IDE\ModularData\ai-agent\vm\tools\python\python.exe
 
 Neither path contains "310"/"3.10" text, which is why ordinary searches miss
 them.
@@ -41,7 +41,7 @@ them.
     C:\Windows\System32\xrt_coreutil.dll
     C:\Windows\System32\AMD\pyxrt.pyd
     C:\Program Files\RyzenAI\1.6.0\xrt\xrt_coreutil.dll
-    D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod\
+    <xrt>\
         pyxrt.pyd   xrt_core.dll   xrt_coreutil.dll   xrt-smi.exe
 
 The last folder is the one that works as a unit.  Put it on `sys.path` and
@@ -82,7 +82,7 @@ the latter).
 
 ## Gotchas
 
-* The DSH sandbox temp dir `C:\Users\15081\AppData\Local\Temp\dsh-oX9rpx` is
+* The DSH sandbox temp dir `<temp>\<temp>` is
   cleaned up by something else on this machine; every command fails with
   `windows-acl-run: --temp is not an existing directory` until it is recreated.
 * ConstrainedLanguage mode blocks `[Console]::OutputEncoding`, `.ToString()`,

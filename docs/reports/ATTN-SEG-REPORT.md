@@ -267,7 +267,7 @@ usable evidence is a full 8-step latents gate, which is why §5 exists.
 ## 7. Reproduce, one command each
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 
 # (a) the gate: default path vs git HEAD, every flag vs the model, dump + prewarm
 py310 imaggers\attnseg\gate_flags.py --threads 16

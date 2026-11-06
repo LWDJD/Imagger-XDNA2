@@ -209,7 +209,7 @@ move a byte.
 | `NH_BG` | '5' |  | imaggers/block/bigm/brepack_cache.py:1043 | CODE: imaggers/block/bigm/brepack_cache.py:1043 |
 | `NPU_CACHE_DIR` | '' |  | imaggers/vae/t21_3b3_chain.py:1424, imaggers/vae/t21_3b3_chain.py:1478 (+1) | AUTO: name-family heuristic -- not verified against the code |
 | `NPU_CACHE_HOME` | '' |  | imaggers/block/step3_ffn.py:122, imaggers/block/step4_run_ffn.py:60 (+5) | AUTO: name-family heuristic -- not verified against the code |
-| `NPU_PY312` | 'D:\\Project\\deepseek_harness\\test7\\.winml_venv\\Scripts\\python.exe' |  | imaggers/util/place/npu_synth.py:48 | AUTO: name-family heuristic -- not verified against the code |
+| `NPU_PY312` | '' (resolved: `ZIMAGE_PY312` -> `third_party/python312/`) |  | imaggers/util/place/npu_synth.py:48 | AUTO: name-family heuristic -- not verified against the code |
 | `PEANO_INSTALL_DIR` | '' |  | imaggers/block/step3_ffn.py:121, imaggers/block/step4_run_ffn.py:59 (+4) | AUTO: name-family heuristic -- not verified against the code |
 | `S2_ENGINE` | 'inline' |  | imaggers/util/place/s2_dev.py:342 | CODE: imaggers/util/place/s2_dev.py:342 |
 | `T22_BREPACK_DIR` | '' |  | imaggers/block/bigm/brepack_cache.py:128 | CODE: imaggers/block/bigm/brepack_cache.py:128 -- where the B cache lives |

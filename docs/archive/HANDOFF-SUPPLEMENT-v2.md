@@ -19,10 +19,10 @@ original `REPRODUCE.md` step 0 already used — I regressed it.
 **Corrected block** (use this one):
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
-$py312 = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$env:PEANO_INSTALL_DIR = 'D:\Project\deepseek_harness\public_work\_pylibs\llvm-aie\llvm-aie'
-$env:PYTHONPATH = 'D:\Project\deepseek_harness\public_work\_pylibs\mlir_aie\python;D:\Project\deepseek_harness\public_work\_pylibs'
+cd <checkout>
+$py312 = '<python312>\python.exe'
+$env:PEANO_INSTALL_DIR = '<workspace>\_pylibs\llvm-aie\llvm-aie'
+$env:PYTHONPATH = '<workspace>\_pylibs\mlir_aie\python;<workspace>\_pylibs'
 & $py312 -c "from aie.iron.device import NPU2; print('aie OK', NPU2())"
 ```
 

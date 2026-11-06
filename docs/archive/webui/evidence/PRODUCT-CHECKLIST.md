@@ -39,7 +39,7 @@
 - [ ] 禁止把"device-exact 仿真"写成"在 NPU 上";禁止把 CPU 常驻写成 NPU。
 - [ ] 若任务书声称某 NPU 实现"已有",先在树里验证文件存在;不存在就写清
       缺失路径与剩余工作,不半建、不冒充。
-- [ ] 例:本轮 `t3_real_vae.onnx` 在 `public_work` 全树不存在;NPU VAE 只有
+- [ ] 例:本轮 `t3_real_vae.onnx` 在 `<workspace>` 全树不存在;NPU VAE 只有
       kernel 级物料(conv/GN/upsample),整链未建 —— 因此 ③ 未达成。
 
 ## 4. 批语义门

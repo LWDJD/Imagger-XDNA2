@@ -71,3 +71,14 @@ desktop.ini
 
 # ---- Logs --------------------------------------------------------------------
 *.log
+
+# Per-machine run evidence: env dumps, absolute paths, timestamps.  Regenerated
+# by t22_repro.py on first use; a fresh clone starts with no history, which is
+# what a preflight should see.
+imaggers/repro/last/
+
+
+# Third-party trees: interpreters, XRT, MLIR-AIE, llama.cpp.  Linked or copied
+# here, never committed.  See README section 10 and imaggers/paths.py.
+third_party/
+

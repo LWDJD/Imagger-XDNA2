@@ -2,7 +2,17 @@
 """Take the F-14.1 lock as this process, then run the product webui with
 ZIMAGE_BIGM=1 / ZIMAGE_CHUNK_PIPE=0."""
 import datetime, os, pathlib, runpy, sys
-BASE = pathlib.Path(r"D:\Project\deepseek_harness\public_work\zimage-bfp16-npu")
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
+BASE = _paths.CHECKOUT
 LOCK = BASE / "_scratch" / "device.lock"
 def _instrument():
     """T22_TIMELINE=1: log every device round trip (t_start, dur, tag) from
@@ -13,8 +23,7 @@ def _instrument():
     try:
         import pyxrt as _px
     except (ModuleNotFoundError, ImportError):
-        _d = r"D:\Project\deepseek_harness\test7\WStmp\driver376" \
-             r"\npu_mcdm_stack_prod"
+        _d = str(_paths.xrt_dir())
         sys.path.insert(0, _d)
         try:
             os.add_dll_directory(_d)

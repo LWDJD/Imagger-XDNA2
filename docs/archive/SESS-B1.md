@@ -136,8 +136,8 @@ onnx_utils partition (8-12 s/图)           EP 建会话 0.23 s/图      execute
 ## 6. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 & $py -u "$d\_scratch\sessA_b1_ep.py"      # EP 会话（原图，CPU 回退假阳性）
 & $py -u "$d\_scratch\sessA_b1_repl.py"    # ★ EP 会话（replaced.onnx，3/3 在 NPU）
 & $py -u "$d\_scratch\sessA_b1_ab.py"      # 冷/热 A/B + 数值

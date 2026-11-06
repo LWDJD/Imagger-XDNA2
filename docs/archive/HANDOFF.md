@@ -25,7 +25,7 @@ Owner's three acceptance criteria, all **measured and met**:
    326.1 ms, loop 250.6 s) — `IMAGE.md` §7.  **These are two experiments; do
    not conflate them.**
 
-Working directory: `D:\Project\deepseek_harness\public_work`
+Working directory: `<workspace>`
 Deliverable tree: `zimage-bfp16-npu/` (mirrored to `zimage-port/`)
 
 ---
@@ -297,16 +297,16 @@ Ranked by TOPS gained per unit of work:
 ## 8. THE ENVIRONMENT
 
 * Compile / encode Python 3.12:
-  `D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe` (**NOT `py -3.12`**,
+  `<python312>\python.exe` (**NOT `py -3.12`**,
   no ml_dtypes there)
 * Run (pyxrt) Python 3.10:
-  `D:\Users\15081\AppData\Local\GAIA\python\python.exe` (`pyxrt.pyd` links
+  `<python310>\python.exe` (`pyxrt.pyd` links
   `python310.dll`)
 * Before importing `aie`:
-  `PEANO_INSTALL_DIR = D:\Project\deepseek_harness\public_work\_pylibs\llvm-aie\llvm-aie`
+  `PEANO_INSTALL_DIR = <workspace>\_pylibs\llvm-aie\llvm-aie`
   `NPU_CACHE_HOME` = a FRESH dir per attempt (`os.mkdir(path, 0o700)` poisons
   the object cache; use the shim from `_scratch/dit_block_v1_run.py`)
-* `PATH` += `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod`
+* `PATH` += `<xrt>`
   (xclbinutil, xrt-smi, pyxrt)
 * Toolchain: `mlir_aie==1.4.4`, `llvm-aie==22.0.0.2026092101+0006955e`
   (the pin in the mlir-aie repo's `utils/peano-requirements.txt` at tag v1.4.4).

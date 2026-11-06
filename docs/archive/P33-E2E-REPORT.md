@@ -43,7 +43,7 @@ Two different variables are in play and the documents blur them:
 So the exact reproduction of the delivered number is:
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 $env:T22_FASTGLUE = "1"      # install.py: 8 hooks
 $env:T22_REF_SMNB = "1"      # refiner fused softmax
 powershell -NoProfile -ExecutionPolicy Bypass -File _scratch\devkill\run_arm.ps1 `

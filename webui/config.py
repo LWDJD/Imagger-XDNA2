@@ -19,10 +19,15 @@ WEBUI = pathlib.Path(__file__).resolve().parent
 NPU = WEBUI.parent
 WS = NPU.parent
 
-PY312 = pathlib.Path(r"D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe")
-PY310 = pathlib.Path(r"D:\Users\15081\AppData\Local\GAIA\python\python.exe")
-XRT_DIR = pathlib.Path(r"D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod")
-PEANO = WS / "_pylibs" / "llvm-aie" / "llvm-aie"
+# Third-party locations.  Nothing here is a path from the machine this was
+# written on: imaggers/paths.py resolves each one from an environment variable,
+# then <checkout>/third_party/<name>, then reports what is missing.  README 10.
+from imaggers import paths as _paths
+
+PY312 = _paths.soft(_paths.python312)
+PY310 = _paths.soft(_paths.python310)
+XRT_DIR = _paths.soft(_paths.xrt_dir)
+PEANO = _paths.soft(_paths.peano)
 
 PORT = WS / "zimage-port"
 MODELS = PORT / "_models" / "Z-Image-Turbo"
@@ -570,7 +575,6 @@ def _te_search():
     fixed = [
         WEBUI / "models" / "zimage-te-qwen3-4b-bf16.gguf",
         pathlib.Path(tempfile.gettempdir()) / "zimage-te" / "zimage-te-qwen3-4b-bf16.gguf",
-        pathlib.Path(r"C:\Users\15081\AppData\Local\Temp\dsh-nPUWK7\zimage-te\zimage-te-qwen3-4b-bf16.gguf"),
     ]
     files = list(fixed)
     dirs = [p.parent for p in fixed]

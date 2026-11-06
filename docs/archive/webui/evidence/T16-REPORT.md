@@ -1,6 +1,6 @@
 # T16 — 产品返工报告(P0 四项)
 
-日期:2026-10-18 · 仓库:D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+日期:2026-10-18 · 仓库:<checkout>
 负责人否决理由(全部成立):①解码图像混乱;②VAE 有 NPU 版却用 CPU(20 s 加载);
 ③批量上限 4、4×128² 263 s;④计时 33.3+99.8+21.8=154.9 ≠ 263.0,108 s 未归账。
 
@@ -122,7 +122,7 @@ host f32 抽象、官方 128² 好、修 token 布局后 WebUI 128² 好。**分
 
 ### 2.1 任务书里的 t3_real_vae.onnx 不存在
 
-对 `public_work` 全树做 `*.onnx` 与文件名含 `vae` 的检索:
+对 `<workspace>` 全树做 `*.onnx` 与文件名含 `vae` 的检索:
 
 * 没有任何 VAE 的 ONNX;没有 `t3_real_vae.onnx`;没有"验证台架 1.8 s/图"的脚本或日志。
 * 仓库里真实的 NPU VAE 物料是 `_scratch/vae/`:

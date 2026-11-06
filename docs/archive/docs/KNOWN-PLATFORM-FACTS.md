@@ -5,7 +5,7 @@
 > **本文不是报告**:报告是一次实验的完整叙事;本文是**可被引用、可被追责的事实条目**。
 > 每条卡必须有可查出处(报告名:行号 / commit / 实测数据);无出处者一律进 §4「传闻待证」,不得当设计依据。
 
-**路径约定**:本文相对路径以仓库根 `zimage-bfp16-npu/` 为基准;工作区根 = `D:\Project\deepseek_harness\public_work`,以 `<工作区根>/` 开头的除外。
+**路径约定**:本文相对路径以仓库根 `zimage-bfp16-npu/` 为基准;工作区根 = `<workspace>`,以 `<工作区根>/` 开头的除外。
 **行号会漂移**:行号锚定 commit `167aff1`;报告被追加后请按「报告名 + 关键词」重定位,不要盲信行号。
 
 ---
@@ -376,8 +376,8 @@
 ### F-16 · 环境块(照抄可用)
 
 **事实**
-- 两套解释器**不可互换**:`py312` = 编译/构建/服务(`D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe`);`py310` = 器件循环(numba、pyxrt;`D:\Users\15081\AppData\Local\GAIA\python\python.exe`)。
-- `PEANO_INSTALL_DIR` = `<工作区根>/_pylibs/llvm-aie/llvm-aie`;`PATH` += `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod`。
+- 两套解释器**不可互换**:`py312` = 编译/构建/服务(`<python312>\python.exe`);`py310` = 器件循环(numba、pyxrt;`<python310>\python.exe`)。
+- `PEANO_INSTALL_DIR` = `<工作区根>/_pylibs/llvm-aie/llvm-aie`;`PATH` += `<xrt>`。
 - 每次器件运行:**fresh** `NPU_CACHE_DIR` + `NPU_CACHE_HOME`(建目录后 0o700 → 0o777,shim 需要);手跑 bridge 需 **fresh** `NUMBA_CACHE_DIR`。
 - 设备选择用 `set_current_device(NPU2())`,**不要** `from_name("npu2")`(那是 `npu2_1col`,只暴露一个 shim tile,会以"像硬件限制"的方式拒绝多 fill 设计)。
 - aie 导入顺序:设计模块(改 `sys.path`)必须先于 `from aie.iron import`。

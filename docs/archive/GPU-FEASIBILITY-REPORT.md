@@ -65,10 +65,10 @@ fp32 roof is **2.23 TFLOP/s** — about 1/8 of the NPU's 51.3 TOPS and 1/20 of w
 
 Nothing was installed into either existing interpreter. Both were left untouched.
 
-    D:\Users\15081\AppData\Local\GAIA\python\python.exe            3.10.9   (has NO venv module)
-    D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe       3.12.11  (used as the venv base)
+    <python310>\python.exe            3.10.9   (has NO venv module)
+    <python312>\python.exe       3.12.11  (used as the venv base)
 
-**New venv**: `D:\Project\deepseek_harness\public_work\zimage-bfp16-npu\_gpuwork\gpuvenv`
+**New venv**: `<checkout>\_gpuwork\gpuvenv`
 
     torch              2.4.1        (CPU build: torch.version.hip = None, cuda False)
     torch-directml     0.2.5.dev240914   (cp312 wheel, pulls torch 2.4.1 + torchvision 0.19.1)
@@ -287,7 +287,7 @@ worth 4× more than the offload itself.
 
 ## 6. Reproduction
 
-    $ws = "D:\Project\deepseek_harness\public_work\zimage-bfp16-npu\_gpuwork"
+    $ws = "<checkout>\_gpuwork"
     & "$ws\gpuvenv\Scripts\python.exe" "$ws\hw2.py"       # hardware identity from the HIP runtime
     & "$ws\gpuvenv\Scripts\python.exe" "$ws\bench6.py"    # CPU phase + GPU phase, both shapes
     & "$ws\gpuvenv\Scripts\python.exe" "$ws\bench7.py"    # GPU fp32 vs fp16 attention + accuracy
