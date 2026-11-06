@@ -194,7 +194,29 @@ NPU 镜像是按固定的行块数（RT）编译的。**固定切片的镜像无
 | `Tongyi-MAI/Z-Image-Turbo` transformer，3 个 safetensors 分片 | 24,619,690,888 B | `modelscope download --model Tongyi-MAI/Z-Image-Turbo --include 'transformer/*'` | `zimage-port/_models/Z-Image-Turbo/transformer/` | **重建 `weights.bfp16`** |
 | 同一仓库的 `text_encoder/` 3 分片 | 8,042,086,080 B | 同上，`--include 'text_encoder/*'` | `zimage-port/_models/Z-Image-Turbo/text_encoder/` | 重建文本编码器 GGUF |
 | 同一仓库的 `vae/`、`tokenizer/`、`scheduler/` | ~180 MB | 同上 | `zimage-port/_models/Z-Image-Turbo/` | **运行时**——VAE 解码、分词 |
-| 文本编码器 **GGUF** `zimage-te-qwen3-4b-bf16.gguf` | 8,051,284,800 B | 用 llama.cpp 的 `convert_hf_to_gguf.py` 从 `text_encoder/` 以 bf16 **转换** | 任意位置；用 `ZIMAGE_TE_GGUF` 指过去 | **运行时**——生成 caption |
+| 文本编码器 **GGUF** `zimage-te-qwen3-4b-bf16.gguf` | 8,051,284,800 B | **社区已有发布版**——见下文 | 任意位置；用 `ZIMAGE_TE_GGUF` 指过去 | **运行时**——生成 caption |
+
+**你不需要自己转换文本编码器。** 它就是 Qwen3-4B（36 层、hidden 2560、词表 151,936），
+而加载器只读取它——逐层抽头是 DLL 的运行时特性，不是文件的属性。上游在魔搭的
+`Qwen/Qwen3-4B-GGUF` 里发布了同一座塔的五个量化版本：
+
+| 文件 | 大小 |
+|---|---:|
+| `Qwen3-4B-Q4_K_M.gguf` | 2.33 GiB |
+| `Qwen3-4B-Q5_K_M.gguf` | 2.69 GiB |
+| `Qwen3-4B-Q6_K.gguf` | 3.08 GiB |
+| `Qwen3-4B-Q8_0.gguf` | 3.99 GiB |
+
+```bash
+modelscope download --model Qwen/Qwen3-4B-GGUF --include 'Qwen3-4B-Q8_0.gguf'
+```
+
+这些版本带一个本管线从不读取的 `lm_head`，代价是几百 MB，别无其他。
+**但量化版不是交付基线。** 它会改变 `pe`，而 `pe` 是全部 30 个块的条件张量，
+所以量化 GGUF 是一个新基线：引用它的任何数字之前，先重跑 8 步门。
+交付的 8.05 GB 文件是 bf16 且裁掉了输出头（398 个张量），由
+`convert_hf_to_gguf.py --outtype bf16` 从 `text_encoder/` 生成；
+转换配方在 `webui/rebuild_te_gguf.ps1`。
 
 `weights.bfp16` **可以从 transformer 分片逐字节重建**：
 
@@ -230,7 +252,7 @@ sha256sum ./weights.bfp16   # 4ff5b6a66ea3b3ae5a29ecc601097d50eade61979c222f8e0c
 
 | 组件 | 版本 | 获取方式 | 目标位置 | 用途 |
 |---|---|---|---|---|
-| **llama.cpp** 的 Vulkan 构建——`llama.dll`、`ggml.dll`、`ggml-base.dll`、`ggml-cpu-*.dll`、`ggml-vulkan.dll` | **llama.cpp 主线**，用 `-DGGML_VULKAN=ON` 构建 | `https://github.com/ggerganov/llama.cpp` | `<checkout>/third_party/llama.cpp/build/bin/`，或设 `ZIMAGE_LLAMA_DIR` | **运行时**——由 `ctypes.WinDLL` 加载 |
+| **llama.cpp** 的 Vulkan 构建——`llama.dll`、`ggml.dll`、`ggml-base.dll`、`ggml-cpu-*.dll`、`ggml-vulkan.dll` | **llama.cpp 主线 0.9.0 或更新**（ggml 0.29.0+），用 `-DGGML_VULKAN=ON -DBUILD_SHARED_LIBS=ON` 构建 | `https://github.com/ggml-org/llama.cpp` | `<checkout>/third_party/llama.cpp/build/bin/`，或设 `ZIMAGE_LLAMA_DIR` | **运行时**——由 `ctypes.WinDLL` 加载 |
 | **Vulkan SDK**——`glslangValidator`、`glslc` | 1.4.357.0 | LunarG | — | 仅用于构建 Vulkan 后端 |
 
 **请从主线构建，不要用别人留下的树。** 之前有个智能体在
@@ -238,11 +260,51 @@ sha256sum ./weights.bfp16   # 4ff5b6a66ea3b3ae5a29ecc601097d50eade61979c222f8e0c
 便利，**不是本项目的依赖**。任何你打算复现的东西都必须来自 llama.cpp 的上游构建。
 
 ```bash
-git clone https://github.com/ggerganov/llama.cpp
-cmake -B build -DGGML_VULKAN=ON -DCMAKE_BUILD_TYPE=Release
-cmake --build build --config Release -j
-# -> build/bin/{llama,ggml,ggml-base,ggml-cpu-*,ggml-vulkan}.dll
+git clone https://github.com/ggml-org/llama.cpp
+cd llama.cpp
+cmake -B build -G "Visual Studio 17 2022" -A x64 \
+      -DGGML_VULKAN=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release \
+      -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_SERVER=OFF
+cmake --build build --config Release --target llama
+# -> build/bin/Release/{llama,ggml,ggml-base,ggml-cpu-*,ggml-vulkan}.dll
 ```
+
+**这里有两处会绊住你。**
+
+`-DBUILD_SHARED_LIBS=ON` 不是可选项：不加它得到的是静态库，没有 `llama.dll` 供
+`ctypes.WinDLL` 加载。
+
+**版本下限是硬性的。** 本项目用的不是普通嵌入接口——`llama_get_embeddings()` 返回的是
+**最后一层、且过了 `output_norm`** 的张量，那是另一个东西。它需要的是逐层输入抽头，
+声明在 `src/llama-ext.h`（一个 staging 头文件，不在 `include/llama.h` 里）：
+
+```c
+LLAMA_API void    llama_set_embeddings_layer_inp(struct llama_context * ctx, uint32_t lid, bool value);
+LLAMA_API float * llama_get_embeddings_layer_inp(struct llama_context * ctx, uint32_t lid);
+```
+
+这两个是 **C++ 链接**，所以它们在 DLL 里以修饰名出现，而
+`imaggers/textenc/encode_api.py` 正是按这两个字符串查找的：
+
+```
+?llama_set_embeddings_layer_inp@@YAXPEAUllama_context@@I_N@Z
+?llama_get_embeddings_layer_inp@@YAPEAMPEAUllama_context@@I@Z
+```
+
+已在 **llama.cpp 0.9.0**（ggml 0.29.0）上验证。没有这个抽头的构建会在 import 阶段
+以未解析符号的错误明确失败，而不是悄悄返回错误的张量。
+
+**主线构建与已退役的 fork 端到端逐字节一致。** 同一配方、同一个 512x512 / 8 步任务，
+两套 DLL：
+
+| 构建 | `latents` sha256 | 输出 PNG sha256 | `loop_s` |
+|---|---|---|---|
+| llama.cpp 0.9.0 主线 | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 91.92 |
+| `prism-vulkan`（fork） | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 87.77 |
+
+`pe` 张量本身在最后几位上有差异（相对 fork 余弦 0.9999999，最大相对误差 5.3e-05），
+原因是不同版本的 llama.cpp 累加顺序不同。这个差异过不了 DiT：latents 和 PNG 完全相同。
+`loop_s` 每次运行有约 4 秒的波动，不能归因于 DLL。
 
 `encode_api.py` 按下面的顺序查找 DLL 目录，先命中者优先：
 `ZIMAGE_LLAMA_DIR` → `<checkout>/third_party/llama.cpp/build/bin` → 旧的 `prism-vulkan` 路径
