@@ -82,3 +82,14 @@ imaggers/repro/last/
 # here, never committed.  See README section 10 and imaggers/paths.py.
 third_party/
 
+
+# The artifacts above live under imaggers/ in THIS layout (the source tree kept
+# them under _scratch/, which is why the rules above name that path).  Both are
+# listed so a clone of either tree stays clean.  Code: webui/config.py IMAGE_DIR,
+# REFINER_CACHE, brepack_cache.py _dir(), t18_run.py PREP.
+imaggers/image/t3real_prep/
+imaggers/image/t6_refcache/
+imaggers/block/bigm/work/
+imaggers/image/w*p0_ckpt*.json
+imaggers/image/w*p0_ckpt*.npy
+imaggers/image/w*p0_calls.json
