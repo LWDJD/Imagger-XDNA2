@@ -32,19 +32,19 @@ there.  Device P row sums: 0.9972-1.0025.
 
 Reproduce (compile + run + verify, one command per config):
 
-    "D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe" ^
+    "<python312>\python.exe" ^
         zimage-bfp16-npu\_scratch\attn_impl\run.py --heads 1 --seq 32 --hd 32 --m 16 --seed 0
     ... --identity-v            (measures the softmax directly: O/2 == P)
     ... --verify-only           (re-judge saved bytes)
     ... --qk-norm               (the Z-Image QK-norm variant)
     ... --dump-f32              (debug: raw f32 P*V accumulator)
-    "D:\Users\15081\AppData\Local\GAIA\python\python.exe" run_xrt.py ...   (invoked automatically)
+    "<python310>\python.exe" run_xrt.py ...   (invoked automatically)
 
 Python 3.12 requirement: `py -3.12` on this box has **no** `ml_dtypes`
 (verbatim: `ModuleNotFoundError: No module named 'ml_dtypes'` at
 `aie/utils/hostruntime/__init__.py:11`).  The interpreter used by
 `_scratch/dit2` and here is
-`D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe` (3.12.11,
+`<python312>\python.exe` (3.12.11,
 numpy 1.26.4, ml_dtypes 0.5.4; dit2/FINDINGS.md:238 records the same).
 
 ## 2. The design (and why each piece is where it is)

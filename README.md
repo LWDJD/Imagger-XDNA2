@@ -281,10 +281,10 @@ a Python 3.10 interpreter; 3.12 cannot import it whatever `sys.path` says.
 | **llama.cpp** Vulkan build — `llama.dll`, `ggml.dll`, `ggml-base.dll`, `ggml-cpu-*.dll`, `ggml-vulkan.dll` | **llama.cpp mainline, 0.9.0 or newer** (ggml 0.29.0+), built with `-DGGML_VULKAN=ON -DBUILD_SHARED_LIBS=ON` | `https://github.com/ggml-org/llama.cpp` | `<checkout>/third_party/llama.cpp/build/bin/`, or set `ZIMAGE_LLAMA_DIR` | **run time** — loaded by `ctypes.WinDLL` |
 | **Vulkan SDK** — `glslangValidator`, `glslc` | 1.4.357.0 | LunarG | — | only to build the Vulkan backend |
 
-**Build it from mainline, not from a leftover tree.** A previous agent left a
-working copy at `D:\Project\openhanako\workbench\prism-vulkan`; it is a
-convenience on that one machine and is **not** a dependency of this project. Anything
-you intend to reproduce must come from an upstream build of llama.cpp.
+**Build it from mainline, not from a leftover tree.** An earlier iteration of this
+work used a private fork that has since been retired; that build is **not** a
+dependency of this project and this repository does not name where it lived.
+Anything you intend to reproduce must come from an upstream build of llama.cpp.
 
 ```bash
 git clone https://github.com/ggml-org/llama.cpp
@@ -329,7 +329,7 @@ same 512x512 / 8-step job, two DLL sets:
 | build | `latents` sha256 | output PNG sha256 | `loop_s` |
 |---|---|---|---|
 | llama.cpp 0.9.0 mainline | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 91.92 |
-| `prism-vulkan` (fork) | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 87.77 |
+| the retired fork build | `17f7dd1a6201772a` | `b862cd72...3145a87f` | 87.77 |
 
 The `pe` tensor itself differs in the last few bits (cosine 0.9999999 against the
 fork, max relative error 5.3e-05) because a different llama.cpp version accumulates
@@ -338,9 +338,9 @@ PNG are identical. `loop_s` moves by ~4 s run to run and is not attributable to 
 DLL.
 
 `encode_api.py` resolves the DLL directory in this order, first hit wins:
-`ZIMAGE_LLAMA_DIR` -> `<checkout>/third_party/llama.cpp/build/bin` -> the legacy
-`prism-vulkan` path -> the documented path (so the loader fails with a message that
-names the right place).
+`ZIMAGE_LLAMA_DIR` -> `<checkout>/third_party/llama.cpp/build/bin`. Nothing else is
+consulted; a build from anywhere else is a build you cannot attribute, and this
+project quotes measurements.
 
 `webui/te_worker.py` has a `cpu` mode that loads **only** `ggml-cpu-*.dll` with
 `n_gpu_layers=0`, for when the iGPU memory is held by something else.
@@ -370,18 +370,33 @@ CPU-only on both — no CUDA/HIP here, and `torch-directml` is not installable.
 The **66 compiled kernel images (~8.8 MB) are in this repository** (`webui/cache/<shape>/`
 and `imaggers/*/out/`), so running does **not** need the compiler — only the XRT runtime.
 
-### 10.6 Absolute paths to change on a new machine
+### 10.6 Nothing needs editing
 
-| file | constant | currently points at | override |
-|---|---|---|---|
-| `webui/config.py:24` | `XRT_DIR` | `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod` | `IMAGGER_XRT` |
-| `webui/config.py:22-23` | `PY312`, `PY310` | the two interpreters | `IMAGGER_PY312` / `IMAGGER_PY310` |
-| `imaggers/textenc/encode_api.py` | `LLAMA_DIR` | resolved: `ZIMAGE_LLAMA_DIR` -> `third_party/llama.cpp/build/bin` -> legacy | `ZIMAGE_LLAMA_DIR` |
-| `imaggers/textenc/encode_api.py` | `GGUF` | resolved: `ZIMAGE_TE_GGUF` -> `<checkout>/webui/models/` -> workspace copies | `ZIMAGE_TE_GGUF` |
+**There is no file to open and no constant to change.** Every third-party location
+resolves through `imaggers/paths.py`, in one order: an environment variable, then
+`<checkout>/third_party/<name>`, then a `FileNotFoundError` that names the variable.
 
-`webui/config.py:27` resolves `PORT` from `__file__`, so it follows the checkout and
-needs no edit. The two captioner paths are now resolved at import time rather than
-hard-coded; only `XRT_DIR` and the interpreters still need editing on a new machine,
+| what | variable | `third_party/` name |
+|---|---|---|
+| Python 3.12 | `ZIMAGE_PY312` | `third_party/python312/` |
+| Python 3.10 | `ZIMAGE_PY310` | `third_party/python310/` |
+| XRT runtime | `ZIMAGE_XRT_DIR` | `third_party/xrt/` |
+| LLVM-AIE (compiler only) | `ZIMAGE_LLVM_AIE` | `third_party/llvm-aie/` |
+| MLIR-AIE (compiler only) | `ZIMAGE_MLIR_AIE` | `third_party/mlir-aie/` |
+| llama.cpp DLLs | `ZIMAGE_LLAMA_DIR` | `third_party/llama.cpp/build/bin/` |
+| captioner GGUF | `ZIMAGE_TE_GGUF` | `webui/models/` (not third_party) |
+
+`third_party/` is gitignored: put the real trees there, or link them there, or point
+the variables somewhere else. To see what the current shell resolves:
+
+```bash
+python imaggers/paths.py
+```
+
+Everything else in `webui/config.py` is derived from `__file__` (`NPU`, `WS`, `PORT`,
+`MODELS`, `CACHE_DIR`), so it follows the checkout wherever you put it. The one
+remaining assumption is that the model tree sits at `<workspace>/zimage-port/`, next
+to the checkout — see section 10.1.
 and each has an environment variable.
 
 ## 11. License

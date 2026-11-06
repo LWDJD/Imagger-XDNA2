@@ -23,7 +23,7 @@
   "shards": [
     {
       "name": "noise_refiner",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\noise_refiner\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\noise_refiner\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -101,12 +101,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 64,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\noise_refiner\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\noise_refiner\\io.npz",
       "group": "noise_refiner"
     },
     {
       "name": "context_refiner",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\context_refiner\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\context_refiner\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -174,12 +174,12 @@
       "output": "hidden_out",
       "n_nodes": 522,
       "seq": 32,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\context_refiner\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\context_refiner\\io.npz",
       "group": "context_refiner"
     },
     {
       "name": "layers_00_02",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_00_02\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_00_02\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -257,12 +257,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_00_02\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_00_02\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_02_04",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_02_04\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_02_04\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -340,12 +340,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_02_04\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_02_04\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_04_06",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_04_06\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_04_06\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -423,12 +423,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_04_06\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_04_06\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_06_08",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_06_08\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_06_08\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -506,12 +506,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_06_08\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_06_08\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_08_10",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_08_10\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_08_10\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -589,12 +589,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_08_10\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_08_10\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_10_12",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_10_12\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_10_12\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -672,12 +672,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_10_12\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_10_12\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_12_14",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_12_14\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_12_14\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -755,12 +755,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_12_14\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_12_14\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_14_16",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_14_16\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_14_16\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -838,12 +838,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_14_16\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_14_16\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_16_18",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_16_18\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_16_18\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -921,12 +921,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_16_18\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_16_18\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_18_20",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_18_20\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_18_20\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -1004,12 +1004,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_18_20\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_18_20\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_20_22",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_20_22\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_20_22\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -1087,12 +1087,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_20_22\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_20_22\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_22_24",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_22_24\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_22_24\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -1170,12 +1170,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_22_24\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_22_24\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_24_26",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_24_26\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_24_26\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -1253,12 +1253,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_24_26\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_24_26\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_26_28",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_26_28\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_26_28\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -1336,12 +1336,12 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_26_28\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_26_28\\io.npz",
       "group": "layers"
     },
     {
       "name": "layers_28_30",
-      "onnx": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_28_30\\skeleton.onnx",
+      "onnx": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_28_30\\skeleton.onnx",
       "inputs": [
         "hidden",
         "cos",
@@ -1419,9 +1419,9 @@
       "output": "hidden_out",
       "n_nodes": 588,
       "seq": 96,
-      "io": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2\\layers_28_30\\io.npz",
+      "io": "zimage-port\\_probe_out\\skeleton_all_v2\\layers_28_30\\io.npz",
       "group": "layers"
     }
   ],
-  "skeleton_dir": "D:\\Project\\deepseek_harness\\public_work\\zimage-port\\_probe_out\\skeleton_all_v2"
+  "skeleton_dir": "zimage-port\\_probe_out\\skeleton_all_v2"
 }

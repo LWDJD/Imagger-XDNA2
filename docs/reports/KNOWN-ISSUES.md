@@ -211,7 +211,7 @@ build fails the third and the arithmetic.
 **The correct codegen is `llc -O1 --regalloc=greedy`, injected.**  One command
 sequence (the same recipe at stage 2 and stage 4):
 
-    PY=D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe
+    PY=<python312>\python.exe
     $PY step2d_run.py --probe 0 --skip-static        # build (aiecc -O0)
     $PY step2d_build_win.py --level=-O1 --out step2d_win   # inject llc -O1
     $PY step2d_run.py --probe 0 --skip-compile --runs 2    # device acceptance
@@ -787,7 +787,7 @@ programming examples fail to compile:
 
 `get_peano_pin.py` reads that pin; `get_pinned_peano.py` fetches that exact
 wheel.  Two more tools were needed and are in the same XRT bundle as `pyxrt`
-(`D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod`):
+(`<xrt>`):
 
     xclbinutil.exe    -- aiecc's last step; add its directory to PATH
     xrt-smi.exe       -- device enumeration
@@ -1555,7 +1555,7 @@ kind of thing only building it surfaces.
 * **The correct location is `zimage-port\weights.bfp16`** -- the sibling
   `zimage-port` tree.  There is no in-tree copy, and that is what the earlier
   "existence contradiction" really was: a **path statement**, not a missing file.
-* Rebuild ONLY if it is ever lost: from `public_work\zimage-port\`, run
+* Rebuild ONLY if it is ever lost: from `<workspace>\zimage-port\`, run
   `python build_bfp16_weights.py --out weights.bfp16` (it reads the transformer
   shards; see its `--manifest/--out/--m`).
 * The "Consequences" bullets and the `weights_audit.py` shard paragraph under

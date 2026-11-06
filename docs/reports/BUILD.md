@@ -8,8 +8,8 @@ obtained separately and placed at the paths the scripts expect.
 
 | role | interpreter | why |
 |---|---|---|
-| compile / encode | `D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe` (3.12) | `aie.utils.bfp`, `ml_dtypes` and the IRON API live here |
-| run (pyxrt) | `D:\Users\15081\AppData\Local\GAIA\python\python.exe` (3.10) | `pyxrt.pyd` links `python310.dll` |
+| compile / encode | `<python312>\python.exe` (3.12) | `aie.utils.bfp`, `ml_dtypes` and the IRON API live here |
+| run (pyxrt) | `<python310>\python.exe` (3.10) | `pyxrt.pyd` links `python310.dll` |
 
 Any Python 3.12 with `numpy`, `ml_dtypes` and the packages below works for the
 compile side; the run side must be a 3.10 matching the installed XRT.
@@ -51,7 +51,7 @@ the NPU.  Two tools are needed on `PATH` for aiecc's packaging step:
 **Not built from this repository and not committed.**  Use an existing build.
 The one this project was developed against is a Vulkan build:
 
-    D:\Project\openhanako\workbench\prism-vulkan\llama-embedding.exe
+    <retired-llama-build>\llama-embedding.exe
 
 any recent llama.cpp with a Vulkan (or CPU) backend and `llama-embedding.exe`
 will do.  Get it from https://github.com/ggml-org/llama.cpp and build with

@@ -95,7 +95,7 @@ if you rebuild, but a run needs one.
 
 On the reference box, `zimage-port/_models/Z-Image-Turbo/transformer/` now holds only
 `config.json` (473 B) and the index JSON. **No `*.safetensors` over 1 GB exists
-anywhere under `public_work`.**
+anywhere under `<workspace>`.**
 
 Therefore, on that box:
 

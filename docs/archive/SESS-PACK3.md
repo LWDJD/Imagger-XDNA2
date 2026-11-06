@@ -118,8 +118,8 @@
 ## 6. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 & $py -u "$d\_scratch\sessA_vaipcfg.py"    # vaip_config 顶层键 + 缓存开关
 & $py -u "$d\_scratch\sessA_bigcache2.py"  # ★ 大模型冷编译 -> 写出 .rai
 & $py -u "$d\_scratch\sessA_warmgemm.py"   # ★ 同缓存热会话 3.5 s

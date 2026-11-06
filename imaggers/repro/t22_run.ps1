@@ -45,15 +45,26 @@ if (-not (Test-Path $engine)) { Write-Host "[t22_run] engine missing: $engine"; 
 
 # The two interpreters the product itself hard-codes (webui/config.py:22-23).
 # The engine re-checks which one actually ran (preflight P01).
+# The two interpreters the product needs, resolved the same way imaggers/paths.py
+# does: an environment variable first, then third_party/ (README 10.4).
 $cands = @(
-  "D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe",
-  "D:\Users\15081\AppData\Local\GAIA\python\python.exe",
+  $env:ZIMAGE_PY312,
+  (Join-Path $repo "third_party\python312\python.exe"),
+  $env:ZIMAGE_PY310,
+  (Join-Path $repo "third_party\python310\python.exe"),
   "python"
-)
+) | Where-Object { $_ }
+# A candidate may be the interpreter itself or the directory holding it: both
+# imaggers/paths.py and this wrapper accept either, so one variable works for both.
 $py = $null
 foreach ($c in $cands) {
   if ($c -eq "python") { $py = "python"; break }
-  if (Test-Path $c) { $py = $c; break }
+  if (Test-Path $c -PathType Container) {
+    $exe = Join-Path $c "python.exe"
+    if (Test-Path $exe) { $py = $exe; break }
+  } elseif (Test-Path $c -PathType Leaf) {
+    $py = $c; break
+  }
 }
 if (-not $py) { Write-Host "[t22_run] no interpreter found (tried: $($cands -join ', '))"; exit 2 }
 

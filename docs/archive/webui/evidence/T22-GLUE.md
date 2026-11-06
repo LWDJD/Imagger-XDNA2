@@ -14,7 +14,7 @@
 
 ## 1. 口径与环境
 
-* 仓库 `D:\Project\deepseek_harness\public_work\zimage-bfp16-npu`；py310=器件，py312=服务/工具。
+* 仓库 `<checkout>`；py310=器件，py312=服务/工具。
 * 本文件引用的"现有档案"：
   * `_scratch/t22_e2e_measure/SUMMARY.md` + `webui/jobs/20261021-081535-a3db76/job.json`（128² 稳态基线，**latents `9f86aee91de3dad0…`**）
   * `webui/jobs/20261021-084429-192522/job.json`（128²，同 latents，VAE=cpu 的旁路作业）

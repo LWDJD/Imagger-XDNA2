@@ -20,7 +20,17 @@ import sys
 
 import numpy as np
 
-NPU = pathlib.Path(r"D:\Project\deepseek_harness\public_work\zimage-bfp16-npu")
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
+NPU = _paths.CHECKOUT
 sys.path.insert(0, str(NPU / 'imaggers' / 'block'))
 sys.path.insert(0, str(NPU))
 

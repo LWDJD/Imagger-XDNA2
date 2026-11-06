@@ -746,7 +746,7 @@ The consumer side and the corner turn are already proven.
   and `use_cache=False` from `imaggers/dit_block_v1_run.py`.  This is not an ACL
   problem (`diagnose-windows-sandbox-acl` returned NOT_THIS_CLASS).
 * `xclbinutil` is off-PATH; add
-  `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod`.
+  `<xrt>`.
 * Host encoding is `bfp.shuffle(bfp.encode(v), w, h, tw, th)` with `(tw,th)` the
   PER-CORE TILE, not the whole matrix.  Get this wrong and the numbers are
   plausible but wrong, with no error.

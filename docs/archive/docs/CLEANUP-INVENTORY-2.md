@@ -1,4 +1,4 @@
-# DISK CLEANUP INVENTORY 2 — `D:\Project\deepseek_harness\public_work`
+# DISK CLEANUP INVENTORY 2 — `<workspace>`
 
 **Survey mode: READ-ONLY.** Nothing was deleted, moved, or modified. This report is the only file created.
 **Survey time:** 2026/10/12 ~11:15–11:35 (local). Supersedes `CLEANUP-INVENTORY.md` (2026/10/11 ~20:30). **Units:** exact bytes; GiB = bytes / 2^30.

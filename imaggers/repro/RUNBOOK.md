@@ -11,7 +11,7 @@ env_id = first 16 hex chars of sha256 over the sorted RECIPE name=value lines.
 ## 1. The one command
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 imaggers\repro\t22_run.ps1 -Size 512 -Steps 8 -Tag mytag
 imaggers\repro\t22_run.ps1 -Size 128 -Steps 1 -Tag small
 ```

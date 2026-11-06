@@ -148,7 +148,7 @@ time-multiplex.
 `import aie.iron` fails there at
 `aie/utils/hostruntime/__init__.py:11: from ml_dtypes import bfloat16`.
 The working interpreter is
-`D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe` (3.12.11,
+`<python312>\python.exe` (3.12.11,
 numpy 1.26.4, ml_dtypes present) — `zimage-bfp16-npu\ENVIRONMENT.md:27`.
 (This is the "refusal" recorded verbatim in section 7.)
 
@@ -240,11 +240,11 @@ gated the work, verbatim:
    ```
    Traceback (most recent call last):
      File "<string>", line 1, in <module>
-     File "D:\Project\deepseek_harness\public_work\_pylibs\mlir_aie\python\aie\iron\__init__.py", line 41, in <module>
+     File "<workspace>\_pylibs\mlir_aie\python\aie\iron\__init__.py", line 41, in <module>
        from aie.utils import (
-     File "D:\Project\deepseek_harness\public_work\_pylibs\mlir_aie\python\aie\utils\__init__.py", line 10, in <module>
+     File "<workspace>\_pylibs\mlir_aie\python\aie\utils\__init__.py", line 10, in <module>
        from . import (
-     File "D:\Project\deepseek_harness\public_work\_pylibs\mlir_aie\python\aie\utils\hostruntime\__init__.py", line 11, in <module>
+     File "<workspace>\_pylibs\mlir_aie\python\aie\utils\hostruntime\__init__.py", line 11, in <module>
        from ml_dtypes import bfloat16
    ModuleNotFoundError: No module named 'ml_dtypes'
    [exit code: 1]

@@ -44,20 +44,14 @@ HERE = pathlib.Path(__file__).resolve().parent
 # Resolved in this order, first hit wins:
 #   1. ZIMAGE_LLAMA_DIR                      -- the supported way to point elsewhere
 #   2. <checkout>/third_party/llama.cpp/build/bin   -- where a fresh clone puts it
-#   3. the legacy path below                 -- a previous agent's temp build; it is
-#      NOT a dependency of this project, only a convenience so an existing machine
-#      keeps working. Anything reproducible must use 1 or 2.
+#
+# Nothing else is consulted.  A build from anywhere else is a build you cannot
+# attribute, and this project quotes measurements.  README 10.3.
 def _find_llama_dir() -> pathlib.Path:
     env = os.environ.get("ZIMAGE_LLAMA_DIR")
-    if env and (pathlib.Path(env) / "llama.dll").is_file():
+    if env:
         return pathlib.Path(env)
-    repo = HERE.parents[2] / "third_party" / "llama.cpp" / "build" / "bin"
-    if (repo / "llama.dll").is_file():
-        return repo
-    legacy = pathlib.Path(r"D:\Project\openhanako\workbench\prism-vulkan")
-    if (legacy / "llama.dll").is_file():
-        return legacy
-    return repo          # let the loader fail with the documented path
+    return HERE.parents[2] / "third_party" / "llama.cpp" / "build" / "bin"
 
 
 LLAMA_DIR = _find_llama_dir()
@@ -70,7 +64,6 @@ LLAMA_DLL = LLAMA_DIR / "llama.dll"
 #   2. <checkout>/webui/models/<name>                 -- where a fresh clone puts it
 #   3. <workspace>/webui/models/<name>                -- the source-tree convention
 #   4. <workspace>/<name>                             -- flat drop next to the trees
-#   5. the legacy session-temp path                   -- may no longer exist
 NAME = "zimage-te-qwen3-4b-bf16.gguf"
 
 
@@ -85,9 +78,6 @@ def _find_gguf() -> pathlib.Path:
                  ws / NAME):
         if cand.is_file():
             return cand
-    legacy = pathlib.Path(r"C:\Users\15081\AppData\Local\Temp\dsh-nPUWK7") / NAME
-    if legacy.is_file():
-        return legacy
     return repo / "webui" / "models" / NAME   # the documented place to put it
 
 

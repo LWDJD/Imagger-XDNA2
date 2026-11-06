@@ -226,7 +226,7 @@ adds little residency and no meaningful load.  It reuses the same
 The text encoder runs on the **GPU via the existing llama.cpp** — the owner's
 call: no new encoder implementation, no rebuilding llama.cpp.  The machine
 already has a Vulkan build at
-`D:\Project\openhanako\workbench\prism-vulkan\` with `llama-embedding.exe`,
+`<retired-llama-build>\` with `llama-embedding.exe`,
 plus `llama.cpp-0.5.0`, `prism-llama.cpp` and an `.ollama` tree.
 
 So the final placement is:

@@ -34,7 +34,7 @@ from pathlib import Path
 
 # mlir_aie setup: package roots on sys.path, PEANO + cache BEFORE `import aie`
 _HERE = Path(__file__).resolve().parent
-_ROOT = _HERE.parent.parent.parent                       # ...\public_work
+_ROOT = _HERE.parent.parent.parent                       # ...\<workspace>
 _PYLIBS = _ROOT / "_pylibs"
 sys.path.append(str(_ROOT / "zimage-bfp16-npu" / "imaggers" / "vae"))
 sys.path.append(str(_PYLIBS))

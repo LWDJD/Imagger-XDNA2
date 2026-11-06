@@ -193,7 +193,7 @@ ORDER 不再出现在任何退出路径上。
 | `py_compile` 两文件 | — | 0 | **PASS** |
 | `step2d_order_check.py`（import 本模块） | 可运行 | 可运行（输出同前一节） | 未破坏 |
 
-复现命令（py312 = `D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe`）：
+复现命令（py312 = `<python312>\python.exe`）：
 
 ```
 cd zimage-bfp16-npu\_scratch\block

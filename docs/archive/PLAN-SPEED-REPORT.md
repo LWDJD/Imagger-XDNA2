@@ -265,7 +265,7 @@ latents are **byte-identical** to the pre-change arm -- `q2camp` == `p3camp`, sh
 ## 8. Reproduce
 
 ~~~powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 py310 _scratch\util\place\probe_plan_speed.py --m 1056     # where the host seconds go
 py310 _scratch\util\place\probe_swiglu.py --m 1056          # the swiglu, with exactness
 

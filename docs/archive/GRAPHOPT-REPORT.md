@@ -1,6 +1,6 @@
 # GRAPHOPT-REPORT — 出图基线复原 + 图结构优化（t22_graphopt）
 
-> 2026-10-30 · 工作区 `D:\Project\deepseek_harness\public_work\zimage-bfp16-npu` · HEAD `725b5666`
+> 2026-10-30 · 工作区 `<checkout>` · HEAD `725b5666`
 > **状态：BLOCKED（本会话无法创建任何进程）。本报告没有本轮器件墙钟、没有本轮出图。**
 > 所有器件数字都标了出处（上一轮实测）；所有带"本轮"字样的数字都是我在磁盘上重新算的哈希/字节。
 
@@ -252,7 +252,7 @@ DMA task），要么退到 `aie.dma_bd` 手写。**这是开始写代码前必�
 
 ## 8. 复跑命令（给能起进程的环境）
 
-    cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+    cd <checkout>
 
     # 0) 字节账 + 基线门（只读）
     py312 _scratch/t22_graphopt/byte_budget.py

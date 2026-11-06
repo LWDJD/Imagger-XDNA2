@@ -638,8 +638,17 @@ def _mem_gb():
     ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m))
     return m.ullAvailPhys / 2**30
 PREP = HERE / "t3real_prep"
-XRT_DIR = pathlib.Path(
-    r"D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod")
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
+XRT_DIR = _paths.xrt_dir()
 
 sys.path.insert(0, str(HERE))
 sys.path.append(str(ATT))

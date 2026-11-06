@@ -2,7 +2,7 @@
 
 **原则**:只删不属于当前路线(IRON+XRT)的大件(单件 >= 400 MB),最小化操作次数;长尾小文件、日志、存疑项一律不动。
 **前置盘点**:CLEANUP-INVENTORY.md / CLEANUP-INVENTORY-2.md(可再生性分级与 NEVER 名单)。
-**范围**:仅 D:\Project\deepseek_harness\public_work\zimage-port\_probe_out。
+**范围**:仅 <workspace>\zimage-port\_probe_out。
 
 ## 删除结果(释放 17,825,508,926 B ≈ 16.6 GiB;12,278 文件/33.48 GB -> 5,477 文件/15.66 GB)
 
@@ -70,7 +70,7 @@ CLEANUP-INVENTORY.md / CLEANUP-INVENTORY-2.md(分级与名单)、zimage-port\_ge
 
 | 项 | 实测值 |
 |---|---|
-| 目标(解析后绝对路径) | `D:\Project\deepseek_harness\public_work\zimage-port\_probe_out\weights.bfp16` |
+| 目标(解析后绝对路径) | `<workspace>\zimage-port\_probe_out\weights.bfp16` |
 | 字节数 | 6,913,965,970 B(6,593.67 MiB) |
 | st_ino / st_nlink | 17,169,973,579,517,768 / **1** |
 | 文件属性 | `st_file_attributes=0x20`(ARCHIVE);`FILE_ATTRIBUTE_REPARSE_POINT=False`;`st_reparse_tag=0`;`S_ISLNK=False`;`S_ISREG=True` → 真文件,非符号链接/Junction |

@@ -88,7 +88,7 @@ DEFAULT_CACHE = pathlib.Path(r"C:\temp") / os.environ.get("USERNAME", "?") / \
 ### 4.1 用法
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File D:\Project\deepseek_harness\public_work\zimage-bfp16-npu\RUN-ELEVATED.ps1
+powershell -ExecutionPolicy Bypass -File <checkout>\RUN-ELEVATED.ps1
 ```
 
 ### 4.2 每一步做什么 / 预期产物

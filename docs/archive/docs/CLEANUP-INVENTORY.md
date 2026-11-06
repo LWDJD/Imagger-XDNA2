@@ -1,4 +1,4 @@
-# DISK CLEANUP INVENTORY — `D:\Project\deepseek_harness\public_work`
+# DISK CLEANUP INVENTORY — `<workspace>`
 
 **Survey mode: READ-ONLY.** Nothing was deleted, moved, or modified. This file is the only file created.
 **Survey time:** 2026/10/11 ~20:25–20:35 (local). **Units:** sizes shown as **GiB** (bytes / 2^30, i.e. PowerShell `1GB`), with exact bytes where it matters. "GB" in Windows Explorer ≈ GiB.

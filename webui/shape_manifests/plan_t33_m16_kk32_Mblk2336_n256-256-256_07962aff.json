@@ -66,19 +66,19 @@
  "images": {
   "ad_t33_m16k32_M2336_n256_a1b1cw_gu": {
    "status": "CACHED",
-   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m16k32_M2336_n256_a1b1cw_gu.xclbin",
+   "xclbin": "imaggers\\util\\place\\out\\ad_t33_m16k32_M2336_n256_a1b1cw_gu.xclbin",
    "sha256": "0e27e1b7684225472716f5cc59c2f76cf19de4073c09855c9e38adb2e096317d",
    "l1_design": 53248
   },
   "ad_t33_m16k32_M2336_n256_a1b1cw_dn": {
    "status": "CACHED",
-   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m16k32_M2336_n256_a1b1cw_dn.xclbin",
+   "xclbin": "imaggers\\util\\place\\out\\ad_t33_m16k32_M2336_n256_a1b1cw_dn.xclbin",
    "sha256": "2bc751012d698274228febcfbbcc41b33ceedacbac998541061dd8d7d9d01e0e",
    "l1_design": 53248
   },
   "ad_t33_m16k32_M2336_n256_a1b1cw_proj": {
    "status": "CACHED",
-   "xclbin": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\util\\place\\out\\ad_t33_m16k32_M2336_n256_a1b1cw_proj.xclbin",
+   "xclbin": "imaggers\\util\\place\\out\\ad_t33_m16k32_M2336_n256_a1b1cw_proj.xclbin",
    "sha256": "f4e13b2e74415fe8922838a5745303af120d361d15571ef25cbd27669f9badeb",
    "l1_design": 53248
   }

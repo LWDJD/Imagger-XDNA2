@@ -185,7 +185,7 @@ the budget as final.
 
 ## 5. REPRODUCTION
 
-    "D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe" ^
+    "<python312>\python.exe" ^
         zimage-bfp16-npu\_scratch\oracle\test_dit_block.py               (both)
     ... test_dit_block.py --geometry full --no-sensitivity               (fast full)
     ... test_dit_block.py --geometry small

@@ -456,7 +456,7 @@ attention, because it is not this work.
 
 ## 7. Reproduction
 
-    $ws = "D:\Project\deepseek_harness\public_work\zimage-bfp16-npu\_gpuwork"
+    $ws = "<checkout>\_gpuwork"
     $py = "$ws\gpuvenv\Scripts\python.exe"
 
     & $py "$ws\v3\vkprobe.py"          # CU count: VK_AMD_shader_core_properties(2)   -> 12

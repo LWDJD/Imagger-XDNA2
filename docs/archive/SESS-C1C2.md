@@ -124,8 +124,8 @@ EP 路径在**进程退出时**会以 `0xC0000005⟧（ACCESS_VIOLATION）崩溃
 ## 5. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 & $py -u "$d\_scratch\sessA_c1_ln.py"     # 纯 LayerNorm 分区+会话+误差
 & $py -u "$d\_scratch\sessA_c1_check.py"  # 网格证据 / 常量输入 / 相关性
 & $py -u "$d\_scratch\sessA_shapes.py"    # 事务库 shape 家族

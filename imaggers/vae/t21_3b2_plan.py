@@ -76,7 +76,7 @@ import t21_3b2_geom as G
 # paths and constants
 # ---------------------------------------------------------------------------
 HERE = pathlib.Path(__file__).resolve().parent          # ...\imaggers\vae
-ROOT = HERE.parent.parent.parent                        # ...\public_work
+ROOT = HERE.parent.parent.parent                        # ...\<workspace>
 PYLIBS = ROOT / "_pylibs"
 PEANO = PYLIBS / "llvm-aie" / "llvm-aie"
 PORT = ROOT / "zimage-port"
@@ -84,9 +84,18 @@ MODELS = PORT / "_models" / "Z-Image-Turbo"
 OUT = HERE / "out"
 ART = OUT / "t21_3b2"                                   # new artifacts only
 XRT_RUNNER = HERE / "vaeg_run_xrt.py"
-PY310 = pathlib.Path(r"D:\Users\15081\AppData\Local\GAIA\python\python.exe")
-XRT_DIR = pathlib.Path(
-    r"D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod")
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
+PY310 = _paths.python310()
+XRT_DIR = _paths.xrt_dir()
 
 SCALING = 0.3611
 SHIFT = 0.1159

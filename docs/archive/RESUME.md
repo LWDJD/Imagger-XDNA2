@@ -13,11 +13,11 @@ expansion, no per-call unpack and no repeated loads.
 
 | what | where |
 |---|---|
-| compile-side Python | `D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe` (3.12) |
-| run-side Python | `D:\Users\15081\AppData\Local\GAIA\python\python.exe` (3.10) |
+| compile-side Python | `<python312>\python.exe` (3.12) |
+| run-side Python | `<python310>\python.exe` (3.10) |
 | mlir_aie | `_pylibs\mlir_aie\python` (put on `sys.path`) |
 | **Peano** | `_pylibs\llvm-aie\llvm-aie` — set `PEANO_INSTALL_DIR` to it |
-| XRT / pyxrt | `D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod` |
+| XRT / pyxrt | `<xrt>` |
 | `xclbinutil` | same XRT directory — **not on PATH, must be added** |
 | device | `pyxrt.device(0)`, `xrt-smi` reports NPU Strix at `0064:00:01.1` |
 

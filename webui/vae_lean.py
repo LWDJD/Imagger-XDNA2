@@ -47,7 +47,7 @@ __all__ = ["LeanVAE", "load_lean", "CKPT", "SCALING", "SHIFT", "decode", "save_p
 
 HERE = pathlib.Path(__file__).resolve().parent          # webui/
 NPU = HERE.parent                                       # zimage-bfp16-npu/
-WS = NPU.parent                                         # public_work/
+WS = NPU.parent                                         # <workspace>/
 PORT = WS / "zimage-port"
 CKPT = PORT / "_models" / "Z-Image-Turbo" / "vae" / "diffusion_pytorch_model.safetensors"
 SCALING = 0.3611      # vae.config.scaling_factor

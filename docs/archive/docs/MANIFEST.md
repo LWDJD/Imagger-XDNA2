@@ -9,9 +9,9 @@
 | 01_te-gguf-zimage-te-qwen3-4b-bf16.gguf | 7.68 GB | TE 权重(webui 运行必需) | 任意位置;设 env ZIMAGE_TE_GGUF,或放 zimage-bfp16-npu\webui\models\ 同名 |
 | 02_weights.bfp16 | 6.59 GB | BFP16 权重(验证/重建载荷用) | zimage-port\weights.bfp16 |
 | 03_vendor_39e41383….rai | 0.39 GB | vendor .rai 唯一存档 | zimage-bfp16-npu\vendor_artifacts\ |
-| 04_toolchain-pylibs-llama.tar | 3.05 GB | _pylibs(编译工具链)+ llama.cpp-0.5.0 + k2h-llama.cpp(TE 运行时)——18k 碎片文件打包 | 解到 public_work\ 根 |
+| 04_toolchain-pylibs-llama.tar | 3.05 GB | _pylibs(编译工具链)+ llama.cpp-0.5.0 + k2h-llama.cpp(TE 运行时)——18k 碎片文件打包 | 解到 <workspace>\ 根 |
 | 05_runtime-payloads-gates.tar | 7.01 GB | t3real_prep(30 层载荷)+ t6_refcache(refiner 缓存)+ t3b_out(逐位门基线)+ webui(代码/缓存/验收证据) | 解到 zimage-bfp16-npu\ 对应路径(t3real_prep/t6_refcache 在 _scratch\image\,t3b_out 在 _scratch\attn_impl\) |
-| 06_workspace-key-docs.tar | <10 MB | 工作区根全部关键文档(HANDOFF、WEIGHT-MAP、TIMING-RECONCILIATION、questions、CLEANUP 台账等) | 解到 public_work\ 根 |
+| 06_workspace-key-docs.tar | <10 MB | 工作区根全部关键文档(HANDOFF、WEIGHT-MAP、TIMING-RECONCILIATION、questions、CLEANUP 台账等) | 解到 <workspace>\ 根 |
 | zimage-code-docs.bundle | 4 MB | **git 全历史 + 961 跟踪文件**(全部复现代码与报告,含 webui.py、README-WEBUI.md) | git clone zimage-code-docs.bundle zimage-bfp16-npu |
 | MANIFEST.md | 本文件 | — | — |
 
@@ -24,7 +24,7 @@
 ## 有意未纳入(按"运行需要 + 关键复现"原则)
 - _models 主权重库(≈30.6 GB):仅重建 t3real_prep/weights 时需要;载荷已打包,运行不再依赖
 - models\K2 GGUF、llama.cpp 源码树、_wheels、_probe_out 探针残留:非本产品运行所需
-- TE 重建脚本 convert_hf_to_gguf.py(D:\Project\openhanako\workbench\prism-tip\):ACL 拒绝链接;GGUF 本体已备,通常无需重建
+- TE 重建脚本 convert_hf_to_gguf.py(<retired converter>):ACL 拒绝链接;GGUF 本体已备,通常无需重建
 ---
 
 ## 【更正 2026-10-19】实测字节数(上表 01/02 两行是旧值,且全表单位混用)

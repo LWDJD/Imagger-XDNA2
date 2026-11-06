@@ -19,49 +19,49 @@
    "name": "t7_p5.xclbin",
    "size": 19016,
    "sha256": "a7c0ebbc2612063dfd5d19e15d68f8d15269024bc9f82369d4fece4ae07c500d",
-   "source": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\attn_impl\\t5_out\\t7_p5.xclbin",
+   "source": "imaggers\\attn_impl\\t5_out\\t7_p5.xclbin",
    "source_size": 19016
   },
   {
    "name": "t7_p5.bin",
    "size": 595336,
    "sha256": "65be38f0e4655ca5b2b9e4e3d8e708748397c5985a1356194bd32eaa43240603",
-   "source": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\attn_impl\\t5_out\\t7_p5.bin",
+   "source": "imaggers\\attn_impl\\t5_out\\t7_p5.bin",
    "source_size": 595336
   },
   {
    "name": "t7_ip.xclbin",
    "size": 13880,
    "sha256": "77e6d35a64c107b6a7fd91f0546121f12744e7ef980fb263f99e2d53589c6519",
-   "source": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\attn_impl\\t5_out\\t7_ip.xclbin",
+   "source": "imaggers\\attn_impl\\t5_out\\t7_ip.xclbin",
    "source_size": 13880
   },
   {
    "name": "t7_ip.bin",
    "size": 19696,
    "sha256": "dd4b7b398aca62678141ae107616e44746bbb14ff3e3f3e20e52eb497c8b0da4",
-   "source": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\attn_impl\\t5_out\\t7_ip.bin",
+   "source": "imaggers\\attn_impl\\t5_out\\t7_ip.bin",
    "source_size": 19696
   },
   {
    "name": "fs_ffn_j5.xclbin",
    "size": 178267,
    "sha256": "2e0588f9c2718e4f897fe9feff67c1932f6845bbcc48dc1270317dd74fb32936",
-   "source": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\block\\t4_out\\fs_ffn_j5.xclbin",
+   "source": "imaggers\\block\\t4_out\\fs_ffn_j5.xclbin",
    "source_size": 178267
   },
   {
    "name": "fs_ffn_j5.bin",
    "size": 11088,
    "sha256": "9125042a23edec3188c26c64b1b997e8feefb20d6958f60e379dde5427c1f53f",
-   "source": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\block\\t4_out\\fs_ffn_j5.bin",
+   "source": "imaggers\\block\\t4_out\\fs_ffn_j5.bin",
    "source_size": 11088
   },
   {
    "name": "rope_ids.npz",
    "size": 23022,
    "sha256": "ab8bc809862491e8be2a49494c292c9b54fdb03adf945e9ba163ce592185c67e",
-   "source": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\image\\t3real_host_tensors.npz",
+   "source": "imaggers\\image\\t3real_host_tensors.npz",
    "group": "shape_package"
   },
   {
@@ -72,5 +72,5 @@
    "group": "shape_package"
   }
  ],
- "refiner_cache": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\image\\t6_refcache"
+ "refiner_cache": "imaggers\\image\\t6_refcache"
 }

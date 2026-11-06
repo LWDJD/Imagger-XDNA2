@@ -46,7 +46,7 @@
 那批图太小、也没切进 NPU，所以**「几百秒」只能来自第 2 代的 17 分片 Z-Image 路线**。
 `test7` 的价值是它给出了**正确的计时骨架**（session vs run 分开），第 2 代只是把它放大到 6.1B。
 
-> 旁证：`test7\cache\clear\` 是 `C:\temp\15081\vaip\.cache\1dcbbd8e…\`（2026-08-22 19:53）的一份拷贝，
+> 旁证：`test7\cache\clear\` 是 `C:\temp\<user>\vaip\.cache\1dcbbd8e…\`（2026-08-22 19:53）的一份拷贝，
 > 文件名 `gops.csv / graph_nodes.json / preliminary-vaiml-pass-summary.txt / tensor_shape.json`
 > 与今日该目录逐一对上——**说明官方栈的编译缓存从一开始就在 `C:\temp\<USER>\vaip\.cache`**，
 > 这正是 §5.4 今日复测踩到的那个不可写路径。
@@ -98,7 +98,7 @@
   编译花 350–380 s 换来的「代码」只有 2.5 MB，其余时间花在**把 fp32 权重量化成 bfp16 并排成 vendor 布局**上。
 - **可缓存性：是**。热会话期间 `vaip cache files written during creation: 0 new, 0 modified`
   （`SESSION-COST-ATTRIBUTION.md:41`、`_attrib.log:24`）——**①在稳态下严格为 0**。
-- **今日负结果**：缓存目录 `C:\temp\15081\vaip\.cache` 在 workspace-write 沙箱下**不可写**
+- **今日负结果**：缓存目录 `C:\temp\<user>\vaip\.cache` 在 workspace-write 沙箱下**不可写**
   （实测 `WRITE DENIED` / `MKDIR DENIED`），`XLNX_CACHE_DIR` 指向工作区时**也没有产出 `.rai`**
   （`cache_files_after: 0`）。见 §5.4。
 
@@ -273,11 +273,11 @@ CPU EP 同模型做负对照；`enable_profiling` 取节点级 provider 归属�
 ### 5.4 诚实负结果（三条）
 
 **N1 —— 今日无法把①与③分开，因为缓存根本写不进去。**
-`C:\temp\15081\vaip\.cache` 是官方栈的默认缓存根（`vaip_env.py` 文档 + `test7\cache\clear` 同源证据）。
+`C:\temp\<user>\vaip\.cache` 是官方栈的默认缓存根（`vaip_env.py` 文档 + `test7\cache\clear` 同源证据）。
 本会话是 workspace-write 沙箱，实测该路径**写拒绝**：
 
 ```
-WRITE DENIED: 对路径"C:\temp\15081\vaip\.cache\sessA_write_test.txt"的访问被拒绝。
+WRITE DENIED: 对路径"C:\temp\<user>\vaip\.cache\sessA_write_test.txt"的访问被拒绝。
 MKDIR DENIED: 对路径"sessA_probe_dir"的访问被拒绝。
 ```
 
@@ -319,8 +319,8 @@ build A（fp32 存）比 build B（fp16 存）慢 2×，而参数个数相同。
 ## 7. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
-$d  = 'D:\Project\deepseek_harness\public_work\zimage-bfp16-npu'
+$py = '<python312>\python.exe'
+$d  = '<checkout>'
 
 # 四段打点（冷/热会话 + 首跑 + 稳态 + CPU 负对照）
 & $py -u "$d\imaggers\sessA_probe.py" 'C:\RyzenAI\1.8.0\quicktest\test_model.onnx' smoke 8

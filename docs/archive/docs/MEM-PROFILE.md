@@ -174,7 +174,7 @@ VAIP 缓存以图为键，**共享同一份编译产物**。
 ## 6. 复现
 
 ```powershell
-$py = 'D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe'
+$py = '<python312>\python.exe'
 & $py zimage-port\probe_mem_profile.py --info
 & $py zimage-port\probe_mem_profile.py --timing --shard layers_00_02 --reps 2
 & $py zimage-port\probe_mem_profile.py --mem --mode stock --max 17 --floor-gb 3.0

@@ -153,7 +153,7 @@ memtile2's own sweep experience (depth-1 input fifos are what fit at large K).
 ## Reproduce
 
 ```
-D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe step1_run.py -M 32 -K 3840 -N 32 --runs 2
+<python312>\python.exe step1_run.py -M 32 -K 3840 -N 32 --runs 2
 ```
 
 (Static checks -> compile -> prep -> NPU run via the self-re-executed

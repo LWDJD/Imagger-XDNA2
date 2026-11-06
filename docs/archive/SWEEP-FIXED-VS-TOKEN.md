@@ -318,7 +318,7 @@ before startup. 10 s is not in this design's reach by image size.
 ## 8. Reproduce
 
 ```powershell
-cd D:\Project\deepseek_harness\public_work\zimage-bfp16-npu
+cd <checkout>
 # one launcher at a time; check for ANY python.exe first
 (Get-Process python -ErrorAction SilentlyContinue | Measure-Object).Count   # must be 0
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File _scratch\devkill\run_arm_size.ps1 `

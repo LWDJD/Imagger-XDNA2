@@ -17,14 +17,20 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 OUT = HERE / "t4_out"
-PEANO = pathlib.Path(
-    r"D:\Project\deepseek_harness\public_work\_pylibs\llvm-aie\llvm-aie")
-MLIR_AIE_BIN = pathlib.Path(
-    r"D:\Project\deepseek_harness\public_work\_pylibs\mlir_aie\bin")
-XRT_DIR = pathlib.Path(
-    r"D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod")
-PY312 = pathlib.Path(
-    r"D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe")
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
+PEANO = _paths.aie_libs()[0]
+MLIR_AIE_BIN = _paths.aie_libs()[1]
+XRT_DIR = _paths.xrt_dir()
+PY312 = _paths.python312()
 
 
 def run(cmd, timeout=2400, env=None, cwd=None):

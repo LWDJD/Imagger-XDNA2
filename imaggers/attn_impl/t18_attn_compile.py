@@ -19,6 +19,16 @@ import pathlib
 import sys
 import time
 
+# Third-party locations: resolved, never hard-coded (imaggers/paths.py).
+_root = pathlib.Path(__file__).resolve().parent
+while not (_root / 'imaggers' / 'paths.py').is_file():
+    if _root.parent == _root:
+        raise RuntimeError('cannot locate the checkout root')
+    _root = _root.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+from imaggers import paths as _paths  # noqa: E402
+
 HERE = pathlib.Path(__file__).resolve().parent
 PYLIBS = HERE.parent.parent.parent / "_pylibs"
 OUT = HERE / "t5_out"
@@ -51,8 +61,7 @@ def main() -> int:
     os.environ["PEANO_INSTALL_DIR"] = str(PYLIBS / "llvm-aie" / "llvm-aie")
     os.environ["NPU_CACHE_HOME"] = str(HERE / "t18_cache")
     # xclbinutil lives in the shipped XRT stack; aiecc looks it up on PATH.
-    XRT_DIR = pathlib.Path(
-        r"D:\Project\deepseek_harness\test7\WStmp\driver376\npu_mcdm_stack_prod")
+    XRT_DIR = _paths.xrt_dir()
     if (XRT_DIR / "xclbinutil.exe").is_file():
         os.environ["PATH"] = str(XRT_DIR) + os.pathsep + os.environ.get("PATH", "")
     (HERE / "t18_cache").mkdir(parents=True, exist_ok=True)

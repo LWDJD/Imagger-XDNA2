@@ -13,17 +13,17 @@
  "backend": "cpu",
  "lid": 35,
  "gguf": {
-  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\models\\zimage-te-qwen3-4b-bf16.gguf",
+  "path": "webui\\models\\zimage-te-qwen3-4b-bf16.gguf",
   "size": 8051284800,
   "mtime_ns": 1792291012794228700
  },
  "worker": {
-  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\webui\\te_worker.py",
+  "path": "webui\\te_worker.py",
   "size": 13962,
   "mtime_ns": 1792371893960726500
  },
  "driver": {
-  "path": "D:\\Project\\deepseek_harness\\public_work\\zimage-bfp16-npu\\imaggers\\textenc\\encode_api.py",
+  "path": "imaggers\\textenc\\encode_api.py",
   "size": 16880,
   "mtime_ns": 1792045640663705400
  },

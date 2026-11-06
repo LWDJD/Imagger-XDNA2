@@ -11,7 +11,7 @@ kernel reads a different matrix).  This module emits the bytes the kernel
 actually reads, at dim_k = 8, 16, 32, 64 (any multiple of 8).
 
 Everything below is derived from the library source, not guessed.  Line numbers
-are for the checkout under public_work/_pylibs as of 2026-11-02.
+are for the checkout under <workspace>/_pylibs as of 2026-11-02.
 
 1. What mm_bfp declares
 -----------------------

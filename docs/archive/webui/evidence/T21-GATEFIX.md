@@ -14,8 +14,8 @@
 | 修复前 HEAD | `8158568` |
 | 修复 commit | `f69337c` "t21_gatefix: U3 - stop double-counting the gate second pass in timing closure" |
 | 报告 commit | 见 `git log --grep t21_gatefix`(本文件提交) |
-| 服务 | py312 `D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe`,隔离端口 **7870**,验证后已杀 |
-| 器件 | py310 `D:\Users\15081\AppData\Local\GAIA\python\python.exe`,经 `webui/bridge.py`(未改动) |
+| 服务 | py312 `<python312>\python.exe`,隔离端口 **7870**,验证后已杀 |
+| 器件 | py310 `<python310>\python.exe`,经 `webui/bridge.py`(未改动) |
 | 夹具 | prompt "a mountain lake at sunrise",128×128(M=96),batch 1,steps 8,seed 7,vae **off**,memory_mode auto |
 | 门禁 | `py312 _scratch/image/t3d_baseline.py --check`(前后各一次) |
 
@@ -226,8 +226,8 @@ unaccounted 0.0901 = pass0 内部开销 0.0736 + 遍间隙 0.0165   ✅ |0.090| 
 | 前置 HEAD | `2e25fb9`(f69337c 的 pass0-喂桶口径) |
 | 本单代码 commit | `774dde9` "t21_gatefix2: U2 - book failed gate pass and fast->low fallback wall in timing closure" |
 | 本文件 commit | `git log --grep t21_gatefix2`(报告提交) |
-| 服务 | py312 `D:\Users\15081\miniforge3\envs\ryzen-ai-1.8.0\python.exe`,隔离端口 **7870**;测试启动器见 §8.2,测后已杀 |
-| 器件 | py310 `D:\Users\15081\AppData\Local\GAIA\python\python.exe`,经 `webui/bridge.py`(未改动) |
+| 服务 | py312 `<python312>\python.exe`,隔离端口 **7870**;测试启动器见 §8.2,测后已杀 |
+| 器件 | py310 `<python310>\python.exe`,经 `webui/bridge.py`(未改动) |
 | NPU 缓存 | fresh `NPU_CACHE_DIR`/`NPU_CACHE_HOME` = `_scratch/t21_gatefix2/npu_cache_144833`(0o777) |
 | 夹具 | prompt "a mountain lake at sunrise",128×128(M=96),batch 1,steps 8,seed 7,mode gate;memory_mode 见下表 |
 | 门禁 | `t3d_baseline.py --check`(改前/改后各一次,§8.7) |
