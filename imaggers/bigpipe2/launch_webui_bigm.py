@@ -64,6 +64,9 @@ def _instrument():
 
 def main():
     _instrument()
+    # _scratch/ is gitignored, so a fresh clone does not have it.  Create it here
+    # rather than assuming the tree was used before.
+    LOCK.parent.mkdir(parents=True, exist_ok=True)
     try:
         fd = os.open(str(LOCK), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     except FileExistsError:
